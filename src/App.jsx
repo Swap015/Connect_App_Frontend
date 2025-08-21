@@ -1,3 +1,5 @@
+import Footer from "./components/footer"
+import Header from "./components/header"
 
 
 function App() {
@@ -5,7 +7,14 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      
+
+      {/* Header */}
+      <Header />
+
+
+
+      {/* Footer */}
+      <Footer />
     </div>
   )
 }

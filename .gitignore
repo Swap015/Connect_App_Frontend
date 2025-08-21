@@ -3,5 +3,5 @@ node_modules
 
 
 # Ignore backend folder
-/backend
+backend
 
