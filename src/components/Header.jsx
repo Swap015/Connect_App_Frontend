@@ -12,75 +12,83 @@ import {
 
 const Header = () => {
     return (
-        <header className="navbar bg-[#BBDCE5] px-4 shadow-md">
+        <header className="flex items-center justify-between bg-gradient-to-r from-[#f6d365] to-[#fe6f48] pl-2  pr-5 shadow-md sm:pl-5 sm:pr-12 sm:py-0.5">
+            {/* mobile 3-line button */}
+
+            <div className="dropdown dropdown-end md:hidden">
+                <label tabIndex={0} className="btn btn-ghost hover:bg-white">
+                    <FaBars className="text-xl text-gray-800" />
+                </label>
+                <ul
+                    tabIndex={0}
+                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li><a className="flex items-center gap-2"><FaHome /> Home</a></li>
+                    <li><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
+                    <li><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
+                    <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
+                    <li><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
+                    <li><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
+                </ul>
+            </div>
+
             {/* app logo */}
+
             <div className="flex items-center gap-2">
                 <img
-                    className="w-12 h-12"
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 cursor-pointer"
                     src="https://res.cloudinary.com/swapcloud/image/upload/v1755720079/Logo_wdvg4h.png"
                     alt="Logo"
                 />
-                <span className="hidden sm:block font-bold text-xl  text-gray-800">
-                    ConnectApp
+                <span className="hidden sm:block font-bold text-sm md:text-lg lg:text-xl text-gray-800 hover:text-gray-950 text cursor-pointer ">
+                    Connect
                 </span>
             </div>
 
             {/*  Search Bar */}
             <div className="flex-1 flex justify-center px-4">
-                <div className="relative w-full max-w-sm hidden sm:block">
-                    <FaSearch className="absolute left-3 top-3 text-gray-500" />
+                <div className="relative w-full max-w-sm ">
                     <input
                         type="text"
                         placeholder="Search..."
-                        className="input input-bordered w-full pl-10"
+                        className="w-full pl-10 pr-4 py-1 sm:py-2 rounded-full bg-white/40 backdrop-blur-md shadow-inner border border-black/60 focus:outline-none focus:ring-2 focus:ring-black text-black text-sm font-bold"
                     />
                 </div>
             </div>
 
+
+
+
+
             {/* nav items */}
             <div className="flex-none">
                 <ul className="hidden md:flex gap-6 items-center text-gray-800 font-medium">
-                    <li className="flex flex-col items-center cursor-pointer hover:text-indigo-700">
-                        <FaHome className="text-2xl" />
-                        <span className="text-sm font-bold">Home</span>
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                        <FaHome className="text-xl" />
+                        <span className="text-xs font-bold">Home</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-cyan-700">
-                        <FaUserFriends className="text-2xl" />
-                        <span className="text-sm font-bold">My Network</span>
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                        <FaUserFriends className="text-xl" />
+                        <span className="text-xs font-bold">Connections</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-blue-600">
-                        <AiFillMessage className="text-2xl" />
-                        <span className="text-sm font-bold">Chat</span>
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                        <AiFillMessage className="text-xl" />
+                        <span className="text-xs font-bold">Messages</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-blue-600 ">
-                        <FaBriefcase className="text-2xl" />
-                        <span className="text-sm font-bold">Jobs</span>
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                        <FaBriefcase className="text-xl" />
+                        <span className="text-xs font-bold">Jobs</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-blue-600">
-                        <FaBell className="text-2xl" />
-                        <span className="text-sm font-bold">Notifications</span>
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                        <FaBell className="text-xl" />
+                        <span className="text-xs font-bold">Notifications</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-blue-600">
-                        <FaUserCircle className="text-2xl" />
-                        <span className="text-sm font-bold">Profile</span>
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                        <FaUserCircle className="text-xl" />
+                        <span className="text-xs font-bold">Profile</span>
                     </li>
                 </ul>
 
-                {/* mobile menu button */}
-                <div className="dropdown dropdown-end md:hidden">
-                    <label tabIndex={0} className="btn btn-ghost">
-                        <FaBars className="text-2xl text-gray-800" />
-                    </label>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a className="flex items-center gap-2"><FaHome /> Home</a></li>
-                        <li><a className="flex items-center gap-2"><FaUserFriends /> My Network</a></li>
-                        <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
-                        <li><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
-                        <li><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
-                    </ul>
-                </div>
+
             </div>
         </header>
     );
