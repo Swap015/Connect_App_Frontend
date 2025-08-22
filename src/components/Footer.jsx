@@ -1,5 +1,6 @@
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { TbBrandGmail } from "react-icons/tb";
+import { Link } from "react-router-dom"; // ✅ Import Link for navigation
 
 const Footer = () => {
     return (
@@ -9,7 +10,7 @@ const Footer = () => {
                 {/* logo & app name */}
                 <div className="flex items-center gap-2">
                     <img
-                        className="w-13 h-13 sm:w-17 sm:h-16  md:w-20 md:h-20"
+                        className="w-13 h-13 sm:w-17 sm:h-16 md:w-20 md:h-20"
                         src="https://res.cloudinary.com/swapcloud/image/upload/v1755720079/Logo_wdvg4h.png"
                         alt="Logo"
                     />
@@ -18,14 +19,18 @@ const Footer = () => {
 
                 {/* middle links */}
                 <ul className="flex flex-wrap justify-center gap-6 text-sm md:text-lg font-medium">
-                    {["About", "Terms", "Contact Us"].map((item, i) => (
-                        <li
-                            key={i}
-                            className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full"
-                        >
-                            {item}
-                        </li>
-                    ))}
+                    <li className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
+                        <Link to="/about">About Us</Link>
+                    </li>
+                    <li className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
+                        <Link to="/terms">Terms & Conditions</Link>
+                    </li>
+                    <li className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
+                        <Link to="/contact">Contact Us</Link>
+                    </li>
+                    <li className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
+                        <Link to="/privacy">Privacy Policy</Link>
+                    </li>
                 </ul>
 
                 {/* social media links */}
@@ -43,8 +48,8 @@ const Footer = () => {
             </div>
 
             {/* copyright */}
-            <div className="border-t border-white mt-6 pt-3 text-center text-sm md:text-md  text-gray-700">
-                © {new Date().getFullYear()} <span className="font-semibold">ConnectApp</span> · All rights reserved
+            <div className="border-t border-white mt-6 pt-3 text-center text-sm md:text-md text-gray-700">
+                © {new Date().getFullYear()} <span className="font-semibold">Connect</span> · All rights reserved
             </div>
         </footer>
     );

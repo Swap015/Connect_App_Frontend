@@ -1,22 +1,37 @@
-import Footer from "./components/footer"
-import Header from "./components/header"
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Footer from "./components/footer";
+import Header from "./components/header";
+import About from "./pages/static-pages/About";
+import Contact from "./pages/static-pages/Contact";
+import Privacy from "./pages/static-pages/Privacy";
+import Terms from "./pages/static-pages/Terms";
 
 function App() {
-
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <Router>
+      <div className="flex flex-col min-h-screen">
+        {/* Header */}
+        <Header />
 
-      {/* Header */}
-      <Header />
+
+        {/* Pages  */}
+        <main className="flex-grow">
+          <Routes>
+
+            <Route path="/about" element={<About />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
 
 
+          </Routes>
+        </main>
 
-      {/* Footer */}
-      <Footer />
-    </div>
-  )
+        {/* Footer */}
+        <Footer />
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

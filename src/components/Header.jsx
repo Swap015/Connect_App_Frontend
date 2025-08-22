@@ -6,7 +6,6 @@ import {
     FaBriefcase,
     FaBell,
     FaUserCircle,
-    FaSearch,
     FaBars,
 } from "react-icons/fa";
 
@@ -21,7 +20,7 @@ const Header = () => {
                 </label>
                 <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-35 left-0">
                     <li><a className="flex items-center gap-2"><FaHome /> Home</a></li>
                     <li><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
                     <li><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
