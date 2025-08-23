@@ -5,6 +5,8 @@ import About from "./pages/static-pages/About";
 import Contact from "./pages/static-pages/Contact";
 import Privacy from "./pages/static-pages/Privacy";
 import Terms from "./pages/static-pages/Terms";
+import Register from "./pages/dynamic-pages/Register";
+import Login from "./pages/dynamic-pages/Login";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
 
 
           </Routes>
