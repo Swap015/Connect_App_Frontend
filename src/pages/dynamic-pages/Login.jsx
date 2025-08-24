@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +18,8 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -28,6 +31,7 @@ const Login = () => {
         { withCredentials: true }
       );
       setMessage(res.data.msg);
+      navigate("/home");
     } catch (err) {
       setMessage(err.response?.data?.msg || "Login failed");
     } finally {

@@ -7,6 +7,7 @@ import Privacy from "./pages/static-pages/Privacy";
 import Terms from "./pages/static-pages/Terms";
 import Register from "./pages/dynamic-pages/Register";
 import Login from "./pages/dynamic-pages/Login";
+import Home from "./pages/dynamic-pages/Home";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
 
 
           </Routes>

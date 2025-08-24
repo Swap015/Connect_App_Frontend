@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
-const Register = () => {
+const SignUp = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -30,7 +30,7 @@ const Register = () => {
             );
 
             if (response.status === 201) {
-                setMessage("Registration successful! You can now login.");
+                setMessage("Signing up successful! You can now login.");
                 setFormData({
                     name: "",
                     email: "",
@@ -40,8 +40,8 @@ const Register = () => {
                 });
             }
         } catch (error) {
-            console.error("Registration error:", error.response?.data || error.message);
-            setMessage(error.response?.data?.msg || "Registration failed.");
+            console.error("Signing Up error:", error.response?.data || error.message);
+            setMessage(error.response?.data?.msg || "Signing up failed.");
         } finally {
             setLoading(false);
         }
@@ -63,7 +63,7 @@ const Register = () => {
                             </p>
                             <img
                                 src="https://res.cloudinary.com/swapcloud/image/upload/v1755942152/register-image_dg4oll.png"
-                                alt="Register Banner"
+                                alt="Signup Banner"
                                 className="w-80 h-auto absolute object-contain drop-shadow-xl"
                             />
                         </div>
@@ -190,10 +190,10 @@ const Register = () => {
                             >
                                 {loading ? (
                                     <>
-                                        "Registering..."
+                                        "Signing Up..."
                                         <span className="loading loading-spinner loading-sm"></span>
                                     </>
-                                ) : "Register"}
+                                ) : "Sign Up"}
                             </button>
                         </form>
 
@@ -224,4 +224,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default SignUp;
