@@ -86,7 +86,7 @@ const Register = () => {
                                     placeholder="Full Name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black"
+                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2"
                                     required
                                 />
                             </div>
@@ -100,7 +100,7 @@ const Register = () => {
                                     placeholder="Email Address"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black"
+                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2"
                                     required
                                 />
                             </div>
@@ -114,7 +114,7 @@ const Register = () => {
                                     placeholder="Password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black"
+                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2"
                                     required
                                 />
                             </div>
@@ -124,15 +124,15 @@ const Register = () => {
                                 <label className="block text-black mb-2 sm:text-lg font-bold">Signup As</label>
                                 <div className="flex gap-4 text-xs">
                                     {[
-                                        { value: "user", label: "User 👤" },
-                                        { value: "recruiter", label: "Recruiter 💼" },
+                                        { value: "user", label: "User" },
+                                        { value: "recruiter", label: "Recruiter" },
                                     ].map((role) => (
                                         <label
                                             key={role.value}
-                                            className={`cursor-pointer flex items-center justify-center px-6 py-3 rounded-xl shadow-md transition-all duration-300
+                                            className={`cursor-pointer flex items-center justify-center px-3 py-2 sm:py-2 sm:px-3 rounded-xl shadow-md transition-all duration-300 text-xs sm:text-sm font-bold
                                                  backdrop-blur-lg border
                                              ${formData.role === role.value
-                                                    ? "bg-gradient-to-r from-[#fe6f48] to-[#f6d365] text-white scale-105"
+                                                    ? "bg-gradient-to-r from-orange-500 to-yellow-400 text-white scale-105"
                                                     : "bg-white/60 text-black hover:scale-105 hover:shadow-lg"
                                                 }`}
                                         >
@@ -155,14 +155,14 @@ const Register = () => {
                                 <label className="block mb-2 text-black sm:text-lg  font-bold">Gender</label>
                                 <div className="grid grid-cols-3 gap-4 text-xs">
                                     {[
-                                        { value: "male", label: "Male ♂️" },
-                                        { value: "female", label: "Female ♀️" },
-                                        { value: "other", label: "Other 🌈" },
+                                        { value: "male", label: "Male 👦🏻" },
+                                        { value: "female", label: "Female 👩🏻" },
+                                        { value: "other", label: "Other 🏳️‍🌈" },
                                     ].map((g) => (
                                         <label
                                             key={g.value}
-                                            className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl shadow-md transition-all duration-300 backdrop-blur-lg border text-center          ${formData.gender === g.value
-                                                ? "bg-gradient-to-r from-[#fe6f48] to-[#f6d365] text-white scale-105"
+                                            className={`cursor-pointer flex flex-col items-center justify-center px-2 py-1 sm:py-2 sm:px-3 text-xs sm:text-sm rounded-xl shadow-md transition-all duration-300 backdrop-blur-lg border text-center          ${formData.gender === g.value
+                                                ? "bg-gradient-to-r from-orange-500 to-yellow-400 text-white scale-105"
                                                 : "bg-white/60 text-black hover:scale-105 hover:shadow-lg"
                                                 }`}
                                         >
@@ -173,6 +173,7 @@ const Register = () => {
                                                 checked={formData.gender === g.value}
                                                 onChange={handleChange}
                                                 className="hidden"
+
                                             />
                                             <span className="font-semibold">{g.label}</span>
                                         </label>
@@ -185,16 +186,21 @@ const Register = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-gradient-to-r from-[#fe6f48] to-[#f6d365] text-white py-3 rounded-lg font-bold shadow-lg hover:opacity-90 transition sm:text-sm"
+                                className="w-full bg-gradient-to-r from-orange-500 to-yellow-400 text-white py-1 rounded-lg font-bold shadow-lg hover:opacity-90 transition sm:text-lg"
                             >
-                                {loading ? "Registering..." : "Register"}
+                                {loading ? (
+                                    <>
+                                        "Registering..."
+                                        <span className="loading loading-spinner loading-sm"></span>
+                                    </>
+                                ) : "Register"}
                             </button>
                         </form>
 
                         {/* already account */}
-                        <p className="text-black text-center mt-4 sm:text-sm">
+                        <p className="text-black text-center mt-4 sm:text-lg">
                             Already have an account?{" "}
-                            <a href="/login" className="text-orange-500 font-semibold hover:underline">
+                            <a href="/login" className="text-orange-500 font-semibold hover:underline ">
                                 Login
                             </a>
                         </p>
