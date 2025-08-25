@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { FaTimes, FaImage } from "react-icons/fa";
 
-const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
+const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
     const [content, setContent] = useState("");
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const handleFileChange = (e) => {
-        setFiles(Array.from(e.target.files));
+        const selectedFiles = Array.from(e.target.files);
+        setFiles([...files, ...selectedFiles]);
+    };
+
+    const removeFile = (index) => {
+        setFiles(files.filter((_, i) => i !== index));
     };
 
     const handleSubmit = async (e) => {
@@ -40,7 +46,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             setContent("");
             setFiles([]);
             onClose();
-            if (onPostCreated) onPostCreated(res.data.post); // update feed without refresh
+            if (onPostCreated) onPostCreated(res.data.post);
         } catch (err) {
             setLoading(false);
             console.error("Error creating post:", err);
@@ -51,43 +57,96 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white rounded-lg p-6 w-[90%] sm:w-[500px] shadow-lg">
-                <h2 className="text-xl font-semibold mb-4 text-gray-800">Create Post</h2>
+        <div className="fixed inset-0 flex items-center justify-center z-50">
 
+            <div className="absolute inset-0 bg-white/20 backdrop-blur-md"></div>
+
+            <div className="relative bg-gradient-to-r  from-gray-200 to-gray-300 backdrop-blur-xl rounded-xl p-6 w-[90%] sm:w-[500px] shadow-2xl animate-fadeIn  border-2 border-black/50">
+                {/* Header */}
+                <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-semibold text-gray-800">Create Post</h2>
+                    <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
+                        <FaTimes size={20} />
+                    </button>
+                </div>
+
+                {/* User Info */}
+                <div className="flex items-center gap-3 mb-3">
+                    <img
+                        src={user?.profileImage || "https://via.placeholder.com/40"}
+                        alt="profile"
+                        className="w-10 h-10 rounded-full border"
+                    />
+                    <span className="font-medium text-gray-700">{user?.name || "You"}</span>
+                </div>
+
+                {/* Form */}
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="What's on your mind?"
-                        className="w-full p-3 border rounded-lg resize-none"
-                        rows={3}
+                        className="w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/70"
+                        rows={4}
                     />
 
-                    <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handleFileChange}
-                        className="text-sm"
-                    />
+                    {/* File Preview */}
+                    {files.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                            {files.map((file, index) => (
+                                <div key={index} className="relative">
+                                    <img
+                                        src={URL.createObjectURL(file)}
+                                        alt="preview"
+                                        className="w-20 h-20 object-cover rounded-lg border"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => removeFile(index)}
+                                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
-                    <div className="flex justify-end gap-2">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
-                        >
-                            Cancel
-                        </button>
+                  
+                    <div className="flex items-center justify-between border-t pt-3">
+                        {/* File Upload */}
+
+                        <div className="flex items-center gap-3">
+                            <label className="flex items-center gap-2 px-4 py-2   cursor-pointer hover:text-shadow-lg ">
+                                <FaImage className="text-orange-500" />
+                                <span className="text-gray-700 font-bold">Choose File</span>
+                                <input
+                                    type="file"
+                                    multiple
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
+                            </label>
+
+                            {/* Show file count / names */}
+                            {files.length > 0 && (
+                                <span className="text-sm text-gray-600">
+                                    {files.length} file{files.length > 1 ? "s" : ""} selected
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Post Button */}
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-4 py-2 rounded bg-orange-500 text-white hover:bg-orange-600 disabled:opacity-50"
+                            className="px-6 py-2 rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 disabled:opacity-50 shadow-md"
                         >
                             {loading ? "Posting..." : "Post"}
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>

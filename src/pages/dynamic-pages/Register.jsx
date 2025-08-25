@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../api/axios.js";
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
@@ -24,8 +24,7 @@ const SignUp = () => {
         setMessage("");
 
         try {
-            const response = await axios.post(
-                "http://localhost:7000/api/user/register",
+            const response = await api.post("/user/register",
                 formData
             );
 
@@ -190,7 +189,7 @@ const SignUp = () => {
                             >
                                 {loading ? (
                                     <>
-                                        "Signing Up..."
+                                        Signing Up...
                                         <span className="loading loading-spinner loading-sm"></span>
                                     </>
                                 ) : "Sign Up"}

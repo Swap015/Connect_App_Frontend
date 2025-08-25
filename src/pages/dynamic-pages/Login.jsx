@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api/axios.js";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
@@ -25,10 +25,7 @@ const Login = () => {
     setLoading(true);
     setMessage("");
     try {
-      const res = await axios.post(
-        "http://localhost:7000/api/user/login",
-        formData,
-        { withCredentials: true }
+      const res = await api.post("/user/login", formData
       );
       setMessage(res.data.msg);
       navigate("/home");

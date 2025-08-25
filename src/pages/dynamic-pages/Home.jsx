@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios.js"
 import { FaRegThumbsUp, FaThumbsUp, FaRegCommentDots } from "react-icons/fa";
 import CreatePostModal from "../../components/posts/createPostModal";
 
@@ -29,7 +29,7 @@ const Home = () => {
     // fetch logged-in user
     const fetchUser = async () => {
         try {
-            const res = await axios.get("http://localhost:7000/api/user/me", {
+            const res = await api.get("/user/me", {
                 withCredentials: true,
             });
             setUser(res.data.user);
@@ -40,9 +40,7 @@ const Home = () => {
 
     const fetchPosts = async () => {
         try {
-            const res = await axios.get("http://localhost:7000/api/post/feed", {
-                withCredentials: true,
-            });
+            const res = await api.get("/post/feed");
             setPosts(res.data.posts || []);
         } catch (err) {
             console.error("Failed to fetch posts", err);
@@ -55,10 +53,7 @@ const Home = () => {
     // like post
     const handleLike = async (postId) => {
         try {
-            await axios.patch(
-                `http://localhost:7000/api/post/likePost/${postId}`,
-                {},
-                { withCredentials: true }
+            await api.patch(`/post/likePost/${postId}`, {}
             );
             // update state of like on post
             setPosts((prev) =>
@@ -99,7 +94,7 @@ const Home = () => {
         <div className="min-h-screen bg-gray-50 flex">
 
             {/* left side section */}
-            <aside className="w-64 bg-gray-200 shadow-lg p-6 hidden md:block text-black text-base font-bold">
+            <aside className="w-64 bg-gray-200 shadow-lg p-6 hidden md:block text-black text-lg font-bold">
 
                 <ul className="space-y-4">
                     <div className="p-6">
