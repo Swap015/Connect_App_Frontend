@@ -12,7 +12,7 @@ const SignUp = () => {
     });
 
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState(""); // success or error
+    const [message, setMessage] = useState(""); 
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

@@ -8,6 +8,10 @@ import Terms from "./pages/static-pages/Terms";
 import Register from "./pages/dynamic-pages/Register";
 import Login from "./pages/dynamic-pages/Login";
 import Home from "./pages/dynamic-pages/Home";
+import SavedPosts from "./pages/dynamic-pages/SavedPosts";
+import LikedPosts from "./pages/dynamic-pages/Likedposts";
+import ProfileVisits from "./pages/dynamic-pages/ProfileVisit";
+import EditProfile from "./pages/dynamic-pages/EditProfile";
 
 function App() {
   return (
@@ -28,6 +32,10 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/savedPosts" element={<SavedPosts />} />
+            <Route path="/likedPosts" element={<LikedPosts />} />
+            <Route path="/profileVisits" element={<ProfileVisits />} />
+            <Route path="/editProfile" element={<EditProfile />} />
 
 
           </Routes>

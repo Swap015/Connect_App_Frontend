@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios.js"
 import { FaRegThumbsUp, FaThumbsUp, FaRegCommentDots } from "react-icons/fa";
 import CreatePostModal from "../../components/posts/createPostModal";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -9,6 +10,9 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [likedPosts, setLikedPosts] = useState(new Set());
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const navigate = useNavigate();
+
 
     // time 
     const timeAgo = (date) => {
@@ -41,7 +45,16 @@ const Home = () => {
     const fetchPosts = async () => {
         try {
             const res = await api.get("/post/feed");
-            setPosts(res.data.posts || []);
+            const postsData = res.data.posts || [];
+            setPosts(postsData);
+
+            
+            if (user) {
+                const likedSet = new Set(
+                    postsData.filter(p => p.likes.includes(user._id)).map(p => p._id)
+                );
+                setLikedPosts(likedSet);
+            }
         } catch (err) {
             console.error("Failed to fetch posts", err);
         } finally {
@@ -53,16 +66,16 @@ const Home = () => {
     // like post
     const handleLike = async (postId) => {
         try {
-            await api.patch(`/post/likePost/${postId}`, {}
-            );
-            // update state of like on post
+            const res = await api.patch(`/post/likePost/${postId}`, {});
+
             setPosts((prev) =>
                 prev.map((p) =>
                     p._id === postId
-                        ? { ...p, likes: likedPosts.has(postId) ? p.likes - 1 : p.likes + 1 }
+                        ? { ...p, likesCount: res.data.likesCount } // use count from backend
                         : p
                 )
             );
+
             setLikedPosts((prev) => {
                 const updated = new Set(prev);
                 if (updated.has(postId)) updated.delete(postId);
@@ -74,13 +87,20 @@ const Home = () => {
         }
     };
 
+
     useEffect(() => {
         const loadData = async () => {
             await fetchUser();
-            await fetchPosts();
         };
         loadData();
     }, []);
+
+    useEffect(() => {
+        if (user) {
+            fetchPosts();
+        }
+    }, [user]);
+
 
     if (loading) {
         return (
@@ -111,9 +131,9 @@ const Home = () => {
                             onPostCreated={(newPost) => console.log("New post created:", newPost)}
                         />
                     </div>
-                    <li className="cursor-pointer hover:text-orange-500 transition">🔖 Saved Posts</li>
-                    <li className="cursor-pointer hover:text-orange-500 transition">❤️ Liked Posts</li>
-                    <li className="cursor-pointer hover:text-orange-500 transition">👀 Profile Visits</li>
+                    <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/savedPosts")}>🔖 Saved Posts</li>
+                    <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/likedPosts")}>❤️ Liked Posts</li>
+                    <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/profileVisits")}>👀 Profile Visits</li>
                 </ul>
             </aside>
 
@@ -131,7 +151,7 @@ const Home = () => {
                         {posts.map((post) => (
                             <div
                                 key={post._id}
-                                className="bg-white shadow-md rounded-xl p-5 hover:shadow-xl hover:scale-[1.01] transition transform"
+                                className="bg-white shadow-md rounded-xl p-5 "
                             >
 
                                 <div className="flex items-center gap-3">
@@ -167,8 +187,10 @@ const Home = () => {
                                             }`}
                                     >
                                         {likedPosts.has(post._id) ? <FaThumbsUp /> : <FaRegThumbsUp />}
-                                        {post.likes || 0}
+                                        {post.likesCount || post.likes?.length || 0}
                                     </button>
+
+
                                     <button className="flex items-center gap-2 hover:text-orange-500 transition">
                                         <FaRegCommentDots /> {post.comments?.length || 0}
                                     </button>

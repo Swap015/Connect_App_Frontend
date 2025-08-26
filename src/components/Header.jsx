@@ -8,8 +8,11 @@ import {
     FaUserCircle,
     FaBars,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+
+    const navigate = useNavigate();
     return (
         <header className="flex items-center justify-between bg-gradient-to-r from-[#f6d365] to-[#fe6f48] pl-2  pr-5 shadow-md sm:pl-5 sm:pr-12 sm:py-0.5">
             {/* mobile 3-line button */}
@@ -21,7 +24,7 @@ const Header = () => {
                 <ul
                     tabIndex={0}
                     className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-35 left-0">
-                    <li><a className="flex items-center gap-2"><FaHome /> Home</a></li>
+                    <li onClick={() => navigate("/home")}><a className="flex items-center gap-2" ><FaHome /> Home</a></li>
                     <li><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
                     <li><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
                     <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
@@ -32,7 +35,7 @@ const Header = () => {
 
             {/* app logo */}
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" onClick={() => navigate("/home")}>
                 <img
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 cursor-pointer"
                     src="https://res.cloudinary.com/swapcloud/image/upload/v1755720079/Logo_wdvg4h.png"
@@ -55,13 +58,10 @@ const Header = () => {
             </div>
 
 
-
-
-
             {/* nav items */}
             <div className="flex-none">
                 <ul className="hidden md:flex gap-6 items-center text-gray-800 font-medium">
-                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white" onClick={() => navigate("/home")}>
                         <FaHome className="text-xl" />
                         <span className="text-xs font-bold">Home</span>
                     </li>

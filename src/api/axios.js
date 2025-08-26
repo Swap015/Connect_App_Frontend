@@ -15,7 +15,7 @@ api.interceptors.response.use(
             originalRequest._retry = true;
 
             try {
-                await api.get("/user/refresh");
+                await api.post("/user/refresh");
 
                 return api(originalRequest);
             } catch (err) {
