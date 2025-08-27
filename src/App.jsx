@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Bounce, ToastContainer } from "react-toastify";
+
 import Footer from "./components/footer";
 import Header from "./components/header";
 import About from "./pages/static-pages/About";
@@ -21,6 +23,7 @@ function App() {
         <Header />
 
 
+
         {/* Pages  */}
         <main className="flex-grow">
           <Routes>
@@ -39,6 +42,19 @@ function App() {
 
 
           </Routes>
+          <ToastContainer
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+          />
         </main>
 
         {/* Footer */}

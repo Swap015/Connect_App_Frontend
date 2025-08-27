@@ -1,11 +1,28 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { FaTimes, FaImage } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import api from "../../api/axios.js";
+import { FaTimes } from "react-icons/fa";
+import { MdAttachFile } from "react-icons/md";
 
-const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
+const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     const [content, setContent] = useState("");
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState(null);
+
+
+    useEffect(() => {
+        if (isOpen) {
+            const fetchUser = async () => {
+                try {
+                    const res = await api.get("/user/me", { withCredentials: true });
+                    setUser(res.data.user);
+                } catch (err) {
+                    console.error("Failed to fetch user:", err);
+                }
+            };
+            fetchUser();
+        }
+    }, [isOpen]);
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
@@ -25,20 +42,18 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
 
         try {
             setLoading(true);
-
             const formData = new FormData();
             formData.append("content", content);
             files.forEach((file) => formData.append("file", file));
 
-            const res = await axios.post(
-                "http://localhost:7000/api/posts/createPost",
+            const res = await api.post(
+                "/posts/createPost",
                 formData,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                         "Content-Type": "multipart/form-data",
                     },
-                    withCredentials: true,
                 }
             );
 
@@ -58,11 +73,10 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="absolute inset-0 bg-gray-700/40 backdrop-blur-sm"></div>
 
-            <div className="absolute inset-0 bg-white/20 backdrop-blur-md"></div>
-
-            <div className="relative bg-gradient-to-r  from-gray-200 to-gray-300 backdrop-blur-xl rounded-xl p-6 w-[90%] sm:w-[500px] shadow-2xl animate-fadeIn  border-2 border-black/50">
-                {/* Header */}
+            <div className="relative bg-gradient-to-r from-gray-50 to-gray-100 backdrop-blur-xl rounded-xl p-6 w-[90%] sm:w-[500px] shadow-2xl animate-fadeIn border-2 border-black/50">
+                {/* Create Post Header */}
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-semibold text-gray-800">Create Post</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
@@ -70,12 +84,12 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
                     </button>
                 </div>
 
-                {/* User Info */}
+                {/* user profile pic */}
                 <div className="flex items-center gap-3 mb-3">
                     <img
-                        src={user?.profileImage || "https://via.placeholder.com/40"}
+                        src={user?.profileImage}
                         alt="profile"
-                        className="w-10 h-10 rounded-full border"
+                        className="w-10 h-10 rounded-full "
                     />
                     <span className="font-medium text-gray-700">{user?.name || "You"}</span>
                 </div>
@@ -90,7 +104,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
                         rows={4}
                     />
 
-                    {/* File Preview */}
+                    {/* file preview */}
                     {files.length > 0 && (
                         <div className="flex flex-wrap gap-2">
                             {files.map((file, index) => (
@@ -112,14 +126,12 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
                         </div>
                     )}
 
-                  
                     <div className="flex items-center justify-between border-t pt-3">
                         {/* File Upload */}
-
                         <div className="flex items-center gap-3">
-                            <label className="flex items-center gap-2 px-4 py-2   cursor-pointer hover:text-shadow-lg ">
-                                <FaImage className="text-orange-500" />
-                                <span className="text-gray-700 font-bold">Choose File</span>
+                            <label className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:text-shadow-lg">
+                                <MdAttachFile className="text-blue-600 font-extrabold text-xl" />
+                                <span className="text-gray-900 font-bold">Choose File</span>
                                 <input
                                     type="file"
                                     multiple
@@ -129,7 +141,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
                                 />
                             </label>
 
-                            {/* Show file count / names */}
+                            {/*  file count */}
                             {files.length > 0 && (
                                 <span className="text-sm text-gray-600">
                                     {files.length} file{files.length > 1 ? "s" : ""} selected
@@ -141,12 +153,19 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated, user }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="px-6 py-2 rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 disabled:opacity-50 shadow-md"
+                            className="flex items-center justify-center gap-2 px-6 py-2 rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 disabled:opacity-50 shadow-md"
                         >
-                            {loading ? "Posting..." : "Post"}
+                            {loading ? (
+                                <>
+                                    Posting
+                                    <span className="loading loading-spinner loading-sm"></span>
+                                </>
+                            ) : (
+                                "Post"
+                            )}
                         </button>
-                    </div>
 
+                    </div>
                 </form>
             </div>
         </div>

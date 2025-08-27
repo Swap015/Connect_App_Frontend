@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../../api/axios.js"
 import { FaRegThumbsUp, FaThumbsUp, FaRegCommentDots } from "react-icons/fa";
 import CreatePostModal from "../../components/posts/createPostModal";
@@ -42,13 +42,13 @@ const Home = () => {
         }
     };
 
-    const fetchPosts = async () => {
+
+    const fetchPosts = useCallback(async () => {
         try {
             const res = await api.get("/post/feed");
             const postsData = res.data.posts || [];
             setPosts(postsData);
 
-            
             if (user) {
                 const likedSet = new Set(
                     postsData.filter(p => p.likes.includes(user._id)).map(p => p._id)
@@ -60,7 +60,7 @@ const Home = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [user]);
 
 
     // like post
@@ -99,7 +99,7 @@ const Home = () => {
         if (user) {
             fetchPosts();
         }
-    }, [user]);
+    }, [user, fetchPosts]);
 
 
     if (loading) {
@@ -114,13 +114,13 @@ const Home = () => {
         <div className="min-h-screen bg-gray-50 flex">
 
             {/* left side section */}
-            <aside className="w-64 bg-gray-200 shadow-lg p-6 hidden md:block text-black text-lg font-bold">
+            <aside className="w-64 bg-white shadow-lg p-6 hidden md:block text-black text-lg font-bold">
 
                 <ul className="space-y-4">
                     <div className="p-6">
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600"
+                            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500"
                         >
                             + Create Post
                         </button>
@@ -143,7 +143,7 @@ const Home = () => {
                     Welcome, <span className="text-orange-500">{user?.name}</span> 👋
                 </h2>
 
-                {/* Feed */}
+                {/*posts feed */}
                 {posts.length === 0 ? (
                     <p className="text-center text-gray-500">No posts from your connections yet.</p>
                 ) : (
@@ -156,7 +156,7 @@ const Home = () => {
 
                                 <div className="flex items-center gap-3">
                                     <img
-                                        src={post.postedBy.profileImage || "/default-avatar.png"}
+                                        src={post.postedBy.profileImage}
                                         alt="user"
                                         className="w-10 h-10 rounded-full object-cover border"
                                     />
