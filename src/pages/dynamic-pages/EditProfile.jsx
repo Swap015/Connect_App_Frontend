@@ -2,15 +2,14 @@ import { useEffect, useState, useCallback } from "react";
 import api from "../../api/axios.js";
 import {
     FaUser,
-    FaKey,
     FaSignOutAlt,
-    FaTachometerAlt,
     FaUpload,
     FaTrash,
     FaEdit,
     FaTimes,
     FaCloudUploadAlt,
 } from "react-icons/fa";
+import { BsFillFilePostFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Cropper from "react-easy-crop";
@@ -203,7 +202,7 @@ const EditProfile = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex text-black">
-            {/* left side section */}
+           {/* left side section  */}
             <div className="w-64 bg-white shadow-3xl p-6 flex flex-col items-center">
                 <div className="relative group cursor-pointer" onClick={() => setShowModal(true)}>
                     <img
@@ -218,12 +217,15 @@ const EditProfile = () => {
                 </div>
 
                 <p className="font-semibold text-lg ">{user?.name}</p>
-                <ul className="mt-5 w-full space-y-2">
-                    <li className="flex items-center gap-2 p-3 rounded-md bg-orange-100 text-orange-600 font-medium">
+                <ul className="mt-5 w-full space-y-2 text-sm">
+                    <li className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100 font-medium">
                         <FaUser /> Profile Details
                     </li>
+                    <li className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100 font-medium">
+                        <BsFillFilePostFill /> Posts
+                    </li>
                     <li
-                        className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100 text-gray-700 font-medium"
+                        className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100  font-medium"
                         onClick={handleLogout}
                     >
                         <FaSignOutAlt /> Logout
@@ -274,7 +276,7 @@ const EditProfile = () => {
                         {/* education */}
                         <div>
                             <label className="block text-sm font-medium text-gray-600 mb-2">
-                            Education ( Enter school/college name )
+                                Education ( Enter school/college name )
                             </label>
                             {["SSC", "HSC", "diploma", "degree"].map((edu) => (
                                 <input

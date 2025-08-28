@@ -9,11 +9,12 @@ import Privacy from "./pages/static-pages/Privacy";
 import Terms from "./pages/static-pages/Terms";
 import Register from "./pages/dynamic-pages/Register";
 import Login from "./pages/dynamic-pages/Login";
-import Home from "./pages/dynamic-pages/Home";
+import Home from "./pages/dynamic-pages/Home.jsx";
 import SavedPosts from "./pages/dynamic-pages/SavedPosts";
 import LikedPosts from "./pages/dynamic-pages/Likedposts";
 import ProfileVisits from "./pages/dynamic-pages/ProfileVisit";
 import EditProfile from "./pages/dynamic-pages/EditProfile";
+import NotificationsPage from "./pages/dynamic-pages/Notification.jsx";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path="/likedPosts" element={<LikedPosts />} />
             <Route path="/profileVisits" element={<ProfileVisits />} />
             <Route path="/editProfile" element={<EditProfile />} />
+            <Route path="/notifications" element={< NotificationsPage/>} />
 
 
           </Routes>

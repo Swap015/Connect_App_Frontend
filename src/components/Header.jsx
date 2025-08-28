@@ -15,7 +15,7 @@ const Header = () => {
     const navigate = useNavigate();
     return (
         <header className="flex items-center justify-between bg-gradient-to-r from-[#f6d365] to-[#fe6f48] pl-2  pr-5 shadow-md sm:pl-5 sm:pr-12 sm:py-0.5">
-            {/* mobile 3-line button */}
+            {/* mobile 3-bars button */}
 
             <div className="dropdown dropdown-end md:hidden">
                 <label tabIndex={0} className="btn btn-ghost hover:bg-white">
@@ -29,7 +29,7 @@ const Header = () => {
                     <li><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
                     <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
                     <li><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
-                    <li><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
+                    <li onClick={() => navigate("/editProfile")}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
                 </ul>
             </div>
 
@@ -81,7 +81,7 @@ const Header = () => {
                         <FaBell className="text-xl" />
                         <span className="text-xs font-bold">Notifications</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                    <li onClick={() => navigate("/editProfile")} className="flex flex-col items-center cursor-pointer hover:text-white">
                         <FaUserCircle className="text-xl" />
                         <span className="text-xs font-bold">Profile</span>
                     </li>

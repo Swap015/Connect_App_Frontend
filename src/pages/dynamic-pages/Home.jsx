@@ -3,6 +3,7 @@ import api from "../../api/axios.js"
 import { FaRegThumbsUp, FaThumbsUp, FaRegCommentDots } from "react-icons/fa";
 import CreatePostModal from "../../components/posts/createPostModal";
 import { useNavigate } from "react-router-dom";
+import PostCard from "../../components/posts/PostCard.jsx";
 
 const Home = () => {
     const [user, setUser] = useState(null);
@@ -149,53 +150,13 @@ const Home = () => {
                 ) : (
                     <div className="space-y-6">
                         {posts.map((post) => (
-                            <div
+                            <PostCard
                                 key={post._id}
-                                className="bg-white shadow-md rounded-xl p-5 "
-                            >
-
-                                <div className="flex items-center gap-3">
-                                    <img
-                                        src={post.postedBy.profileImage}
-                                        alt="user"
-                                        className="w-10 h-10 rounded-full object-cover border"
-                                    />
-                                    <div>
-                                        <h4 className="font-semibold text-gray-800">{post.postedBy.name}</h4>
-                                        <p className="text-xs text-gray-500">{timeAgo(post.createdAt)}</p>
-                                    </div>
-                                </div>
-
-
-                                <p className="mt-3 text-gray-700">{post.content}</p>
-
-                                {post.file?.length > 0 && (
-                                    <div className="mt-3">
-                                        <img
-                                            src={post.file[0]}
-                                            alt="post"
-                                            className="rounded-lg max-h-72 w-full object-cover"
-                                        />
-                                    </div>
-                                )}
-
-                                {/* like comment */}
-                                <div className="flex gap-6 mt-4 text-gray-600 border-t pt-3">
-                                    <button
-                                        onClick={() => handleLike(post._id)}
-                                        className={`flex items-center gap-2 transition ${likedPosts.has(post._id) ? "text-orange-500 scale-110" : "hover:text-orange-500"
-                                            }`}
-                                    >
-                                        {likedPosts.has(post._id) ? <FaThumbsUp /> : <FaRegThumbsUp />}
-                                        {post.likesCount || post.likes?.length || 0}
-                                    </button>
-
-
-                                    <button className="flex items-center gap-2 hover:text-orange-500 transition">
-                                        <FaRegCommentDots /> {post.comments?.length || 0}
-                                    </button>
-                                </div>
-                            </div>
+                                post={post}
+                                timeAgo={timeAgo}
+                                liked={likedPosts.has(post._id)}
+                                handleLike={handleLike}
+                            />
                         ))}
                     </div>
                 )}
@@ -205,3 +166,9 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+
+

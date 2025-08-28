@@ -44,16 +44,13 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             setLoading(true);
             const formData = new FormData();
             formData.append("content", content);
-            files.forEach((file) => formData.append("file", file));
+            files.forEach((file) => formData.append("images", file)); 
 
             const res = await api.post(
-                "/posts/createPost",
+                "/post/createPost",
                 formData,
                 {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                        "Content-Type": "multipart/form-data",
-                    },
+                    headers: { "Content-Type": "multipart/form-data" },
                 }
             );
 
@@ -64,10 +61,11 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             if (onPostCreated) onPostCreated(res.data.post);
         } catch (err) {
             setLoading(false);
-            console.error("Error creating post:", err);
+            console.error("Error creating post:", err.response?.data || err);
             alert("Post creation failed. Try again.");
         }
     };
+
 
     if (!isOpen) return null;
 
@@ -128,6 +126,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
 
                     <div className="flex items-center justify-between border-t pt-3">
                         {/* File Upload */}
+
                         <div className="flex items-center gap-3">
                             <label className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:text-shadow-lg">
                                 <MdAttachFile className="text-blue-600 font-extrabold text-xl" />
