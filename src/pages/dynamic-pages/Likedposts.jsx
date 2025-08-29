@@ -22,8 +22,12 @@ const LikedPosts = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-screen text-lg font-medium text-gray-700">
-                Loading your liked posts...
+            <div className="flex flex-col justify-center items-center min-h-screen gap-4 bg-white">
+               
+                <span className="loading loading-spinner loading-lg text-orange-500"></span>
+                <p className="text-lg font-semibold text-gray-900 animate-pulse">
+                    Loading your liked posts...
+                </p>
             </div>
         );
     }
@@ -38,11 +42,11 @@ const LikedPosts = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-200 via-pink-200 to-blue-200 p-6">
-            <h1 className="text-3xl font-extrabold text-center mb-6 text-gray-800">
+            <h1 className="text-xl font-bold text-center mb-6 text-gray-800">
                 ❤️ Your Liked Posts
             </h1>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {posts.map((post) => (
                     <div
                         key={post._id}
@@ -52,23 +56,23 @@ const LikedPosts = () => {
                             <img
                                 src={post.postedBy?.profileImage}
                                 alt={post.postedBy?.name}
-                                className="w-12 h-12 rounded-full border border-gray-300"
+                                className="w-10 h-10 rounded-full border border-gray-300"
                             />
                             <div>
-                                <h3 className="text-lg font-semibold text-gray-800">
+                                <h3 className="text-sm font-semibold text-gray-800">
                                     {post.postedBy?.name}
                                 </h3>
-                                <p className="text-sm text-gray-600">{post.postedBy?.headline}</p>
+                                <p className="text-[9px] text-gray-600">{post.postedBy?.headline}</p>
                             </div>
                         </div>
 
-                        <p className="text-gray-700 mb-3">{post.content}</p>
+                        <p className="text-gray-800 mb-3 text-sm  sm:text-base lg:text-lg">{post.content}</p>
 
                         {post.file?.length > 0 && (
                             <img
                                 src={post.file[0]}
                                 alt="Post"
-                                className="w-full rounded-lg object-cover mb-3 max-h-64"
+                                className="w-30 rounded-lg object-cover mb-3 max-h-64"
                             />
                         )}
 

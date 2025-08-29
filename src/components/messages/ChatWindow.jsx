@@ -53,7 +53,7 @@ const ChatWindow = ({ conversation, user, socket }) => {
     const handleSend = async (text) => {
         try {
             const res = await api.post("/chat/sendMessage", {
-                conversationId: conversation._id,
+                conversation: conversation._id, sender: user._id,
                 text,
             });
             setMessages((prev) => [...prev, res.data.message]);
