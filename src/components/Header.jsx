@@ -28,7 +28,7 @@ const Header = () => {
                     <li><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
                     <li><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
                     <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
-                    <li><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
+                    <li onClick={() => navigate("/notifications")}><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
                     <li onClick={() => navigate("/editProfile")}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
                 </ul>
             </div>
@@ -77,7 +77,7 @@ const Header = () => {
                         <FaBriefcase className="text-xl" />
                         <span className="text-xs font-bold">Jobs</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                    <li onClick={() => navigate("/notifications")} className="flex flex-col items-center cursor-pointer hover:text-white">
                         <FaBell className="text-xl" />
                         <span className="text-xs font-bold">Notifications</span>
                     </li>
