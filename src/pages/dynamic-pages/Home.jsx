@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import api from "../../api/axios.js"
-import { FaRegThumbsUp, FaThumbsUp, FaRegCommentDots } from "react-icons/fa";
 import CreatePostModal from "../../components/posts/createPostModal";
 import { useNavigate } from "react-router-dom";
 import PostCard from "../../components/posts/PostCard.jsx";
@@ -31,7 +30,7 @@ const Home = () => {
         return Math.floor(seconds) + "s";
     };
 
-    // fetch logged-in user
+    //  logged-in user
     const fetchUser = async () => {
         try {
             const res = await api.get("/user/me", {
@@ -72,7 +71,7 @@ const Home = () => {
             setPosts((prev) =>
                 prev.map((p) =>
                     p._id === postId
-                        ? { ...p, likesCount: res.data.likesCount } // use count from backend
+                        ? { ...p, likesCount: res.data.likesCount } 
                         : p
                 )
             );
@@ -153,10 +152,17 @@ const Home = () => {
                             <PostCard
                                 key={post._id}
                                 post={post}
+                                currentUser={user}        
+
                                 timeAgo={timeAgo}
                                 liked={likedPosts.has(post._id)}
                                 handleLike={handleLike}
+                                onDelete={(postId) => setPosts(prev => prev.filter(p => p._id !== postId))}
+                                onEdit={(postId, newContent) =>
+                                    setPosts(prev => prev.map(p => p._id === postId ? { ...p, content: newContent } : p))
+                                }
                             />
+
                         ))}
                     </div>
                 )}

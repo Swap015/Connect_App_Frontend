@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { FaRegCommentDots, FaRegThumbsUp, FaThumbsUp } from "react-icons/fa";
+import { FaRegCommentDots, FaRegThumbsUp, FaThumbsUp, FaRegBookmark, FaBookmark, FaEllipsisH } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import EditPostModal from "./EditPostModal.jsx";
+import api from "../../api/axios.js";
 
-const PostCard = ({ post, timeAgo, liked, handleLike }) => {
-    const [openModal, setOpenModal] = useState(false);
+const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onEdit }) => {
     const [zoomedImg, setZoomedImg] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [saved, setSaved] = useState(currentUser?.savedPosts?.includes(post._id));
+
+    const isOwner = currentUser?._id === post.postedBy?._id;
 
     const getFileType = (url) => {
         if (!url) return null;
@@ -16,75 +22,105 @@ const PostCard = ({ post, timeAgo, liked, handleLike }) => {
         return "other";
     };
 
-    return (
-        <div className="card bg-white shadow-md rounded-xl p-5 border border-gray-100 hover:shadow-lg transition">
+    const handleDelete = async () => {
+        if (!window.confirm("Are you sure you want to delete this post?")) return;
+        try {
+            await api.delete(`/post/deletePost/${post._id}`);
+            if (onDelete) onDelete(post._id);
+        } catch (err) {
+            console.error("Failed to delete post", err);
+            alert("Failed to delete post");
+        }
+    };
 
-            {/* user info */}
-            <div className="flex items-center gap-3">
-                <img
-                    src={post.postedBy?.profileImage || "/default-avatar.png"}
-                    alt="user"
-                    className="w-10 h-10 rounded-full object-cover border"
-                />
-                <div>
-                    <h4 className="font-semibold text-gray-800">{post.postedBy?.name}</h4>
-                    <p className="text-xs text-gray-500">{timeAgo(post.createdAt)}</p>
+    const handleSave = async () => {
+        try {
+            if (!saved) {
+                await api.put(`/post/savePost/${post._id}`, {}, { withCredentials: true });
+                setSaved(true);
+            } else {
+                await api.put(`/post/unsavePost/${post._id}`, {}, { withCredentials: true });
+                setSaved(false);
+            }
+        } catch (err) {
+            console.error("Failed to toggle save", err);
+            alert("Failed to save/unsave post");
+        }
+    };
+
+    return (
+        <div className="card bg-white shadow-md rounded-xl p-5 border border-gray-100 hover:shadow-lg transition relative">
+
+            {/* User info */}
+            <div className="flex items-center justify-between ">
+                <div className="flex items-center gap-3 ">
+                    <img
+                        src={post.postedBy?.profileImage || "/default-avatar.png"}
+                        alt="user"
+                        className="w-10 h-10 rounded-full object-cover border"
+                    />
+                    <div>
+                        <h4 className="font-semibold text-gray-800">{post.postedBy?.name}</h4>
+                        <p className="text-xs text-gray-500 ">{timeAgo(post.createdAt)}</p>
+                    </div>
                 </div>
+
+                {isOwner && (
+                    <div className="relative">
+                        <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 hover:bg-gray-200 rounded-full text-black">
+                            <FaEllipsisH />
+                        </button>
+                        {menuOpen && (
+                            <div className="absolute right-0 top-8 bg-white border shadow-lg rounded-md z-50 w-28">
+                                <button
+                                    onClick={() => { setEditModalOpen(true); setMenuOpen(false); }}
+                                    className="w-full text-left px-4 py-2 hover:bg-gray-200 text-black"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={handleDelete}
+                                    className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-200"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
 
-            {/* post text */}
+            {/* post content */}
             {post.content && <p className="mt-3 text-gray-700">{post.content}</p>}
 
             {/* post media */}
             {post.file?.length > 0 && (
-                <div className="mt-3">
+                <div className="mt-3 ">
                     <Carousel
-                        showArrows={true}
+                        showArrows
                         showThumbs={false}
                         infiniteLoop={false}
                         showStatus={false}
                         emulateTouch
                         swipeable
-                        dynamicHeight={true}
+                        dynamicHeight
                     >
-                        {post.file.map((file, index) => {
+                        {post.file.map((file, idx) => {
                             const type = getFileType(file);
-
                             if (type === "image") {
                                 return (
-                                    <div
-                                        key={index}
-                                        className="cursor-pointer"
-                                        onClick={() => {
-                                            setZoomedImg(file);
-                                            setOpenModal(true);
-                                        }}
-                                    >
-                                        <img
-                                            src={file}
-                                            alt="post"
-                                            className="rounded-lg max-h-96 w-full object-contain"
-                                        />
+                                    <div key={idx} className="cursor-pointer" onClick={() => setZoomedImg(file)}>
+                                        <img src={file} alt="post" className="rounded-lg max-h-96 w-full object-contain" />
                                     </div>
                                 );
                             }
-
                             if (type === "video") {
                                 return (
-                                    <div key={index}>
-                                        <video
-                                            src={file}
-                                            controls
-                                            className="rounded-lg w-full max-h-96 object-contain"
-                                        />
+                                    <div key={idx}>
+                                        <video src={file} controls className="rounded-lg w-full max-h-96 object-contain" />
                                     </div>
                                 );
                             }
-
-                            if (type === "pdf") {
-                                return <PDFPreview key={index} url={file} />;
-                            }
-
                             return null;
                         })}
                     </Carousel>
@@ -92,40 +128,39 @@ const PostCard = ({ post, timeAgo, liked, handleLike }) => {
             )}
 
             {/* buttons */}
-            <div className="flex gap-6 mt-4 text-gray-600 border-t pt-3">
-                <button
-                    onClick={() => handleLike(post._id)}
-                    className={`flex items-center gap-2 transition ${liked
-                        ? "text-orange-500 scale-110"
-                        : "hover:text-orange-500"
-                        }`}
-                >
-                    {liked ? <FaThumbsUp /> : <FaRegThumbsUp />}
-                    {post.likesCount || post.likes?.length || 0}
+            <div className="flex gap-6 mt-4 text-gray-600 border-t pt-3 ">
+                <button onClick={() => handleLike(post._id)} className={`flex items-center gap-2 ${liked ? "text-orange-500" : ""}`}>
+                    {liked ? <FaThumbsUp /> : <FaRegThumbsUp />} {post.likesCount || post.likes?.length || 0}
                 </button>
-
-                <button className="flex items-center gap-2 hover:text-orange-500 transition">
+                <button className="flex items-center gap-2 ">
                     <FaRegCommentDots /> {post.comments?.length || 0}
+                </button>
+                <button onClick={handleSave} className={`flex items-center gap-2 ${saved ? "text-green-600" : ""}`}>
+                    {saved ? <FaBookmark /> : <FaRegBookmark />} {saved ? "Saved" : "Save"}
                 </button>
             </div>
 
             {/* zoom modal */}
-            {openModal && zoomedImg && (
-                <div className="fixed inset-0 bg-black/80 min-h-screen flex items-center justify-center z-50">
+            {zoomedImg && (
+                <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
                     <div className="relative">
-                        <img
-                            src={zoomedImg}
-                            alt="zoom"
-                            className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain"
-                        />
-                        <button
-                            onClick={() => setOpenModal(false)}
-                            className="absolute top-2 right-2 bg-white text-black px-2 py-1 rounded-full shadow-md"
-                        >
-                            ✕
-                        </button>
+                        <img src={zoomedImg} alt="zoom" className="max-h-[90vh] max-w-[90vw] rounded-lg object-contain" />
+                        <button onClick={() => setZoomedImg(null)} className="absolute top-2 right-2 bg-white text-black px-2 py-1 rounded-full shadow-md">✕</button>
                     </div>
                 </div>
+            )}
+
+            {/* edit post modal */}
+            {editModalOpen && (
+                <EditPostModal
+                    post={post}
+                    isOpen={editModalOpen}
+                    onClose={() => setEditModalOpen(false)}
+                    onEdit={(newContent) => {
+                        if (onEdit) onEdit(post._id, newContent);
+                        setEditModalOpen(false);
+                    }}
+                />
             )}
         </div>
     );
