@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
-import { FaBookmark, FaTrash, FaUserCircle } from "react-icons/fa";
+import { FaTrash, FaBookmark } from "react-icons/fa";
 
 const SavedPosts = () => {
     const [savedPosts, setSavedPosts] = useState([]);
@@ -40,68 +40,53 @@ const SavedPosts = () => {
 
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
-                        <span className="loading loading-spinner w-13 h-17 text-yellow-400 "></span>
+                        <span className="loading loading-spinner w-16 h-16 text-yellow-400"></span>
                     </div>
                 ) : savedPosts.length === 0 ? (
                     <p className="text-gray-300 text-center text-lg">
                         You don’t have any saved posts yet ✨
                     </p>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         {savedPosts.map((post) => (
                             <div
                                 key={post._id}
-                                className="bg-gray-800 border border-gray-700 rounded-xl p-4 shadow-md"
+                                className="relative group bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-md"
                             >
-                                {/* user info */}
-                                <div className="flex items-center gap-3 mb-3">
-                                    {post.postedBy?.profileImage ? (
-                                        <img
-                                            src={post.postedBy.profileImage}
-                                            alt="profile"
-                                            className="w-9 h-9 rounded-full border border-gray-600 object-cover"
-                                        />
-                                    ) : (
-                                        <FaUserCircle className="w-9 h-9 text-gray-500" />
-                                    )}
-                                    <div>
-                                        <h3 className="text-white font-medium text-sm">
-                                            {post.postedBy?.name}
-                                        </h3>
-                                        <p className="text-gray-400 text-xs">
-                                            {new Date(post.createdAt).toLocaleDateString()}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* post content */}
-                                {post.content && (
-                                    <p className="text-gray-200 text-sm mb-2 line-clamp-3">
-                                        {post.content}
-                                    </p>
-                                )}
-
-                                {/* post image */}
-                                {Array.isArray(post.file) && post.file.length > 0 && (
+                                {/* Post Image */}
+                                {Array.isArray(post.file) && post.file.length > 0 ? (
                                     <img
                                         src={post.file[0]}
                                         alt="post"
-                                        className="w-full h-36 object-cover rounded-lg mb-2"
+                                        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
+                                ) : (
+                                    <div className="h-48 flex items-center justify-center bg-gray-700">
+                                        <FaBookmark className="text-gray-500 text-3xl" />
+                                    </div>
                                 )}
 
-                                {/* save/unsave button */}
-                                <div className="flex justify-between items-center mt-2">
+                                {/* Overlay on Hover */}
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3">
+                                    {/* Top section: user info */}
+                                    <div className="flex items-center gap-2">
+                                        <img
+                                            src={post.postedBy?.profileImage || "/default-avatar.png"}
+                                            alt="profile"
+                                            className="w-8 h-8 rounded-full border border-gray-400 object-cover"
+                                        />
+                                        <h3 className="text-white font-medium text-sm">
+                                            {post.postedBy?.name}
+                                        </h3>
+                                    </div>
+
+                                    {/* Bottom section: actions */}
                                     <button
                                         onClick={() => handleUnsave(post._id)}
-                                        className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all text-sm"
+                                        className="flex items-center justify-center gap-2 px-3 py-2 bg-red-500 rounded-md text-white text-sm hover:bg-red-600 transition"
                                     >
-                                        <FaTrash className="text-sm" /> Unsave
+                                        <FaTrash /> Unsave
                                     </button>
-
-                                    <span className="text-green-400 text-xs font-medium flex items-center gap-1">
-                                        <FaBookmark className="text-yellow-400" /> Saved
-                                    </span>
                                 </div>
                             </div>
                         ))}

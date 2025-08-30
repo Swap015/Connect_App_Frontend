@@ -23,8 +23,7 @@ const LikedPosts = () => {
     if (loading) {
         return (
             <div className="flex flex-col justify-center items-center min-h-screen gap-4 bg-white">
-               
-                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+                <span className="loading loading-spinner w-12 h-12 text-orange-500"></span>
                 <p className="text-lg font-semibold text-gray-900 animate-pulse">
                     Loading your liked posts...
                 </p>
@@ -46,42 +45,52 @@ const LikedPosts = () => {
                 ❤️ Your Liked Posts
             </h1>
 
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-5">
                 {posts.map((post) => (
                     <div
                         key={post._id}
-                        className="backdrop-blur-lg bg-white/40 border border-white/20 rounded-xl shadow-lg p-5 hover:scale-[1.02] hover:shadow-2xl transition-all duration-300"
+                        className="backdrop-blur-lg bg-white/60 border border-white/60 rounded-xl shadow-lg p-3 shadow-black/70"
                     >
-                        <div className="flex items-center gap-3 mb-3">
+                        {/* user info */}
+                        <div className="flex items-center gap-2 mb-2">
                             <img
                                 src={post.postedBy?.profileImage}
                                 alt={post.postedBy?.name}
-                                className="w-10 h-10 rounded-full border border-gray-300"
+                                className="w-8 h-8 rounded-full border border-gray-300"
                             />
                             <div>
-                                <h3 className="text-sm font-semibold text-gray-800">
+                                <h3 className="text-xs font-semibold text-gray-800">
                                     {post.postedBy?.name}
                                 </h3>
-                                <p className="text-[9px] text-gray-600">{post.postedBy?.headline}</p>
+                                <p className="text-[10px] text-gray-600">
+                                    {post.postedBy?.headline}
+                                </p>
                             </div>
                         </div>
 
-                        <p className="text-gray-800 mb-3 text-sm  sm:text-base lg:text-lg">{post.content}</p>
+                        {/* post content */}
+                        {post.content && (
+                            <p className="text-gray-800 mb-2 text-sm line-clamp-3">
+                                {post.content}
+                            </p>
+                        )}
 
+                        {/* post image */}
                         {post.file?.length > 0 && (
                             <img
                                 src={post.file[0]}
                                 alt="Post"
-                                className="w-30 rounded-lg object-cover mb-3 max-h-64"
+                                className="w-full rounded-lg object-cover mb-2 max-h-40"
                             />
                         )}
 
-                        <div className="flex justify-between items-center text-gray-600 mt-2">
-                            <span className="flex items-center gap-2 text-red-500">
-                                <FaHeart /> {post.likes.length}
+                        {/* likes & comments */}
+                        <div className="flex justify-between items-center text-gray-600 mt-1 text-xs">
+                            <span className="flex items-center gap-1 text-red-500">
+                                <FaHeart className="text-sm" /> {post.likes.length}
                             </span>
-                            <span className="flex items-center gap-2 text-blue-600">
-                                <FaCommentDots /> {post.comments.length}
+                            <span className="flex items-center gap-1 text-blue-600">
+                                <FaCommentDots className="text-sm" /> {post.comments.length}
                             </span>
                         </div>
                     </div>
