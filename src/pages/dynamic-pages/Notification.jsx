@@ -54,7 +54,7 @@ const NotificationsPage = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen">
-                <span className="loading loading-spinner loading-lg text-orange-500"></span>
+                <span className="loading loading-spinner w-13 h-17text-orange-500"></span>
             </div>
         );
     }

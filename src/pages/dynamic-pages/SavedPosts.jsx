@@ -6,7 +6,6 @@ const SavedPosts = () => {
     const [savedPosts, setSavedPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-
     const fetchSavedPosts = async () => {
         try {
             setLoading(true);
@@ -21,9 +20,7 @@ const SavedPosts = () => {
 
     const handleUnsave = async (postId) => {
         try {
-            await api.put(
-                `/post/unsavePost/${postId}`
-            );
+            await api.put(`/post/unsavePost/${postId}`);
             setSavedPosts(savedPosts.filter((p) => p._id !== postId));
         } catch (err) {
             console.error("Error unsaving post:", err);
@@ -35,71 +32,75 @@ const SavedPosts = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-white/90 via-white to-white/80 p-6">
-            <div className="max-w-5xl mx-auto">
-
-                <h1 className="text-3xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                    <FaBookmark className="text-orange-400" /> Saved Posts
+        <div className="min-h-screen bg-gray-900 p-6">
+            <div className="max-w-6xl mx-auto">
+                <h1 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                    <FaBookmark className="text-yellow-400" /> Saved Posts
                 </h1>
 
                 {loading ? (
-                    <p className="text-black text-center">Loading saved posts...</p>
+                    <div className="flex justify-center items-center py-20">
+                        <span className="loading loading-spinner w-13 h-17 text-yellow-400 "></span>
+                    </div>
                 ) : savedPosts.length === 0 ? (
-                        <p className="text-black text-center text-lg">
+                    <p className="text-gray-300 text-center text-lg">
                         You don’t have any saved posts yet ✨
                     </p>
                 ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-black">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                         {savedPosts.map((post) => (
                             <div
                                 key={post._id}
-                                className="relative bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-5 shadow-xl hover:scale-[1.02] transition-transform"
+                                className="bg-gray-800 border border-gray-700 rounded-xl p-4 shadow-md"
                             >
                                 {/* user info */}
-                                <div className="flex items-center gap-3 mb-4 text-black">
+                                <div className="flex items-center gap-3 mb-3">
                                     {post.postedBy?.profileImage ? (
                                         <img
-                                            src={post.author.profileImage}
+                                            src={post.postedBy.profileImage}
                                             alt="profile"
-                                            className="w-10 h-10 rounded-full border"
+                                            className="w-9 h-9 rounded-full border border-gray-600 object-cover"
                                         />
                                     ) : (
-                                        <FaUserCircle className="w-10 h-10 text-gray-500" />
+                                        <FaUserCircle className="w-9 h-9 text-gray-500" />
                                     )}
                                     <div>
-                                        <h3 className="font-semibold">
-                                            {post.name || "Unknown User"}
+                                        <h3 className="text-white font-medium text-sm">
+                                            {post.postedBy?.name}
                                         </h3>
-                                        <p className="text-gray-500 text-sm">
+                                        <p className="text-gray-400 text-xs">
                                             {new Date(post.createdAt).toLocaleDateString()}
                                         </p>
                                     </div>
                                 </div>
 
                                 {/* post content */}
-                                <p className="text-gray-900 mb-3">{post.content}</p>
+                                {post.content && (
+                                    <p className="text-gray-200 text-sm mb-2 line-clamp-3">
+                                        {post.content}
+                                    </p>
+                                )}
 
-                                {/* images */}
-                                {post.imageUrl && (
+                                {/* post image */}
+                                {Array.isArray(post.file) && post.file.length > 0 && (
                                     <img
-                                        src={post.imageUrl}
+                                        src={post.file[0]}
                                         alt="post"
-                                        className="w-full h-52 object-cover rounded-xl mb-3"
+                                        className="w-full h-36 object-cover rounded-lg mb-2"
                                     />
                                 )}
 
                                 {/* save/unsave button */}
-                                <div className="flex justify-between items-center mt-3">
+                                <div className="flex justify-between items-center mt-2">
                                     <button
                                         onClick={() => handleUnsave(post._id)}
-                                        className="group flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 text-red-500 hover:bg-red-600 hover:text-white transition-all duration-300"
+                                        className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white transition-all text-sm"
                                     >
-                                        <FaTrash className="text-lg" />
-                                        
+                                        <FaTrash className="text-sm" /> Unsave
                                     </button>
 
-                                    <span className="text-green-400 text-sm font-semibold flex items-center gap-1">
-                                        Saved
+                                    <span className="text-green-400 text-xs font-medium flex items-center gap-1">
+                                        <FaBookmark className="text-yellow-400" /> Saved
                                     </span>
                                 </div>
                             </div>

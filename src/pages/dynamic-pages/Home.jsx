@@ -105,7 +105,7 @@ const Home = () => {
     if (loading) {
         return (
             <div className="flex items-center justify-center h-screen bg-gray-50">
-                <span className="loading loading-spinner loading-lg text-orange-500"></span>
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
             </div>
         );
     }

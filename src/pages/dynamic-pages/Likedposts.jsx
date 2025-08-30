@@ -24,7 +24,7 @@ const LikedPosts = () => {
         return (
             <div className="flex flex-col justify-center items-center min-h-screen gap-4 bg-white">
                
-                <span className="loading loading-spinner loading-lg text-orange-500"></span>
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
                 <p className="text-lg font-semibold text-gray-900 animate-pulse">
                     Loading your liked posts...
                 </p>
