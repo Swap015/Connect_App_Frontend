@@ -53,7 +53,7 @@ const SavedPosts = () => {
                                 key={post._id}
                                 className="relative group bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-md"
                             >
-                                {/* Post Image */}
+                                {/* post image */}
                                 {Array.isArray(post.file) && post.file.length > 0 ? (
                                     <img
                                         src={post.file[0]}
@@ -66,9 +66,8 @@ const SavedPosts = () => {
                                     </div>
                                 )}
 
-                                {/* Overlay on Hover */}
                                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3">
-                                    {/* Top section: user info */}
+
                                     <div className="flex items-center gap-2">
                                         <img
                                             src={post.postedBy?.profileImage || "/default-avatar.png"}
@@ -80,7 +79,7 @@ const SavedPosts = () => {
                                         </h3>
                                     </div>
 
-                                    {/* Bottom section: actions */}
+                                    {/* unsave button */}
                                     <button
                                         onClick={() => handleUnsave(post._id)}
                                         className="flex items-center justify-center gap-2 px-3 py-2 bg-red-500 rounded-md text-white text-sm hover:bg-red-600 transition"

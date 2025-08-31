@@ -53,10 +53,12 @@ const ChatWindow = ({ conversation, user, socket }) => {
     const handleSend = async (text) => {
         try {
             const res = await api.post("/chat/sendMessage", {
-                conversation: conversation._id, sender: user._id,
-                text,
+                conversationId: conversation._id,   // ✅ correct key
+                text,                               // ✅ message text
             });
+
             setMessages((prev) => [...prev, res.data.message]);
+
             socket.emit("sendMessage", {
                 senderId: user._id,
                 receiverId: conversation.participants.find((p) => p._id !== user._id)._id,
@@ -66,6 +68,7 @@ const ChatWindow = ({ conversation, user, socket }) => {
             console.error("Error sending message:", err);
         }
     };
+
 
     return (
         <div className="flex flex-col h-full text-black">

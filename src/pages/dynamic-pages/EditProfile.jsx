@@ -27,12 +27,10 @@ const EditProfile = () => {
         education: { SSC: "", HSC: "", diploma: "", degree: "" },
     });
 
-    // profile pic state
-    const [profilePic, setProfilePic] = useState(null); // raw File
-    const [previewURL, setPreviewURL] = useState(""); // local preview
+    const [profilePic, setProfilePic] = useState(null);
+    const [previewURL, setPreviewURL] = useState("");
     const [uploading, setUploading] = useState(false);
 
-    // modal + cropper state
     const [showModal, setShowModal] = useState(false);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
     const [zoom, setZoom] = useState(1);
@@ -66,7 +64,6 @@ const EditProfile = () => {
         fetchUser();
     }, []);
 
-    // Create preview
     useEffect(() => {
         if (!profilePic) {
             setPreviewURL("");
@@ -77,12 +74,11 @@ const EditProfile = () => {
         return () => URL.revokeObjectURL(url);
     }, [profilePic]);
 
-    // crop complete callback
     const onCropComplete = useCallback((croppedArea, croppedPixels) => {
         setCroppedAreaPixels(croppedPixels);
     }, []);
 
-    // helper: get cropped image blob
+
     const getCroppedImage = (imageSrc, pixelCrop) => {
         return new Promise((resolve, reject) => {
             const img = new Image();
@@ -116,7 +112,6 @@ const EditProfile = () => {
         });
     };
 
-    // handle upload after crop
     const handleProfileUpload = async () => {
         if (!previewURL || !croppedAreaPixels) {
             toast.error("No image selected");
@@ -202,22 +197,27 @@ const EditProfile = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex text-black">
-           {/* left side section  */}
-            <div className="w-64 bg-white shadow-3xl p-6 flex flex-col items-center">
+            {/* left side section  */}
+
+            <div className="w-30 sm:w-40 lg:w-50 bg-white shadow-3xl pt-7 px-2 sm:pt-8 sm:px-7 flex flex-col items-center">
                 <div className="relative group cursor-pointer" onClick={() => setShowModal(true)}>
                     <img
                         src={avatarSrc}
                         alt="profile"
-                        className="w-24 h-24 rounded-full object-cover mb-2 "
+                        className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full object-cover mb-2 "
                     />
-                    <div className="absolute bottom-[25px] right-[2px] w-[93px] bg-black/50 text-white text-xs py-1 text-center rounded-b-full opacity-0 group-hover:opacity-100 transition">
-                        <FaEdit className="inline mr-1" /> Edit Profile
+                    <div className="absolute bottom-[15px] right-[2px] group cursor-pointer">
+                        <FaEdit className="text-white bg-black/50 p-1 rounded-full text-lg" />
+                        
+                        <span className="absolute bottom-full right-0 mb-1 px-2 py-1 text-xs bg-black text-white rounded opacity-0 group-hover:opacity-100 transition">
+                            Edit Profile
+                        </span>
                     </div>
 
                 </div>
 
-                <p className="font-semibold text-lg ">{user?.name}</p>
-                <ul className="mt-5 w-full space-y-2 text-sm">
+                <p className="text-center text-xs sm:text-sm 2xl:text-lg ">{user?.name}</p>
+                <ul className="mt-5 space-y-2 text-xs sm:text-sm 2xl:text-lg text-center">
                     <li className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100 font-medium">
                         <FaUser /> Profile Details
                     </li>
@@ -234,20 +234,21 @@ const EditProfile = () => {
             </div>
 
             {/* profile details */}
-            <div className="flex-1 p-10">
-                <div className="bg-white rounded-lg shadow-sm p-8">
-                    <h2 className="text-2xl font-bold mb-6">Edit Profile Details</h2>
-                    <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex-1 flex p-2 justify-center items-center sm:px-6 md:px-12 lg:px-40 2xl:px-50  mb-5 ">
+                <div className=" rounded-lg pt-9 px-3 max-w-2xl ">
+                    <h2 className="text-base sm:text-lg lg:text-2xl font-bold mb-6 border-b border-gray-400">Edit Profile Details</h2>
+                    <form onSubmit={handleSubmit} className="space-y-6 text-xs sm:text-sm">
+
                         {/* role */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-1">
+                            <label className="block font-bold text-gray-700 mb-1">
                                 Role
                             </label>
                             <input
                                 type="text"
                                 value={user?.role}
                                 disabled
-                                className="w-full border rounded-md px-4 py-2 bg-gray-100 text-gray-600"
+                                className="w-full border rounded-md px-4 py-2 font-semibold bg-gray-300 text-gray-600"
                             />
                         </div>
 
@@ -261,7 +262,7 @@ const EditProfile = () => {
                             { label: "Skills", name: "skills", placeholder: "React, Node.js, MongoDB" },
                         ].map((f) => (
                             <div key={f.name}>
-                                <label className="block text-sm font-medium text-gray-600 mb-1">{f.label}</label>
+                                <label className="block font-bold text-gray-700 mb-1">{f.label}</label>
                                 <input
                                     type="text"
                                     name={f.name}
@@ -275,7 +276,7 @@ const EditProfile = () => {
 
                         {/* education */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-600 mb-2">
+                            <label className="block text-sm font-bold text-gray-700 mb-2">
                                 Education ( Enter school/college name )
                             </label>
                             {["SSC", "HSC", "diploma", "degree"].map((edu) => (
@@ -293,7 +294,7 @@ const EditProfile = () => {
 
                         <button
                             type="submit"
-                            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-md"
+                            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-3 py-2 rounded-md"
                         >
                             Save Changes
                         </button>
@@ -304,7 +305,7 @@ const EditProfile = () => {
             {/* Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-xl shadow-2xl w-[380px] relative animate-fadeIn">
+                    <div className="bg-white p-4 lg:py-6 rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg relative animate-fadeIn">
 
                         {/* close Btn */}
 
@@ -319,10 +320,10 @@ const EditProfile = () => {
                             <FaTimes size={20} />
                         </button>
 
-                        <h3 className="font-semibold text-lg mb-4 text-center">Edit Profile Picture</h3>
+                        <h3 className="font-semibold text-sm lg:text-xl mb-4 text-center">Edit Profile Picture</h3>
 
                         {!previewURL ? (
-                            <div className="flex flex-col items-center justify-center h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                            <div className="flex flex-col items-center justify-center h-40 lg:h-56 2xl:h-64 border-3 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-50 transition">
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -331,8 +332,8 @@ const EditProfile = () => {
                                     id="uploadInput"
                                 />
                                 <label htmlFor="uploadInput" className="cursor-pointer flex flex-col items-center">
-                                    <FaCloudUploadAlt size={40} className="text-orange-500 mb-2" />
-                                    <span className="text-gray-500 text-sm">Click to upload</span>
+                                    <FaCloudUploadAlt className="text-orange-500 mb-2 text-4xl sm:text-5xl lg:text-6xl " />
+                                    <span className="text-gray-600 text-sm lg:text-xl font-bold">Click to upload</span>
                                 </label>
                             </div>
                         ) : (
@@ -353,17 +354,28 @@ const EditProfile = () => {
                             {!previewURL ? (
                                 <button
                                     onClick={handleProfileDelete}
-                                    className="px-4 py-2 text-sm rounded-md bg-red-500 hover:bg-red-600 text-white flex items-center gap-2"
+                                    className="px-2 py-1.5 text-sm 2xl:text-lg rounded-md bg-red-500 hover:bg-red-600 text-white flex items-center gap-2"
                                 >
                                     <FaTrash /> Delete
                                 </button>
                             ) : (
                                 <button
                                     onClick={handleProfileUpload}
-                                    className="px-4 py-2 text-sm rounded-md bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2"
+                                    disabled={uploading} // 
+                                    className="px-3 py-2 text-xs sm:text-sm rounded-md bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2"
                                 >
-                                    <FaUpload />
-                                    {uploading ? "Uploading..." : "Upload"}
+                                    {uploading ? (
+                                        <>
+                                            Uploading
+                                            <span className="loading loading-spinner loading-sm"></span>
+
+                                        </>
+                                    ) : (
+                                        <>
+                                            <FaUpload />
+                                            Upload
+                                        </>
+                                    )}
                                 </button>
                             )}
                         </div>
