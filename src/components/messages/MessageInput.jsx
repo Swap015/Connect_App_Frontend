@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaPaperPlane } from "react-icons/fa";
+import { IoSendSharp } from "react-icons/io5";
 
 const MessageInput = ({ onSend, socket, conversation, user }) => {
     const [text, setText] = useState("");
@@ -30,8 +30,8 @@ const MessageInput = ({ onSend, socket, conversation, user }) => {
                 onKeyDown={handleTyping}
                 className="flex-1 px-4 py-2 rounded-full border focus:outline-none focus:ring focus:border-blue-400"
             />
-            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full">
-                <FaPaperPlane />
+            <button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full flex items-center justify-center shadow-md">
+                <IoSendSharp className="text-lg "/>
             </button>
         </form>
     );

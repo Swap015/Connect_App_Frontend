@@ -57,10 +57,10 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
                     <img
                         src={post.postedBy?.profileImage || "/default-avatar.png"}
                         alt="user"
-                        className="w-10 h-10 rounded-full object-cover border"
+                        className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover border"
                     />
                     <div>
-                        <h4 className="font-semibold text-gray-800">{post.postedBy?.name}</h4>
+                        <h4 className="font-semibold text-xs lg:text-sm 3xl:text-base text-gray-800">{post.postedBy?.name}</h4>
                         <p className="text-xs text-gray-500 ">{timeAgo(post.createdAt)}</p>
                     </div>
                 </div>
@@ -91,19 +91,21 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
             </div>
 
             {/* post content */}
-            {post.content && <p className="mt-3 text-gray-700">{post.content}</p>}
+            {post.content && <p className="mt-3 text-sm lg:text-base text-gray-700">{post.content}</p>}
 
-            {/* post media */}
+            {/* post images */}
             {post.file?.length > 0 && (
                 <div className="mt-3 ">
                     <Carousel
-                        showArrows
+                        showArrows={post.file.length > 1}
                         showThumbs={false}
                         infiniteLoop={false}
                         showStatus={false}
                         emulateTouch
                         swipeable
                         dynamicHeight
+                        showIndicators={post.file.length > 1}
+                        
                     >
                         {post.file.map((file, idx) => {
                             const type = getFileType(file);
@@ -129,14 +131,14 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
 
             {/* buttons */}
             <div className="flex gap-6 mt-4 text-gray-600 border-t pt-3 ">
-                <button onClick={() => handleLike(post._id)} className={`flex items-center gap-2 ${liked ? "text-orange-500" : ""}`}>
+                <button onClick={() => handleLike(post._id)} className={`flex text-sm lg:text-base items-center gap-2 ${liked ? "text-orange-500" : ""}`}>
                     {liked ? <FaThumbsUp /> : <FaRegThumbsUp />} {post.likesCount || post.likes?.length || 0}
                 </button>
-                <button className="flex items-center gap-2 ">
+                <button className="flex items-center gap-2 text-sm lg:text-base">
                     <FaRegCommentDots /> {post.comments?.length || 0}
                 </button>
-                <button onClick={handleSave} className={`flex items-center gap-2 ${saved ? "text-green-600" : ""}`}>
-                    {saved ? <FaBookmark /> : <FaRegBookmark />} {saved ? "Saved" : "Save"}
+                <button onClick={handleSave} className={`flex items-center text-sm lg:text-base gap-2 ${saved ? "text-red-500" : ""}`}>
+                    {saved ? <FaBookmark /> : <FaRegBookmark />}
                 </button>
             </div>
 

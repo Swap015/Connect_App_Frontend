@@ -191,7 +191,13 @@ const EditProfile = () => {
         }
     };
 
-    if (!user) return <p>Loading...</p>;
+    if (!user)
+        return (
+            <div className="min-h-screen flex justify-center items-center bg-white">
+                <div className="loading loading-spinner w-13 h-17 text-orange-500"></div>
+            </div>
+        );
+
 
     const avatarSrc = user?.profileImage;
 

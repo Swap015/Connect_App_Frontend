@@ -29,9 +29,12 @@ const Messages = () => {
     }, []);
 
     return (
-        <div className="flex h-[90vh] border rounded-lg shadow-lg overflow-hidden">
-            {/* messages sidebar */}
-            <div className="w-1/3 border-r bg-gray-50 text-black">
+        <div className="w-full h-[90vh] bg-white  shadow-xl flex overflow-hidden border-2 border-white">
+            {/* Sidebar (Conversation List) */}
+            <div
+                className={`${selectedConversation ? "hidden sm:block" : "block"
+                    } w-full sm:w-1/3 border-r bg-gray-50 text-black`}
+            >
                 <ConversationList
                     conversations={conversations}
                     selectedConversation={selectedConversation}
@@ -40,21 +43,27 @@ const Messages = () => {
                 />
             </div>
 
-            {/* chat window */}
-            <div className="flex-1">
+            {/* Chat Window */}
+            <div
+                className={`${selectedConversation ? "block" : "hidden sm:block"
+                    } flex-1 flex flex-col`}
+            >
                 {selectedConversation ? (
                     <ChatWindow
                         conversation={selectedConversation}
                         user={user}
                         socket={socket}
+                        onBack={() => setSelectedConversation(null)} // 👈 back button handler
                     />
                 ) : (
-                    <div className="flex items-center justify-center h-full text-gray-400">
-                        Select a conversation to start chatting
+                    <div className="flex items-center justify-center h-full text-gray-700 text-center px-4 font-semibold text-base bg-gray-300">
+                        Select a conversation to start chatting{" "}
+                        <span className="text-2xl drop-shadow-sm"> 💬</span>
                     </div>
                 )}
             </div>
         </div>
+
     );
 };
 

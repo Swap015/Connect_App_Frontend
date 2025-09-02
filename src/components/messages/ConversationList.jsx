@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
 
 const ConversationList = ({ conversations, selectedConversation, onSelect, userId }) => {
     return (
@@ -10,7 +13,7 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                 return (
                     <div
                         key={c._id}
-                        className={`flex items-center gap-3 p-3 cursor-pointer transition ${isSelected ? "bg-blue-100" : "hover:bg-gray-100"
+                        className={`flex items-center gap-3 p-3 cursor-pointer transition ${isSelected ? "bg-orange-200" : "hover:bg-gray-300"
                             }`}
                         onClick={() => onSelect(c)}
                     >
@@ -20,13 +23,13 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                             className="w-12 h-12 rounded-full border object-cover"
                         />
                         <div className="flex-1">
-                            <h4 className="font-semibold text-gray-800">{otherUser?.name}</h4>
+                            <h4 className="font-bold text-base text-gray-800">{otherUser?.name}</h4>
                             <p className="text-sm text-gray-500 truncate">
                                 {c.lastMessage?.text || "No messages yet"}
                             </p>
                         </div>
                         {c.lastMessage && (
-                            <span className="text-xs text-gray-400">
+                            <span className="text-xs text-gray-500">
                                 {dayjs(c.lastMessage.createdAt).fromNow()}
                             </span>
                         )}
