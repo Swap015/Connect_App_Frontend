@@ -24,7 +24,7 @@ const Header = () => {
                 <ul
                     tabIndex={0}
                     className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-35 left-0">
-                    <li onClick={() => navigate("/home")}><a className="flex items-center gap-2" ><FaHome /> Home</a></li>
+                    <li onClick={() => navigate("/")}><a className="flex items-center gap-2" ><FaHome /> Home</a></li>
                     <li><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
                     <li onClick={() => navigate("/messages")}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
                     <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
@@ -35,7 +35,7 @@ const Header = () => {
 
             {/* app logo */}
 
-            <div className="flex items-center gap-2" onClick={() => navigate("/home")}>
+            <div className="flex items-center gap-2" onClick={() => navigate("/")}>
                 <img
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 cursor-pointer"
                     src="https://res.cloudinary.com/swapcloud/image/upload/v1755720079/Logo_wdvg4h.png"
@@ -61,7 +61,7 @@ const Header = () => {
             {/* nav items-Big devices */}
             <div className="flex-none">
                 <ul className="hidden md:flex gap-6 items-center text-gray-800 font-medium">
-                    <li className="flex flex-col items-center cursor-pointer hover:text-white" onClick={() => navigate("/home")}>
+                    <li className="flex flex-col items-center cursor-pointer hover:text-white" onClick={() => navigate("/")}>
                         <FaHome className="text-xl" />
                         <span className="text-xs font-bold">Home</span>
                     </li>
