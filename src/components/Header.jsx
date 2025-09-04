@@ -15,8 +15,8 @@ const Header = () => {
     const navigate = useNavigate();
     return (
         <header className="flex items-center justify-between bg-gradient-to-r from-[#f6d365] to-[#fe6f48] pl-2  pr-5 shadow-md sm:pl-5 sm:pr-12 sm:py-0.5">
-            {/* mobile 3-bars nav button */}
 
+            {/* mobile 3-bars nav button */}
             <div className="dropdown dropdown-end md:hidden">
                 <label tabIndex={0} className="btn btn-ghost hover:bg-white">
                     <FaBars className="text-xl text-gray-800" />
@@ -25,7 +25,7 @@ const Header = () => {
                     tabIndex={0}
                     className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-35 left-0">
                     <li onClick={() => navigate("/")}><a className="flex items-center gap-2" ><FaHome /> Home</a></li>
-                    <li><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
+                    <li onClick={() => navigate("/connections")} ><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
                     <li onClick={() => navigate("/messages")}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
                     <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
                     <li onClick={() => navigate("/notifications")}><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
@@ -65,7 +65,7 @@ const Header = () => {
                         <FaHome className="text-xl" />
                         <span className="text-xs font-bold">Home</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                    <li onClick={() => navigate("/connections")} className="flex flex-col items-center cursor-pointer hover:text-white">
                         <FaUserFriends className="text-xl" />
                         <span className="text-xs font-bold">Connections</span>
                     </li>

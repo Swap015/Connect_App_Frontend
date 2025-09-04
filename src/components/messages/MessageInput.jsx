@@ -102,7 +102,7 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
                 )}
             </button>
 
-            {/* preview attachments */}
+   
             {attachments.length > 0 && (
                 <div className="flex gap-2 mb-2 overflow-x-auto px-2">
                     {attachments.map((file, idx) => (
@@ -118,7 +118,7 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
                                     {file.name.slice(0, 10)}...
                                 </div>
                             )}
-                            
+
                             {/* remove button */}
                             <button
                                 type="button"

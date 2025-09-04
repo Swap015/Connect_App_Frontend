@@ -19,6 +19,8 @@ import ProfileVisits from "./pages/dynamic-pages/ProfileVisit";
 import EditProfile from "./pages/dynamic-pages/EditProfile";
 import NotificationsPage from "./pages/dynamic-pages/Notification.jsx";
 import Messages from "./pages/dynamic-pages/Messages.jsx";
+import Connections from "./pages/dynamic-pages/Connections.jsx";
+import JobControl from "./pages/dynamic-pages/JobControl.jsx";
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
             <Route path="/editProfile" element={<EditProfile />} />
             <Route path="/notifications" element={< NotificationsPage />} />
             <Route path="/messages" element={< Messages />} />
+            <Route path="/connections" element={< Connections />} />
+            <Route path="/jobsControl" element={< JobControl />} />
 
 
           </Routes>

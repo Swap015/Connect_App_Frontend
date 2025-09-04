@@ -12,7 +12,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
     const [uploading, setUploading] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
-   
+
     useEffect(() => {
         const fetchMessages = async () => {
             try {
@@ -25,7 +25,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
         fetchMessages();
     }, [conversation]);
 
-    
+
     useEffect(() => {
         const container = messagesEndRef.current?.parentNode;
         if (container) {
@@ -64,7 +64,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
         };
     }, [conversation, user, socket]);
 
-    
+
     const handleSend = async (text, attachments = []) => {
         try {
             setUploading(true);
@@ -107,17 +107,36 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
 
     const handleDeleteMessage = async (msgId, forEveryone = false) => {
         try {
-            await api.delete(`/chat/message/${msgId}?forEveryone=${forEveryone}`);
-            setMessages((prev) => prev.filter((m) => m._id !== msgId));
+            if (forEveryone) {
+                await api.delete(`/chat/deleteForEveryone/${msgId}`);
+                setMessages((prev) =>
+                    prev.map((m) =>
+                        m._id === msgId
+                            ? { ...m, text: "This message is deleted for everyone", attachments: [], deletedForEveryone: true }
+                            : m
+                    )
+                );
+            } else {
+                await api.delete(`/chat/deleteMsg/${msgId}`);
+                setMessages((prev) =>
+                    prev.map((m) =>
+                        m._id === msgId
+                            ? { ...m, deletedForMe: true } 
+                            : m
+                    )
+                );
+            }
         } catch (err) {
             console.error("Error deleting message:", err);
         }
     };
 
+
+
     return (
         <div className="flex flex-col h-full text-black">
 
-            {/* Header */}
+
             <div className="flex items-center justify-between p-3 border-b bg-gray-50 text-black">
                 <div className="flex items-center gap-3">
                     <button
@@ -135,7 +154,8 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                         {conversation.participants.find((p) => p._id !== user._id)?.name}
                     </h3>
                 </div>
-                {/* Menu */}
+
+
                 <div className="relative">
                     <button
                         onClick={() => setMenuOpen(!menuOpen)}
@@ -156,7 +176,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                 </div>
             </div>
 
-            {/* Messages */}
+            {/* messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-white">
                 {messages.map((m) => (
                     <MessageBubble
@@ -172,7 +192,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                 <div ref={messagesEndRef} />
             </div>
 
-            
+
             <MessageInput
                 onSend={handleSend}
                 socket={socket}
