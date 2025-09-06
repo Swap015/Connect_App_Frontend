@@ -184,7 +184,7 @@ const Connections = () => {
                                             className="w-12 h-12 lg:w-14 lg:h-14 rounded-4full ring-2 ring-orange-400"
                                         />
                                         <div>
-                                            <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800">
+                                            <h4 className="text-sm sm:text-base  font-semibold text-gray-800">
                                                 {req.user.name}
                                             </h4>
                                             <p className="text-xs hidden sm:block sm:text-sm lg:text-base text-gray-500">
@@ -231,7 +231,7 @@ const Connections = () => {
                                             alt={user.name}
                                             className="w-12 h-12 lg:w-14 lg:h-14 rounded-full ring-2 ring-orange-400"
                                         />
-                                        <h4 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-800">{user.name}</h4>
+                                        <h4 className="text-sm sm:text-base font-semibold text-gray-800">{user.name}</h4>
                                     </div>
                                     <button
                                         onClick={() => handleCancel(user._id)}
@@ -251,14 +251,14 @@ const Connections = () => {
 
                 {/* all users */}
                 {activeTab === "all" && (
-                    <div className="grid md:grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 grid-cols-2 gap-6 ">
+                    <div className="grid  sm:grid-cols-4  lg:grid-cols-5 grid-cols-2 gap-6 text-sm sm:text-base">
                         {users.length > 0 ? (
                             users
                                 .filter((u) => me && u._id !== me._id)
                                 .map((u) => (
                                     <div
                                         key={u._id}
-                                        className="bg-white border border-gray-200 rounded-lg p-5 shadow-md transition flex flex-col items-center " 
+                                        className="bg-white border border-gray-200 rounded-lg p-5 shadow-md transition text-center  flex flex-col items-center " 
                                     >
                                         <img
                                             src={u.profileImage}
@@ -298,7 +298,7 @@ const Connections = () => {
                                             className="w-12 h-12 lg:w-14 lg:h-14  rounded-full ring-2 ring-orange-400"
                                         />
                                         <div>
-                                            <h4 className="font-semibold text-gray-800">
+                                            <h4 className="font-semibold text-gray-800 text-sm sm:text-base">
                                                 {conn.name}
                                             </h4>
                                             <p className="text-sm text-gray-500">
@@ -308,9 +308,9 @@ const Connections = () => {
                                     </div>
                                     <button
                                         onClick={() => handleRemove(conn._id)}
-                                        className="btn btn-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none"
+                                        className="btn btn-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none text-xs sm:text-sm "
                                     >
-                                        <FaUserMinus className="mr-1" /> Remove
+                                        <FaUserMinus className="mr-1 " /> Remove
                                     </button>
                                 </div>
                             ))

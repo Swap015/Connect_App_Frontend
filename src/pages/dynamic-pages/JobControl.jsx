@@ -1,0 +1,276 @@
+
+
+import { useEffect, useState } from "react";
+import { FaPlus } from "react-icons/fa";
+import { toast } from "react-toastify";
+import api from "../../api/axios.js";
+
+
+import EditJobModal from "../../components/jobs/EditJobModal.jsx";
+import AddJobModal from "../../components/jobs/AddJobModal.jsx";
+import JobCard from "../../components/jobs/JobCard.jsx";
+import DeleteJobModal from "../../components/jobs/DeleteModal.jsx";
+
+export default function JobControl() {
+ 
+    const [jobs, setJobs] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [userLoading, setUserLoading] = useState(true);
+
+
+    const [currentUser, setCurrentUser] = useState(null);
+    const isRecruiterVerified =
+        currentUser?.role === "recruiter" && currentUser?.isVerified;
+
+
+    const [activeTab, setActiveTab] = useState("active");
+    const [openAdd, setOpenAdd] = useState(false);
+    const [openEditJob, setOpenEditJob] = useState(null);
+    const [openDeleteJob, setOpenDeleteJob] = useState(null);
+
+   
+    const initialForm = {
+        title: "",
+        companyName: "",
+        location: "",
+        jobType: "Full Time",
+        salaryMin: "",
+        salaryMax: "",
+        description: "",
+        skills: [],
+        requirements: [],
+        isJobActive: true,
+    };
+    const [form, setForm] = useState(initialForm);
+    const resetForm = () => setForm(initialForm);
+
+    
+    const fetchJobs = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get("/job"); // GET /api/job
+            setJobs(Array.isArray(res.data.jobs) ? res.data.jobs : []);
+        } catch (err) {
+            console.error(err);
+            toast.error(err?.response?.data?.msg || "Failed to fetch jobs.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    const fetchCurrentUser = async () => {
+        try {
+            setUserLoading(true);
+            const res = await api.get("/user/me");
+            setCurrentUser(res.data.user || res.data);
+        } catch (err) {
+            console.warn("Could not fetch /user/me:", err?.response?.data || err);
+            setCurrentUser(null);
+        } finally {
+            setUserLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchCurrentUser();
+        fetchJobs();
+    }, []);
+
+  
+    const handleAddJob = async (e) => {
+        e.preventDefault();
+        const payload = {
+            title: form.title,
+            companyName: form.companyName,
+            location: form.location,
+            jobType: form.jobType,
+            salaryRange: {
+                min: form.salaryMin ? Number(form.salaryMin) : 0,
+                max: form.salaryMax ? Number(form.salaryMax) : 0,
+            },
+            skills: form.skills,
+            requirements: form.requirements,
+            description: form.description,
+            isJobActive: form.isJobActive,
+        };
+
+        try {
+            const res = await api.post("/job/addJob", payload);
+            toast.success("Job added");
+            console.log(res.data);
+            setOpenAdd(false);
+            fetchJobs();
+        } catch (err) {
+            console.error(err);
+            toast.error("Failed to add job");
+        }
+    };
+
+    const handleEditJob = async (e) => {
+        e.preventDefault();
+        if (!openEditJob) return;
+
+        const payload = {
+            title: form.title,
+            companyName: form.companyName,
+            location: form.location,
+            jobType: form.jobType,
+            salaryRange: {
+                min: form.salaryMin ? Number(form.salaryMin) : 0,
+                max: form.salaryMax ? Number(form.salaryMax) : 0,
+            },
+            skills: form.skills,
+            requirements: form.requirements,
+            description: form.description,
+            isJobActive: form.isJobActive,
+        };
+
+        try {
+            const res = await api.put(`/job/update/${openEditJob._id}`, payload);
+            toast.success("Job updated");
+            console.log(res.data);
+            setOpenEditJob(null);
+            resetForm();
+            fetchJobs();
+        } catch (err) {
+            console.error(err);
+            toast.error(err?.response?.data?.msg || "Failed to update job");
+        }
+    };
+
+    const handleDeleteJob = async () => {
+        if (!openDeleteJob) return;
+        try {
+            const res = await api.delete(`/job/remove/${openDeleteJob._id}`);
+            toast.success(res.data.msg || "Job deleted");
+            setOpenDeleteJob(null);
+            fetchJobs();
+        } catch (err) {
+            console.error(err);
+            toast.error(err?.response?.data?.msg || "Failed to delete job");
+        }
+    };
+
+  
+    const displayedJobs = jobs.filter((j) =>
+        activeTab === "active" ? j.isJobActive : !j.isJobActive
+    );
+
+    return (
+        <div className="p-6 max-w-7xl mx-auto">
+   
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                <div>
+                    <h1 className="text-3xl font-bold">Job Management</h1>
+                    <p className="text-sm text-gray-500 mt-1">
+                        Manage job postings — add, edit or remove. Actions restricted to
+                        verified recruiters.
+                    </p>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    {!userLoading && (
+                        <div>
+                            {currentUser ? (
+                                <div className="text-sm text-gray-600">
+                                    {currentUser.role === "recruiter" ? (
+                                        currentUser.isVerified ? (
+                                            <span className="ml-2 badge badge-success">Verified</span>
+                                        ) : (
+                                            <span className="ml-2 badge badge-warning">
+                                                Unverified
+                                            </span>
+                                        )
+                                    ) : (
+                                        <span className="ml-2 badge">User</span>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="text-sm text-gray-600">Not authenticated</div>
+                            )}
+                        </div>
+                    )}
+
+                    <button
+                        className="btn btn-primary gap-2"
+                        onClick={() => {
+                            resetForm();
+                            setOpenAdd(true);
+                        }}
+                        disabled={!isRecruiterVerified}
+                    >
+                        <FaPlus /> Add Job
+                    </button>
+                </div>
+            </div>
+
+         
+            <div role="tablist" className="tabs tabs-boxed">
+                <button
+                    className={`tab ${activeTab === "active" ? "tab-active" : ""}`}
+                    onClick={() => setActiveTab("active")}
+                >
+                    Active Jobs ({jobs.filter((j) => j.isJobActive).length})
+                </button>
+                <button
+                    className={`tab ${activeTab === "inactive" ? "tab-active" : ""}`}
+                    onClick={() => setActiveTab("inactive")}
+                >
+                    Inactive Jobs ({jobs.filter((j) => !j.isJobActive).length})
+                </button>
+            </div>
+
+          
+            <div className="mt-6">
+                {loading ? (
+                    <div className="text-center py-10">Loading jobs...</div>
+                ) : displayedJobs.length === 0 ? (
+                    <div className="text-center py-10 text-gray-500">No jobs found.</div>
+                ) : (
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                        {displayedJobs.map((job) => (
+                            <JobCard
+                                key={job._id}
+                                job={job}
+                                currentUser={currentUser}
+                                isRecruiterVerified={isRecruiterVerified}
+                                onEdit={setOpenEditJob}
+                                onDelete={setOpenDeleteJob}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            {openAdd && (
+                <AddJobModal
+                    form={form}
+                    setForm={setForm}
+                    onClose={() => setOpenAdd(false)}
+                    onSubmit={handleAddJob}
+                />
+            )}
+
+            {openEditJob && (
+                <EditJobModal
+                    form={form}
+                    setForm={setForm}
+                    onClose={() => {
+                        setOpenEditJob(null);
+                        resetForm();
+                    }}
+                    onSubmit={handleEditJob}
+                />
+            )}
+
+            {openDeleteJob && (
+                <DeleteJobModal
+                    onClose={() => setOpenDeleteJob(null)}
+                    onConfirm={handleDeleteJob}
+                />
+            )}
+        </div>
+    );
+}
+
