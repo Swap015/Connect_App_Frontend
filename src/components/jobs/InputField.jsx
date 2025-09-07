@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { toast } from "react-toastify";
 
-export default function InputField({ tags, setTags, placeholder = "Add tag and press Enter" }) {
+export default function InputField({ tags = [], setTags, placeholder = "Add and press Enter" }) {
     const [value, setValue] = useState("");
 
     const addTag = (tag) => {
         const trimmed = tag.trim();
         if (!trimmed) return;
-        if (tags.includes(trimmed)) {
-            toast.info("Tag already added");
-            return;
-        }
+        if (tags.includes(trimmed)) return;
         setTags([...tags, trimmed]);
         setValue("");
+    };
+
+    const removeTag = (tag) => {
+        setTags(tags.filter((t) => t !== tag));
     };
 
     const onKeyDown = (e) => {
@@ -29,27 +29,30 @@ export default function InputField({ tags, setTags, placeholder = "Add tag and p
         <div>
             <div className="flex gap-2 flex-wrap">
                 {tags.map((t, i) => (
-                    <span key={i} className="badge badge-outline flex items-center gap-2">
-                        {t}
+                    <span
+                        key={i}
+                        className="inline-flex items-center gap-1 max-w-[16rem] bg-[#2c2c2c] text-white rounded-full px-3 py-1 text-sm truncate"
+                        title={t} 
+                    >
+                        <span className="truncate">{t}</span>
                         <button
                             type="button"
-                            onClick={() => setTags(tags.filter((x) => x !== t))}
-                            className="btn btn-xs btn-ghost p-0 ml-2"
-                            aria-label={`remove ${t}`}
+                            onClick={() => removeTag(t)}
+                            className="ml-1 text-red-400 hover:text-red-600"
                         >
-                            <FaTimes />
+                            <FaTimes size={12} />
                         </button>
                     </span>
                 ))}
             </div>
+
             <input
                 value={value}
                 placeholder={placeholder}
                 onChange={(e) => setValue(e.target.value)}
                 onKeyDown={onKeyDown}
-                className="input input-bordered input-sm w-full mt-2"
+                className="input input-bordered border-black w-full mt-2 bg-gray-200 text-black"
             />
-            <p className="text-xs text-gray-400 mt-1">Press Enter to add tag</p>
         </div>
     );
 }
