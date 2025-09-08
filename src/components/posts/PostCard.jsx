@@ -4,12 +4,14 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import EditPostModal from "./EditPostModal.jsx";
 import api from "../../api/axios.js";
+import CommentSection from "../comments/CommentSection.jsx"
 
 const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onEdit }) => {
     const [zoomedImg, setZoomedImg] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [saved, setSaved] = useState(currentUser?.savedPosts?.includes(post._id));
+    const [showComments, setShowComments] = useState(false);
 
     const isOwner = currentUser?._id === post.postedBy?._id;
 
@@ -55,7 +57,7 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
             <div className="flex items-center justify-between ">
                 <div className="flex items-center gap-3 ">
                     <img
-                        src={post.postedBy?.profileImage || "/default-avatar.png"}
+                        src={post.postedBy?.profileImage}
                         alt="user"
                         className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover border"
                     />
@@ -105,7 +107,7 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
                         swipeable
                         dynamicHeight
                         showIndicators={post.file.length > 1}
-                        
+
                     >
                         {post.file.map((file, idx) => {
                             const type = getFileType(file);
@@ -134,7 +136,7 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
                 <button onClick={() => handleLike(post._id)} className={`flex text-sm lg:text-base items-center gap-2 ${liked ? "text-orange-500" : ""}`}>
                     {liked ? <FaThumbsUp /> : <FaRegThumbsUp />} {post.likesCount || post.likes?.length || 0}
                 </button>
-                <button className="flex items-center gap-2 text-sm lg:text-base">
+                <button onClick={() => setShowComments(!showComments)} className="flex items-center gap-2 text-sm lg:text-base">
                     <FaRegCommentDots /> {post.comments?.length || 0}
                 </button>
                 <button onClick={handleSave} className={`flex items-center text-sm lg:text-base gap-2 ${saved ? "text-red-500" : ""}`}>
@@ -163,6 +165,10 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
                         setEditModalOpen(false);
                     }}
                 />
+            )}
+            {/*comment section */}
+            {showComments && (
+                <CommentSection postId={post._id} currentUser={currentUser} />
             )}
         </div>
     );

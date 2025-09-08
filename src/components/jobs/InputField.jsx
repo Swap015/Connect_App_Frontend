@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
-export default function InputField({ tags = [], setTags, placeholder = "Add and press Enter" }) {
+export default function InputField({
+    tags = [],
+    setTags,
+    placeholder = "Add and press Enter",
+}) {
     const [value, setValue] = useState("");
 
     const addTag = (tag) => {
@@ -26,13 +30,14 @@ export default function InputField({ tags = [], setTags, placeholder = "Add and 
     };
 
     return (
-        <div>
+        <div className="w-full">
+            {/* Tags section */}
             <div className="flex gap-2 flex-wrap">
                 {tags.map((t, i) => (
                     <span
                         key={i}
-                        className="inline-flex items-center gap-1 max-w-[16rem] bg-[#2c2c2c] text-white rounded-full px-3 py-1 text-sm truncate"
-                        title={t} 
+                        className="inline-flex items-center gap-1 max-w-[8rem] sm:max-w-[12rem] md:max-w-[16rem] bg-[#2c2c2c] text-white rounded-full px-2 sm:px-3 py-1 text-xs sm:text-sm truncate"
+                        title={t}
                     >
                         <span className="truncate">{t}</span>
                         <button
@@ -46,12 +51,13 @@ export default function InputField({ tags = [], setTags, placeholder = "Add and 
                 ))}
             </div>
 
+            {/* Input box */}
             <input
                 value={value}
                 placeholder={placeholder}
                 onChange={(e) => setValue(e.target.value)}
                 onKeyDown={onKeyDown}
-                className="input input-bordered border-black w-full mt-2 bg-gray-200 text-black"
+                className="input input-bordered border-black w-full mt-2 bg-gray-200 text-black text-sm sm:text-base"
             />
         </div>
     );
