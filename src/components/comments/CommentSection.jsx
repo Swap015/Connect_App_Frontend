@@ -38,7 +38,7 @@ const CommentSection = ({ postId, currentUser }) => {
             const query = lastWord.slice(1); // remove @
             if (query.length > 1) {
                 try {
-                    const res = await api.get(`/users/mentionSearch?q=${query}`);
+                    const res = await api.get(`/user/mentionSearch?q=${query}`);
                     setSearchResults(res.data.users);
                     setShowDropdown(true);
                 } catch (err) {
@@ -53,9 +53,10 @@ const CommentSection = ({ postId, currentUser }) => {
     };
 
     const handleSelectUser = (user) => {
-        const words = newComment.split(" ");
-        words[words.length - 1] = `@${user.name}`;
-        setNewComment(words.join(" "));
+        const cursorPos = newComment.lastIndexOf("@");
+        const beforeAt = newComment.substring(0, cursorPos); // text before @
+        const afterAt = `@${user.name} `; // insert selected mention + space
+        setNewComment(beforeAt + afterAt);
         setShowDropdown(false);
     };
 
@@ -143,26 +144,20 @@ const CommentSection = ({ postId, currentUser }) => {
                 {/* mention dropdown */}
                 {showDropdown && (
                     <div className="absolute top-10 left-0 border bg-white shadow-md rounded w-64 max-h-40 overflow-y-auto z-50">
-                        {searchResults.length > 0 ? (
-                            searchResults.map((u) => (
-                                <div
-                                    key={u._id}
-                                    onClick={() => handleSelectUser(u)}
-                                    className="px-3 py-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2"
-                                >
-                                    <img
-                                        src={u.profileImage || "/default-avatar.png"}
-                                        alt={u.name}
-                                        className="w-6 h-6 rounded-full"
-                                    />
-                                    <span>{u.name}</span>
-                                </div>
-                            ))
-                        ) : (
-                            <p className="px-3 py-2 text-gray-500 text-sm">
-                                No users found
-                            </p>
-                        )}
+                        {searchResults.map((u) => (
+                            <div
+                                key={u._id}
+                                onClick={() => handleSelectUser(u)}
+                                className="px-3 py-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2"
+                            >
+                                <img
+                                    src={u.profileImage || "/default-avatar.png"}
+                                    alt={u.name}
+                                    className="w-6 h-6 rounded-full"
+                                />
+                                <span>{u.name}</span>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>

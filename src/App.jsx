@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./styles/toast.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-
 import Footer from "./components/footer";
 import Header from "./components/header";
 import About from "./pages/static-pages/About";
@@ -21,6 +21,7 @@ import NotificationsPage from "./pages/dynamic-pages/Notification.jsx";
 import Messages from "./pages/dynamic-pages/Messages.jsx";
 import Connections from "./pages/dynamic-pages/Connections.jsx";
 import JobControl from "./pages/dynamic-pages/JobControl.jsx";
+import JobApplications from "./pages/dynamic-pages/JobApplications.jsx";
 
 function App() {
   return (
@@ -28,7 +29,6 @@ function App() {
       <div className="flex flex-col min-h-screen">
         {/* Header */}
         <Header />
-
 
 
         {/* Pages  */}
@@ -50,6 +50,7 @@ function App() {
             <Route path="/messages" element={< Messages />} />
             <Route path="/connections" element={< Connections />} />
             <Route path="/jobsControl" element={< JobControl />} />
+            <Route path="/jobApplications" element={< JobApplications />} />
 
 
           </Routes>
@@ -58,13 +59,16 @@ function App() {
             autoClose={2000}
             hideProgressBar={false}
             newestOnTop={false}
-            closeOnClick={false}
+            closeOnClick
             rtl={false}
-            pauseOnFocusLoss
+            pauseOnFocusLoss={false}
+            pauseOnHover={false} 
             draggable
-            pauseOnHover
             theme="light"
             transition={Bounce}
+            toastClassName="custom-toast"
+            bodyClassName="custom-toast-body"
+            progressClassName="custom-progress"
           />
         </main>
 

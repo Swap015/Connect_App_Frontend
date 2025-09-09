@@ -181,7 +181,7 @@ const Connections = () => {
                                         <img
                                             src={req.user.profileImage}
                                             alt={req.user.name}
-                                            className="w-12 h-12 lg:w-14 lg:h-14 rounded-4full ring-2 ring-orange-400"
+                                            className="w-12 h-12 lg:w-14 lg:h-14 rounded-full ring-2 ring-orange-400"
                                         />
                                         <div>
                                             <h4 className="text-sm sm:text-base  font-semibold text-gray-800">
@@ -258,7 +258,7 @@ const Connections = () => {
                                 .map((u) => (
                                     <div
                                         key={u._id}
-                                        className="bg-white border border-gray-200 rounded-lg p-5 shadow-md transition text-center  flex flex-col items-center " 
+                                        className="bg-white border border-gray-200 rounded-lg p-5 shadow-md transition text-center  flex flex-col items-center "
                                     >
                                         <img
                                             src={u.profileImage}
