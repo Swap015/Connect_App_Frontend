@@ -1,4 +1,4 @@
-// components/jobs/ApplicantsList.jsx
+
 import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 
@@ -11,8 +11,7 @@ const ApplicantsList = ({ jobId }) => {
     const fetchApplicants = async () => {
         setLoading(true);
         try {
-            const res = await api.get(`/jobs/getApplicants/${jobId}`, { withCredentials: true });
-            // backend returns { applicants }
+            const res = await api.get(`/jobs/getApplicants/${jobId}`);
             setApplicants(res.data.applicants || []);
         } catch (err) {
             console.error(err);

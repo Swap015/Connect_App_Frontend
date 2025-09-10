@@ -22,6 +22,7 @@ import Messages from "./pages/dynamic-pages/Messages.jsx";
 import Connections from "./pages/dynamic-pages/Connections.jsx";
 import JobControl from "./pages/dynamic-pages/JobControl.jsx";
 import JobApplications from "./pages/dynamic-pages/JobApplications.jsx";
+import Jobs from "./pages/dynamic-pages/Jobs.jsx";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="/connections" element={< Connections />} />
             <Route path="/jobsControl" element={< JobControl />} />
             <Route path="/jobApplications" element={< JobApplications />} />
+            <Route path="/jobs" element={< Jobs  />} />
 
 
           </Routes>
@@ -62,7 +64,7 @@ function App() {
             closeOnClick
             rtl={false}
             pauseOnFocusLoss={false}
-            pauseOnHover={false} 
+            pauseOnHover={false}
             draggable
             theme="light"
             transition={Bounce}

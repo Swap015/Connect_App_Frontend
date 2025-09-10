@@ -1,4 +1,4 @@
-// components/jobs/MyApplications.jsx
+
 import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 
@@ -30,7 +30,7 @@ const MyApplications = () => {
     const handleDelete = async (id) => {
         if (!confirm("Delete this application?")) return;
         try {
-            await api.delete(`/jobs/delete/${id}`, { withCredentials: true });
+            await api.delete(`/jobs/delete/${id}`);
             setApplications((s) => s.filter((a) => a._id !== id));
             alert("Deleted");
         } catch (err) {

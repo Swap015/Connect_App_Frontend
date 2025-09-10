@@ -59,7 +59,7 @@ export default function JobCard({ job, isRecruiterVerified, currentUser, onEdit,
                     <div className="flex flex-wrap gap-2 mt-1 text-base lg:text-lg ">
                         <span className="badge text-xs sm:text-sm lg:text-base  bg-blue-100 text-blue-800">{job.jobType}</span>
                         <span className="badge text-xs sm:text-sm lg:text-base  bg-gray-100 text-gray-800 flex items-center gap-1">
-                            <FaUsers /> {job.applicantsCount || 0} Applicants
+                            <FaUsers /> {job.applications.length || 0} Applicants
                         </span>
                     </div>
 

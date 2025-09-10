@@ -1,4 +1,4 @@
-// components/jobs/ApplyJobForm.jsx
+
 import { useState } from "react";
 import api from "../../api/axios.js";
 
@@ -26,8 +26,7 @@ const ApplyJobForm = ({ jobId, jobTitle, onApplied }) => {
             formData.append("resume", resumeFile);
 
             const res = await api.post("/jobs/apply", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" }
             });
 
             alert(res.data?.msg || "Applied successfully");
