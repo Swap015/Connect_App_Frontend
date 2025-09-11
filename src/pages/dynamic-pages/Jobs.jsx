@@ -10,6 +10,11 @@ import {
     FaUsers,
 } from "react-icons/fa";
 import api from "../../api/axios.js";
+import MyApplicationsModal from "../../components/jobApplication/MyApplications.jsx";
+import EditApplicationModal from "../../components/jobApplication/EditModal.jsx";
+import DeleteApplicationModal from "../../components/jobApplication/DeleteModal.jsx";
+import { toast } from "react-toastify";
+
 
 const Jobs = () => {
     const [jobs, setJobs] = useState([]);
@@ -17,6 +22,13 @@ const Jobs = () => {
     const [selectedJob, setSelectedJob] = useState(null);
     const [applyJob, setApplyJob] = useState(null);
     const [user, setUser] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
+
+    //applications
+    const [myApplications, setMyApplications] = useState([]);
+    const [showMyApps, setShowMyApps] = useState(false);
+    const [editApp, setEditApp] = useState(null);
+    const [deleteApp, setDeleteApp] = useState(null);
 
     useEffect(() => {
         fetchJobs();
@@ -27,8 +39,8 @@ const Jobs = () => {
         try {
             const res = await api.get("/job");
             setJobs(res.data.jobs);
-        } catch (err) {
-            console.error("Failed to fetch jobs", err);
+        } catch {
+            toast.error("Failed to load jobs!");
         } finally {
             setLoading(false);
         }
@@ -40,38 +52,68 @@ const Jobs = () => {
             setUser(res.data.user);
         } catch (err) {
             console.error("Failed to fetch current user", err);
+            toast.error("Failed to load user info!");
         }
     };
 
-   
+    const fetchMyApplications = async () => {
+        try {
+            const res = await api.get("/applications/userApplications");
+            setMyApplications(res.data.applications);
+        } catch (err) {
+            console.error("Failed to fetch my applications", err);
+
+        }
+    };
+
     const handleApplySubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
-        formData.append("jobId", applyJob._id);
 
         try {
-            await api.post("/applications/apply", formData, {
+            setSubmitting(true);
+
+            await api.post(`/applications/apply/${applyJob._id}`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
             await fetchJobs();
-
-            setApplyJob(null); 
-            alert("Application submitted successfully!");
+            setApplyJob(null);
+            toast.success("Application submitted successfully!");
         } catch (err) {
             console.error("Failed to apply", err);
-            alert(err.response?.data?.msg || "Something went wrong");
+            toast.error(err.response?.data?.msg || "Something went wrong");
+        }
+        finally {
+            setSubmitting(false);
         }
     };
 
     return (
-        <div className="p-6 max-w-7xl mx-auto bg-white">
+        <div className="p-6 max-w-7xl mx-auto bg-gradient-to-t from-white to-gray-200">
             <h1 className="text-3xl font-bold mb-8 text-center text-gray-800">
                 Jobs
             </h1>
 
+            {user?.role === "user" && (
+                <div className="text-center mb-6">
+                    <button
+                        onClick={() => {
+                            fetchMyApplications();
+                            setShowMyApps(true);
+                        }}
+                        className="btn btn-outline btn-primary"
+                    >
+                        My Applications
+                    </button>
+                </div>
+            )}
+
+
             {loading ? (
-                <p className="text-center text-gray-500">Loading jobs...</p>
+                <div className="flex justify-center items-center py-10">
+                    <span className="loading loading-spinner loading-lg text-primary"></span>
+                </div>
             ) : jobs.length === 0 ? (
                 <p className="text-center text-gray-500">
                     No jobs available right now.
@@ -82,10 +124,10 @@ const Jobs = () => {
                         <div
                             key={job._id}
                             onClick={(e) => {
-                                
+                                     
                                 if (e.target.tagName !== "BUTTON") setSelectedJob(job);
                             }}
-                            className="bg-white shadow-md border rounded-lg p-5 hover:shadow-lg transition cursor-pointer"
+                            className="bg-white shadow-sm border rounded-lg p-5 shadow-blue-700 "
                         >
                             <h2 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
                                 <FaBriefcase className="text-blue-500" /> {job.title}
@@ -243,14 +285,45 @@ const Jobs = () => {
                                 >
                                     Cancel
                                 </button>
-                                <button type="submit" className="btn btn-primary">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary" >
                                     Submit Application
+                                    {submitting && (
+                                        <span className="loading loading-spinner loading-sm"></span>
+                                    )}
                                 </button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
+
+            {showMyApps && (
+                <MyApplicationsModal
+                    applications={myApplications}
+                    onClose={() => setShowMyApps(false)}
+                    onEdit={(app) => setEditApp(app)}
+                    onDelete={(app) => setDeleteApp(app)}
+                />
+            )}
+
+            {editApp && (
+                <EditApplicationModal
+                    application={editApp}
+                    onClose={() => setEditApp(null)}
+                    onUpdated={fetchMyApplications}
+                />
+            )}
+
+            {deleteApp && (
+                <DeleteApplicationModal
+                    application={deleteApp}
+                    onClose={() => setDeleteApp(null)}
+                    onDeleted={fetchMyApplications}
+                />
+            )}
+
         </div>
     );
 };

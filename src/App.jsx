@@ -21,7 +21,6 @@ import NotificationsPage from "./pages/dynamic-pages/Notification.jsx";
 import Messages from "./pages/dynamic-pages/Messages.jsx";
 import Connections from "./pages/dynamic-pages/Connections.jsx";
 import JobControl from "./pages/dynamic-pages/JobControl.jsx";
-import JobApplications from "./pages/dynamic-pages/JobApplications.jsx";
 import Jobs from "./pages/dynamic-pages/Jobs.jsx";
 
 function App() {
@@ -51,7 +50,7 @@ function App() {
             <Route path="/messages" element={< Messages />} />
             <Route path="/connections" element={< Connections />} />
             <Route path="/jobsControl" element={< JobControl />} />
-            <Route path="/jobApplications" element={< JobApplications />} />
+           
             <Route path="/jobs" element={< Jobs  />} />
 
 

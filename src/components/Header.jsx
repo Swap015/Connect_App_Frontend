@@ -27,7 +27,7 @@ const Header = () => {
                     <li onClick={() => navigate("/")}><a className="flex items-center gap-2" ><FaHome /> Home</a></li>
                     <li onClick={() => navigate("/connections")} ><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
                     <li onClick={() => navigate("/messages")}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
-                    <li><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
+                    <li onClick={() => navigate("/jobs")}><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
                     <li onClick={() => navigate("/notifications")}><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
                     <li onClick={() => navigate("/editProfile")}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
                 </ul>
@@ -73,7 +73,7 @@ const Header = () => {
                         <AiFillMessage className="text-xl" />
                         <span className="text-xs font-bold">Messages</span>
                     </li>
-                    <li className="flex flex-col items-center cursor-pointer hover:text-white">
+                    <li onClick={() => navigate("/jobs")} className="flex flex-col items-center cursor-pointer hover:text-white">
                         <FaBriefcase className="text-xl" />
                         <span className="text-xs font-bold">Jobs</span>
                     </li>
