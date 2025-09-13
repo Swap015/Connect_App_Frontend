@@ -17,9 +17,9 @@ import { toast } from "react-toastify";
 
 
 const Jobs = () => {
+    const [selectedJob, setSelectedJob] = useState(null);
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedJob, setSelectedJob] = useState(null);
     const [applyJob, setApplyJob] = useState(null);
     const [user, setUser] = useState(null);
     const [submitting, setSubmitting] = useState(false);
@@ -63,6 +63,20 @@ const Jobs = () => {
         } catch (err) {
             console.error("Failed to fetch my applications", err);
 
+        }
+    };
+
+    const refreshEditApplication = async (applicationId) => {
+        try {
+            const res = await api.get("/applications/userApplications");
+            setMyApplications(res.data.applications);
+
+
+            const updated = res.data.applications.find(app => app._id === applicationId);
+            if (updated) setEditApp(updated);
+        } catch (err) {
+            console.error("Failed to refresh applications", err);
+            toast.error("Could not refresh applications");
         }
     };
 
@@ -124,7 +138,7 @@ const Jobs = () => {
                         <div
                             key={job._id}
                             onClick={(e) => {
-                                     
+
                                 if (e.target.tagName !== "BUTTON") setSelectedJob(job);
                             }}
                             className="bg-white shadow-sm border rounded-lg p-5 shadow-blue-700 "
@@ -274,7 +288,7 @@ const Jobs = () => {
                             <input
                                 type="file"
                                 name="resume"
-                                accept=".pdf,.doc,.docx"
+                                accept=".pdf"
                                 className="file-input file-input-bordered w-full"
                             />
                             <div className="flex justify-end gap-3">
@@ -290,7 +304,7 @@ const Jobs = () => {
                                     className="btn btn-primary" >
                                     Submit Application
                                     {submitting && (
-                                        <span className="loading loading-spinner loading-sm"></span>
+                                        <span className="loading loading-spinner loading-sm" />
                                     )}
                                 </button>
                             </div>
@@ -312,8 +326,8 @@ const Jobs = () => {
                 <EditApplicationModal
                     application={editApp}
                     onClose={() => setEditApp(null)}
-                    onUpdated={fetchMyApplications}
-                />
+                    onUpdated={() => refreshEditApplication(editApp._id)
+                    } />
             )}
 
             {deleteApp && (
