@@ -1,43 +1,49 @@
 import { useState, useEffect } from "react";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaFilePdf } from "react-icons/fa";
 import api from "../../api/axios.js";
 import { toast } from "react-toastify";
 
 const EditApplicationModal = ({ application, onClose, onUpdated }) => {
     const [coverLetter, setCoverLetter] = useState(application.coverLetter || "");
-    const [resumeUrl, setResumeUrl] = useState(application.resumeUrl || null);
-    const [newResume, setNewResume] = useState(null);
+    const [resumeFile, setResumeFile] = useState(null); // stores File object for new upload
+    const [resumeName, setResumeName] = useState(""); // stores display name
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        setResumeUrl(application.resumeUrl || null);
-        setNewResume(null);
-    }, [application]);
+        setCoverLetter(application.coverLetter || "");
+        setResumeFile(null);
 
-    const getPreviewUrl = (url) => {
-        if (!url) return null;
-        return url.includes("/upload/") ? url.replace("/upload/", "/upload/fl_inline/") : url;
-    };
+        // If there’s already a resume, store its original name for display
+        if (application.resumeName) {
+            setResumeName(application.resumeName);
+        } else if (application.resumeUrl) {
+            // fallback: extract filename from URL
+            const parts = application.resumeUrl.split("/");
+            setResumeName(parts[parts.length - 1]);
+        } else {
+            setResumeName("");
+        }
+    }, [application]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setNewResume(file);
-            setResumeUrl(URL.createObjectURL(file));
+            setResumeFile(file);
+            setResumeName(file.name); // show the actual file name
         }
     };
 
     const handleRemoveResume = () => {
-        setResumeUrl(null);
-        setNewResume(null);
+        setResumeFile(null);
+        setResumeName("");
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("coverLetter", coverLetter);
-        if (newResume) {
-            formData.append("resume", newResume);
+        if (resumeFile) {
+            formData.append("resume", resumeFile);
         }
 
         try {
@@ -77,27 +83,25 @@ const EditApplicationModal = ({ application, onClose, onUpdated }) => {
                         onChange={(e) => setCoverLetter(e.target.value)}
                     />
 
-                    {/* resume preview */}
-                    {resumeUrl && (
-                        <div className="border p-3 rounded relative">
-
+                    {/* PDF icon with original file name */}
+                    {resumeName && (
+                        <div className="flex items-center justify-between border p-3 rounded">
+                            <div className="flex items-center gap-2">
+                                <FaFilePdf className="text-red-500" />
+                                <span className="truncate max-w-xs">{resumeName}</span>
+                            </div>
                             <button
                                 type="button"
-                                className="absolute top-2 right-2 btn btn-xs btn-circle btn-error text-white"
+                                className="btn btn-xs btn-circle btn-error text-white"
                                 onClick={handleRemoveResume}
                             >
-                                <FaTimes size={14} />
+                                <FaTimes size={12} />
                             </button>
-
-                            <iframe
-                                src={resumeUrl.startsWith("blob:") ? resumeUrl : getPreviewUrl(resumeUrl)}
-                                className="w-full h-64 border rounded"
-                                title="Resume Preview"
-                            />
                         </div>
                     )}
 
-                    {!resumeUrl && (
+                    {/* File input if no file */}
+                    {!resumeName && (
                         <input
                             type="file"
                             accept=".pdf"
@@ -110,12 +114,11 @@ const EditApplicationModal = ({ application, onClose, onUpdated }) => {
                         <button type="button" className="btn" onClick={onClose}>
                             Cancel
                         </button>
-                        <button type="submit" className="btn btn-primary" >
+                        <button type="submit" className="btn btn-primary">
                             {loading ? (
                                 <span className="flex items-center gap-2">
                                     Saving
                                     <span className="loading loading-spinner loading-sm"></span>
-
                                 </span>
                             ) : (
                                 "Save Changes"

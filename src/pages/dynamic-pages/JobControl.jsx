@@ -26,6 +26,7 @@ export default function JobControl() {
     const [openEditJob, setOpenEditJob] = useState(null);
     const [openDeleteJob, setOpenDeleteJob] = useState(null);
 
+    
 
     const initialForm = {
         title: "",
@@ -258,7 +259,9 @@ export default function JobControl() {
                                 isRecruiterVerified={isRecruiterVerified}
                                 onEdit={setOpenEditJob}
                                 onDelete={setOpenDeleteJob}
+                                
                             />
+
                         ))}
                     </div>
                 )}
@@ -292,6 +295,8 @@ export default function JobControl() {
                     onConfirm={handleDeleteJob}
                 />
             )}
+
+           
         </div>
     );
 }

@@ -22,6 +22,8 @@ import Messages from "./pages/dynamic-pages/Messages.jsx";
 import Connections from "./pages/dynamic-pages/Connections.jsx";
 import JobControl from "./pages/dynamic-pages/JobControl.jsx";
 import Jobs from "./pages/dynamic-pages/Jobs.jsx";
+import Post from "./pages/dynamic-pages/Post.jsx";
+import Profile from "./pages/dynamic-pages/Profile.jsx";
 
 function App() {
   return (
@@ -32,7 +34,7 @@ function App() {
 
 
         {/* Pages  */}
-        <main className="flex-grow">
+        <main className="flex-grow bg-gray-50">
           <Routes>
 
             <Route path="/about" element={<About />} />
@@ -50,8 +52,9 @@ function App() {
             <Route path="/messages" element={< Messages />} />
             <Route path="/connections" element={< Connections />} />
             <Route path="/jobsControl" element={< JobControl />} />
-           
-            <Route path="/jobs" element={< Jobs  />} />
+            <Route path="/jobs" element={< Jobs />} />
+            <Route path="/post/:id" element={< Post />} />
+            <Route path="/profile/:id" element={< Profile />} />
 
 
           </Routes>
