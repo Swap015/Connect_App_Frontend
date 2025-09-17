@@ -98,7 +98,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="What's on your mind?"
-                        className="w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/70"
+                        className="w-full p-3 border rounded-lg text-gray-800 resize-none focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/70"
                         rows={4}
                     />
 

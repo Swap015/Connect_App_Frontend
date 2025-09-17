@@ -5,8 +5,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import EditPostModal from "./EditPostModal.jsx";
 import api from "../../api/axios.js";
 import CommentSection from "../comments/CommentSection.jsx"
+import { format } from "date-fns";
 
-const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onEdit }) => {
+
+const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) => {
     const [zoomedImg, setZoomedImg] = useState(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
@@ -63,7 +65,10 @@ const PostCard = ({ post, currentUser, timeAgo, liked, handleLike, onDelete, onE
                     />
                     <div>
                         <h4 className="font-semibold text-xs lg:text-sm 3xl:text-base text-gray-800">{post.postedBy?.name}</h4>
-                        <p className="text-xs text-gray-500 ">{timeAgo(post.createdAt)}</p>
+                        <p className="text-xs text-gray-500 ">
+                            {format(new Date(post.createdAt), "d MMM yyyy")}
+                        </p>
+
                     </div>
                 </div>
 

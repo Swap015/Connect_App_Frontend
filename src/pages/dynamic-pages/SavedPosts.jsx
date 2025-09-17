@@ -79,7 +79,6 @@ const SavedPosts = () => {
                                         </h3>
                                     </div>
 
-                                    {/* unsave button */}
                                     <button
                                         onClick={() => handleUnsave(post._id)}
                                         className="flex items-center justify-center gap-2 px-3 py-2 bg-red-500 rounded-md text-white text-sm hover:bg-red-600 transition"

@@ -50,12 +50,7 @@ const EditProfile = () => {
                     companyName: res.data.user.companyName || "",
                     positionAtCompany: res.data.user.positionAtCompany || "",
                     skills: res.data.user.skills?.join(", ") || "",
-                    education: {
-                        SSC: res.data.user.education?.SSC || "",
-                        HSC: res.data.user.education?.HSC || "",
-                        diploma: res.data.user.education?.diploma || "",
-                        degree: res.data.user.education?.degree || "",
-                    },
+                    education: res.data.user.education?.[0] || { SSC: "", HSC: "", diploma: "", degree: "" }
                 });
             } catch {
                 toast.error("Failed to fetch user.");
@@ -172,8 +167,10 @@ const EditProfile = () => {
         try {
             await api.put(
                 "/user/updateProfile",
-                { ...form, skills: form.skills.split(",").map((s) => s.trim()) },
-                { withCredentials: true }
+                {
+                    ...form, skills: form.skills.split(",").map((s) => s.trim()),
+                    education: [form.education]
+                }
             );
             toast.success("Profile updated!");
         } catch {
@@ -214,7 +211,7 @@ const EditProfile = () => {
                     />
                     <div className="absolute bottom-[15px] right-[2px] group cursor-pointer">
                         <FaEdit className="text-white bg-black/50 p-1 rounded-full text-lg" />
-                        
+
                         <span className="absolute bottom-full right-0 mb-1 px-2 py-1 text-xs bg-black text-white rounded opacity-0 group-hover:opacity-100 transition">
                             Edit Profile
                         </span>
@@ -224,12 +221,16 @@ const EditProfile = () => {
 
                 <p className="text-center text-xs sm:text-sm 2xl:text-lg ">{user?.name}</p>
                 <ul className="mt-5 space-y-2 text-xs sm:text-sm 2xl:text-lg text-center">
-                    <li className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100 font-medium">
+                    <li className="flex items-center gap-2 p-3 rounded-md cursor-pointer bg-gray-200  font-medium">
                         <FaUser /> Profile Details
                     </li>
-                    <li className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100 font-medium">
+                    <li
+                        className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100 font-medium"
+                        onClick={() => navigate("/myPosts")}
+                    >
                         <BsFillFilePostFill /> Posts
                     </li>
+
                     <li
                         className="flex items-center gap-2 p-3 rounded-md cursor-pointer hover:bg-gray-100  font-medium"
                         onClick={handleLogout}
@@ -312,8 +313,6 @@ const EditProfile = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
                     <div className="bg-white p-4 lg:py-6 rounded-xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg relative animate-fadeIn">
-
-                        {/* close Btn */}
 
                         <button
                             onClick={() => {

@@ -43,7 +43,6 @@ const Messages = () => {
                 />
             </div>
 
-            {/* Chat Window */}
             <div
                 className={`${selectedConversation ? "block" : "hidden sm:block"
                     } flex-1 flex flex-col`}

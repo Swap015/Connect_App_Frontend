@@ -104,7 +104,6 @@ const SignUp = () => {
                                 />
                             </div>
 
-                            {/* password */}
                             <div className="relative sm:text-sm md:text-md">
                                 <FaLock className="absolute left-3 top-3 text-black" />
                                 <input
@@ -149,7 +148,7 @@ const SignUp = () => {
                                 </div>
                             </div>
 
-                            {/* gender */}
+
                             <div>
                                 <label className="block mb-2 text-black sm:text-lg  font-bold">Gender</label>
                                 <div className="grid grid-cols-3 gap-4 text-xs">
@@ -181,7 +180,6 @@ const SignUp = () => {
                             </div>
 
 
-                            {/* submit */}
                             <button
                                 type="submit"
                                 disabled={loading}
@@ -196,7 +194,6 @@ const SignUp = () => {
                             </button>
                         </form>
 
-                        {/* already account */}
                         <p className="text-black text-center mt-4 sm:text-lg">
                             Already have an account?{" "}
                             <a href="/login" className="text-orange-500 font-semibold hover:underline ">
@@ -204,7 +201,6 @@ const SignUp = () => {
                             </a>
                         </p>
 
-                        {/* success/error message */}
                         {message && (
                             <p
                                 className={`mt-3 text-center py-2 rounded text-sm ${message.includes("successful")

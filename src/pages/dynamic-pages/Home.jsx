@@ -13,24 +13,6 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-
-    // time 
-    const timeAgo = (date) => {
-        const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-        let interval = seconds / 31536000;
-        if (interval > 1) return Math.floor(interval) + "y";
-        interval = seconds / 2592000;
-        if (interval > 1) return Math.floor(interval) + "mo";
-        interval = seconds / 86400;
-        if (interval > 1) return Math.floor(interval) + "d";
-        interval = seconds / 3600;
-        if (interval > 1) return Math.floor(interval) + "h";
-        interval = seconds / 60;
-        if (interval > 1) return Math.floor(interval) + "m";
-        return Math.floor(seconds) + "s";
-    };
-
-    //  logged-in user
     const fetchUser = async () => {
         try {
             const res = await api.get("/user/me", {
@@ -63,7 +45,6 @@ const Home = () => {
     }, [user]);
 
 
-    // like post
     const handleLike = async (postId) => {
         try {
             const res = await api.patch(`/post/likePost/${postId}`, {});
@@ -154,7 +135,6 @@ const Home = () => {
                                 post={post}
                                 currentUser={user}        
 
-                                timeAgo={timeAgo}
                                 liked={likedPosts.has(post._id)}
                                 handleLike={handleLike}
                                 onDelete={(postId) => setPosts(prev => prev.filter(p => p._id !== postId))}

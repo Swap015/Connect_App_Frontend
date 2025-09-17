@@ -110,14 +110,14 @@ const Post = () => {
                     <p className="font-semibold">{post.postedBy?.name}</p>
                     <p className="text-sm text-gray-500">{post.postedBy?.headline}</p>
                     <p className="text-xs text-gray-400">
-                        {format(new Date(post.createdAt), "d MMM yyyy")}
+                        {post.createdAt && format(new Date(post.createdAt), "d MMM yyyy")}
                     </p>
                 </div>
             </div>
 
             <p className="text-gray-800 mb-3 leading-relaxed">{post.content}</p>
 
-            {post.file?.length > 0 && (
+            {Array.isArray(post.file) && post.file.length > 0 && (
                 <div className="flex justify-center mb-3">
                     <img
                         src={post.file[0]}
@@ -204,7 +204,8 @@ const Post = () => {
                                 </p>
                                 <p className="text-gray-700 text-sm">{c.text}</p>
                                 <p className="text-xs text-gray-400 mt-1">
-                                    {format(new Date(c.createdAt), "d MMM yyyy, h:mm a")}
+                                    {c.createdAt && format(new Date(c.createdAt), "d MMM yyyy, h:mm a")}
+
                                 </p>
                             </div>
                         </div>

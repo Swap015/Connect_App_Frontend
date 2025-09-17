@@ -85,14 +85,7 @@ export default function JobCard({
                                             <FaTrash /> Delete
                                         </button>
                                     </li>
-                                    <li>
-                                        <button
-                                            onClick={fetchApplicants}
-                                            className="flex items-center gap-2 text-green-600 hover:bg-gray-200"
-                                        >
-                                            View Applicants
-                                        </button>
-                                    </li>
+                                    
                                 </ul>
                             </div>
                         )}

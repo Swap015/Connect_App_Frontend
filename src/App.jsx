@@ -24,6 +24,7 @@ import JobControl from "./pages/dynamic-pages/JobControl.jsx";
 import Jobs from "./pages/dynamic-pages/Jobs.jsx";
 import Post from "./pages/dynamic-pages/Post.jsx";
 import Profile from "./pages/dynamic-pages/Profile.jsx";
+import MyPosts from "./components/posts/MyPosts.jsx";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
             <Route path="/jobs" element={< Jobs />} />
             <Route path="/post/:id" element={< Post />} />
             <Route path="/profile/:id" element={< Profile />} />
+            <Route path="/myPosts" element={< MyPosts />} />
 
 
           </Routes>

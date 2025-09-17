@@ -1,24 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { FaUserCircle } from "react-icons/fa";
-
-// format of time
-const formatTimeAgo = (dateString) => {
-    const now = new Date();
-    const visitDate = new Date(dateString);
-    const diff = Math.floor((now - visitDate) / 1000);
-
-    if (diff < 60) return "Just now";
-    if (diff < 3600) return `${Math.floor(diff / 60)} min ago`;
-    if (diff < 86400)
-        return `${Math.floor(diff / 3600)} hour${Math.floor(diff / 3600) > 1 ? "s" : ""
-            } ago`;
-    if (diff < 604800)
-        return `${Math.floor(diff / 86400)} day${Math.floor(diff / 86400) > 1 ? "s" : ""
-            } ago`;
-
-    return visitDate.toLocaleDateString();
-};
+import { format, formatDistanceToNow } from "date-fns";
 
 const ProfileVisitsPage = () => {
     const [visits, setVisits] = useState([]);
@@ -68,7 +51,7 @@ const ProfileVisitsPage = () => {
                                 key={index}
                                 className="relative bg-white/60 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col items-center text-center"
                             >
-                                {/* profile photo */}
+                              
                                 <div className="w-20 h-20 mb-3">
                                     {visit.user?.profileImage ? (
                                         <img
@@ -91,7 +74,8 @@ const ProfileVisitsPage = () => {
 
                                 {/* post time  */}
                                 <span className="absolute top-3 right-3 text-xs font-medium text-white bg-gradient-to-r from-purple-500 to-indigo-500 px-3 py-1 rounded-full shadow-md">
-                                    {formatTimeAgo(visit.visitedAt)}
+                                    {format(new Date(visit.visitedAt), "d MMM yyyy")} ·{" "}
+                                    {formatDistanceToNow(new Date(visit.visitedAt), { addSuffix: true })}
                                 </span>
                             </div>
                         ))}
