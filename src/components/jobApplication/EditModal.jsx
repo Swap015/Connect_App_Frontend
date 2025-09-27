@@ -5,19 +5,19 @@ import { toast } from "react-toastify";
 
 const EditApplicationModal = ({ application, onClose, onUpdated }) => {
     const [coverLetter, setCoverLetter] = useState(application.coverLetter || "");
-    const [resumeFile, setResumeFile] = useState(null); // stores File object for new upload
-    const [resumeName, setResumeName] = useState(""); // stores display name
+    const [resumeFile, setResumeFile] = useState(null); 
+    const [resumeName, setResumeName] = useState(""); 
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setCoverLetter(application.coverLetter || "");
         setResumeFile(null);
 
-        // If there’s already a resume, store its original name for display
+        
         if (application.resumeName) {
             setResumeName(application.resumeName);
         } else if (application.resumeUrl) {
-            // fallback: extract filename from URL
+         
             const parts = application.resumeUrl.split("/");
             setResumeName(parts[parts.length - 1]);
         } else {
@@ -29,7 +29,7 @@ const EditApplicationModal = ({ application, onClose, onUpdated }) => {
         const file = e.target.files[0];
         if (file) {
             setResumeFile(file);
-            setResumeName(file.name); // show the actual file name
+            setResumeName(file.name); 
         }
     };
 
@@ -77,13 +77,12 @@ const EditApplicationModal = ({ application, onClose, onUpdated }) => {
 
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     <textarea
-                        className="textarea textarea-bordered w-full"
+                        className="textarea textarea-bordered w-full bg-[#f1f1f1] text-black border-[#a0a0a0]"
                         rows={4}
                         value={coverLetter}
                         onChange={(e) => setCoverLetter(e.target.value)}
                     />
 
-                    {/* PDF icon with original file name */}
                     {resumeName && (
                         <div className="flex items-center justify-between border p-3 rounded">
                             <div className="flex items-center gap-2">
@@ -100,7 +99,6 @@ const EditApplicationModal = ({ application, onClose, onUpdated }) => {
                         </div>
                     )}
 
-                    {/* File input if no file */}
                     {!resumeName && (
                         <input
                             type="file"

@@ -1,31 +1,42 @@
 import axios from "axios";
 
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 const api = axios.create({
-    baseURL: "http://localhost:7000/api",
+    baseURL: VITE_API_URL,
     withCredentials: true,
 });
 
-// Add interceptor
-api.interceptors.response.use(
-    (response) => response,
-    async (error) => {
-        const originalRequest = error.config;
+// interceptor
+// api.interceptors.response.use(
+//     (response) => response,
+//     async (error) => {
+//         const originalRequest = error.config;
 
-        if (error.response?.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
+//         if (
+//             error.response?.status === 401 &&
+//             !originalRequest._retry &&
+//             !originalRequest.url.includes("/user/login") &&
+//             !originalRequest.url.includes("/user/register")
+//         ) {
+//             originalRequest._retry = true;
 
-            try {
-                await api.post("/user/refresh");
+//             try {
+//                 await axios.post(
+//                     `${import.meta.env.VITE_API_URL}/user/refresh`,
+//                     {},
+//                     { withCredentials: true }
+//                 );
 
-                return api(originalRequest);
-            } catch (err) {
-                console.error("Refresh token failed:", err);
+//                 return api(originalRequest);
+//             } catch (err) {
+//                 console.error("Refresh failed:", err);
+//                 window.location.href = "/login";
+//             }
+//         }
 
-                window.location.href = "/login";
-            }
-        }
-        return Promise.reject(error);
-    }
-);
+//         return Promise.reject(error);
+//     }
+// );
+
 
 export default api;

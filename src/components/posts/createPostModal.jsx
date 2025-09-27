@@ -1,37 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import api from "../../api/axios.js";
 import { FaTimes } from "react-icons/fa";
 import { MdAttachFile } from "react-icons/md";
+import UserContext from "../Context/UserContext.jsx";
+import { toast } from "react-toastify";
 
 const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     const [content, setContent] = useState("");
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState(null);
-
-
-    useEffect(() => {
-        if (isOpen) {
-            const fetchUser = async () => {
-                try {
-                    const res = await api.get("/user/me", { withCredentials: true });
-                    setUser(res.data.user);
-                } catch (err) {
-                    console.error("Failed to fetch user:", err);
-                }
-            };
-            fetchUser();
-        }
-    }, [isOpen]);
+    const { user } = useContext(UserContext);
 
     const handleFileChange = (e) => {
-        const selectedFiles = Array.from(e.target.files);
+        const selectedFiles = Array.from(e.target.files).map(file => ({
+            file,
+            preview: URL.createObjectURL(file)
+        }));
         setFiles([...files, ...selectedFiles]);
     };
 
     const removeFile = (index) => {
+        URL.revokeObjectURL(files[index].preview);
         setFiles(files.filter((_, i) => i !== index));
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -44,7 +36,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             setLoading(true);
             const formData = new FormData();
             formData.append("content", content);
-            files.forEach((file) => formData.append("images", file)); 
+            files.forEach((f) => formData.append("images", f.file));
 
             const res = await api.post(
                 "/post/createPost",
@@ -59,10 +51,11 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             setFiles([]);
             onClose();
             if (onPostCreated) onPostCreated(res.data.post);
+            toast.success("Post created successfully!");
         } catch (err) {
             setLoading(false);
             console.error("Error creating post:", err.response?.data || err);
-            alert("Post creation failed. Try again.");
+            toast.error("Post creation failed. Try again.");
         }
     };
 
@@ -82,7 +75,6 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                     </button>
                 </div>
 
-                {/* user profile pic */}
                 <div className="flex items-center gap-3 mb-3">
                     <img
                         src={user?.profileImage}
@@ -92,7 +84,6 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                     <span className="font-medium text-gray-700">{user?.name || "You"}</span>
                 </div>
 
-                {/* Form */}
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <textarea
                         value={content}
@@ -105,22 +96,15 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                     {/* file preview */}
                     {files.length > 0 && (
                         <div className="flex flex-wrap gap-2">
-                            {files.map((file, index) => (
+                            {files.map((f, index) => (
                                 <div key={index} className="relative">
-                                    <img
-                                        src={URL.createObjectURL(file)}
-                                        alt="preview"
-                                        className="w-20 h-20 object-cover rounded-lg border"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => removeFile(index)}
-                                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs"
-                                    >
+                                    <img src={f.preview} alt="preview" className="w-20 h-20 object-cover rounded-lg border" />
+                                    <button type="button" onClick={() => removeFile(index)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 text-xs">
                                         ✕
                                     </button>
                                 </div>
                             ))}
+
                         </div>
                     )}
 

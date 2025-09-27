@@ -1,4 +1,4 @@
-import api from "../../api/axios.js";
+import axios from "axios";
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
@@ -12,7 +12,8 @@ const SignUp = () => {
     });
 
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState(""); 
+    const [message, setMessage] = useState("");
+    const VITE_API_URL = import.meta.env.VITE_API_URL;
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,7 +25,7 @@ const SignUp = () => {
         setMessage("");
 
         try {
-            const response = await api.post("/user/register",
+            const response = await axios.post(`${VITE_API_URL}/user/register`,
                 formData
             );
 

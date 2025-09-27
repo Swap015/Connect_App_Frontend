@@ -1,8 +1,9 @@
 
-import { useState } from "react";
-import api from "../../api/axios.js";
+import { useContext, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import UserContext from "../../components/Context/UserContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,8 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
+  const { login } = useContext(UserContext);
+  const VITE_API_URL = import.meta.env.VITE_API_URL;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,9 +28,10 @@ const Login = () => {
     setLoading(true);
     setMessage("");
     try {
-      const res = await api.post("/user/login", formData
+      const res = await axios.post(`${VITE_API_URL}/user/login`, formData, { withCredentials: true }
       );
       setMessage(res.data.msg);
+      login(res.data.user);
       navigate("/");
     } catch (err) {
       setMessage(err.response?.data?.msg || "Login failed");
@@ -139,7 +143,6 @@ const Login = () => {
 
         </form>
 
-        {/* Success / Error message */}
         {message && (
           <p
             className={`mt-3 text-center py-2 rounded text-sm ${message.toLowerCase().includes("success")
@@ -151,7 +154,6 @@ const Login = () => {
           </p>
         )}
 
-        {/* dont have account */}
         <p className="text-gray-700 text-center mt-4 text-sm sm:text-base">
           Don’t have an account?{" "}
           <a

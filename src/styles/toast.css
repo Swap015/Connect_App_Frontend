@@ -12,7 +12,7 @@
 
 }
 
-/* Force override Toastify default min-height */
+/* override toast min-height */
 .Toastify__toast {
     min-height:50px !important;
     padding: 7px !important;

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./styles/toast.css";
@@ -25,63 +25,69 @@ import Jobs from "./pages/dynamic-pages/Jobs.jsx";
 import Post from "./pages/dynamic-pages/Post.jsx";
 import Profile from "./pages/dynamic-pages/Profile.jsx";
 import MyPosts from "./components/posts/MyPosts.jsx";
+import AdminDashboard from "./pages/dynamic-pages/admin/AdminDashboard.jsx";
+import NotFound from "./components/NotFound.jsx";
+import { UserProvider } from "./components/Context/UserContext.jsx";
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
-        {/* Header */}
-        <Header />
+    <UserProvider>
+      <BrowserRouter>
+        <div className="flex flex-col min-h-screen">
+          {/* Header */}
+          <Header />
 
+          {/* Pages  */}
+          <main className="flex-grow bg-gray-50">
+            <Routes>
 
-        {/* Pages  */}
-        <main className="flex-grow bg-gray-50">
-          <Routes>
+              <Route path="/about" element={<About />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/savedPosts" element={<SavedPosts />} />
+              <Route path="/likedPosts" element={<LikedPosts />} />
+              <Route path="/profileVisits" element={<ProfileVisits />} />
+              <Route path="/editProfile" element={<EditProfile />} />
+              <Route path="/notifications" element={<NotificationsPage />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/connections" element={<Connections />} />
+              <Route path="/jobsControl" element={<JobControl />} />
+              <Route path="/jobs" element={<Jobs />} />
+              <Route path="/post/:id" element={<Post />} />
+              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/myPosts" element={<MyPosts />} />
+              <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
-            <Route path="/about" element={<About />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/savedPosts" element={<SavedPosts />} />
-            <Route path="/likedPosts" element={<LikedPosts />} />
-            <Route path="/profileVisits" element={<ProfileVisits />} />
-            <Route path="/editProfile" element={<EditProfile />} />
-            <Route path="/notifications" element={< NotificationsPage />} />
-            <Route path="/messages" element={< Messages />} />
-            <Route path="/connections" element={< Connections />} />
-            <Route path="/jobsControl" element={< JobControl />} />
-            <Route path="/jobs" element={< Jobs />} />
-            <Route path="/post/:id" element={< Post />} />
-            <Route path="/profile/:id" element={< Profile />} />
-            <Route path="/myPosts" element={< MyPosts />} />
+              <Route path="*" element={<NotFound />} />
 
+            </Routes>
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              pauseOnHover={false}
+              draggable
+              theme="light"
+              transition={Bounce}
+              toastClassName="custom-toast"
+              bodyClassName="custom-toast-body"
+              progressClassName="custom-progress"
+            />
+          </main>
 
-          </Routes>
-          <ToastContainer
-            position="top-right"
-            autoClose={2000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss={false}
-            pauseOnHover={false}
-            draggable
-            theme="light"
-            transition={Bounce}
-            toastClassName="custom-toast"
-            bodyClassName="custom-toast-body"
-            progressClassName="custom-progress"
-          />
-        </main>
-
-        {/* Footer */}
-        <Footer />
-      </div>
-    </Router>
+          {/* Footer */}
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

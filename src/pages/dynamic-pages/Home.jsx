@@ -1,48 +1,38 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import api from "../../api/axios.js"
 import CreatePostModal from "../../components/posts/createPostModal";
 import { useNavigate } from "react-router-dom";
 import PostCard from "../../components/posts/PostCard.jsx";
+import UserContext from "../../components/Context/UserContext.jsx";
 
 const Home = () => {
-    const [user, setUser] = useState(null);
+    const { user, loading } = useContext(UserContext);
     const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [likedPosts, setLikedPosts] = useState(new Set());
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [postsLoading, setPostsLoading] = useState(false);
 
     const navigate = useNavigate();
 
-    const fetchUser = async () => {
-        try {
-            const res = await api.get("/user/me", {
-                withCredentials: true,
-            });
-            setUser(res.data.user);
-        } catch (err) {
-            console.log("Failed to fetch user", err);
-        }
-    };
-
-
-    const fetchPosts = useCallback(async () => {
+    const fetchPosts = useCallback(async (currentUser) => {
+        setPostsLoading(true);
         try {
             const res = await api.get("/post/feed");
             const postsData = res.data.posts || [];
             setPosts(postsData);
 
-            if (user) {
+            if (currentUser) {
                 const likedSet = new Set(
-                    postsData.filter(p => p.likes.includes(user._id)).map(p => p._id)
+                    postsData.filter(p => p.likes.includes(currentUser._id)).map(p => p._id)
                 );
                 setLikedPosts(likedSet);
             }
         } catch (err) {
             console.error("Failed to fetch posts", err);
         } finally {
-            setLoading(false);
+            setPostsLoading(false);
         }
-    }, [user]);
+    }, []);
 
 
     const handleLike = async (postId) => {
@@ -52,7 +42,7 @@ const Home = () => {
             setPosts((prev) =>
                 prev.map((p) =>
                     p._id === postId
-                        ? { ...p, likesCount: res.data.likesCount } 
+                        ? { ...p, likesCount: res.data.likesCount }
                         : p
                 )
             );
@@ -68,20 +58,9 @@ const Home = () => {
         }
     };
 
-
     useEffect(() => {
-        const loadData = async () => {
-            await fetchUser();
-        };
-        loadData();
-    }, []);
-
-    useEffect(() => {
-        if (user) {
-            fetchPosts();
-        }
-    }, [user, fetchPosts]);
-
+        if (!loading && user) fetchPosts(user);
+    }, [loading, user, fetchPosts]);
 
     if (loading) {
         return (
@@ -109,7 +88,8 @@ const Home = () => {
                         <CreatePostModal
                             isOpen={isModalOpen}
                             onClose={() => setIsModalOpen(false)}
-                            onPostCreated={(newPost) => console.log("New post created:", newPost)}
+                            onPostCreated={() => fetchPosts(user)}
+
                         />
                     </div>
                     <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/savedPosts")}>🔖 Saved Posts</li>
@@ -125,7 +105,11 @@ const Home = () => {
                 </h2>
 
                 {/*posts feed */}
-                {posts.length === 0 ? (
+                {postsLoading ? (
+                    <div className="flex justify-center py-10">
+                        <span className="loading loading-spinner w-12 h-12 text-orange-500"></span>
+                    </div>
+                ) : posts.length === 0 ? (
                     <p className="text-center text-gray-500">No posts from your connections yet.</p>
                 ) : (
                     <div className="space-y-6">
@@ -133,7 +117,7 @@ const Home = () => {
                             <PostCard
                                 key={post._id}
                                 post={post}
-                                currentUser={user}        
+                                currentUser={user}
 
                                 liked={likedPosts.has(post._id)}
                                 handleLike={handleLike}

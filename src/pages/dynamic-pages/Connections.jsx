@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     FaCheck,
     FaTimes,
     FaUserPlus,
     FaUndo,
-    FaUserFriends,
     FaUserMinus,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../api/axios";
+import UserContext from "../../components/Context/UserContext";
 
 const Connections = () => {
     const [activeTab, setActiveTab] = useState("received");
@@ -16,31 +16,35 @@ const Connections = () => {
     const [sent, setSent] = useState([]);
     const [users, setUsers] = useState([]);
     const [connections, setConnections] = useState([]);
-    const [me, setMe] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const { user: me } = useContext(UserContext)
 
     useEffect(() => {
         fetchData();
     }, []);
 
     const fetchData = async () => {
+        setLoading(true);
         try {
-            const [recRes, sentRes, usersRes, connRes, meRes] = await Promise.all([
+            const [recRes, sentRes, usersRes, connRes] = await Promise.all([
                 api.get("/connection/received-requests"),
                 api.get("/connection/sent-requests"),
                 api.get("/user/getUsers"),
-                api.get("/connection/my-connections"),
-                api.get("/user/me"),
+                api.get("/connection/my-connections")
             ]);
 
             setReceived(recRes.data.requests);
             setSent(sentRes.data.sentRequests);
             setUsers(usersRes.data.users);
             setConnections(connRes.data.connections);
-            setMe(meRes.data.user);
         } catch (err) {
             console.error("Error fetching connections:", err);
+        } finally {
+            setLoading(false);
         }
     };
+
+
 
     const handleAccept = async (id, name) => {
         try {
@@ -137,6 +141,14 @@ const Connections = () => {
             </button>
         );
     };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-50">
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-white p-8">

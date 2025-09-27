@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { AiFillMessage, AiOutlineSearch } from "react-icons/ai";
 import {
     FaHome,
@@ -10,12 +10,15 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import UserContext from "./Context/UserContext";
 
 const Header = () => {
     const navigate = useNavigate();
+    const { user } = useContext(UserContext);
     const [query, setQuery] = useState("");
     const [results, setResults] = useState({ users: [], posts: [] });
     const [showDropdown, setShowDropdown] = useState(false);
+
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -38,9 +41,26 @@ const Header = () => {
             }
         };
 
-        const delayDebounce = setTimeout(fetchResults, 400); 
+        const delayDebounce = setTimeout(fetchResults, 400);
         return () => clearTimeout(delayDebounce);
     }, [query]);
+
+    const handleJobsClick = async () => {
+        try {
+            if (!user) {
+                if (user.role === "recruiter") {
+                    navigate("/jobsControl");
+                } else {
+                    navigate("/jobs");
+                }
+            }
+
+        } catch (err) {
+            console.warn("Could not determine user role, defaulting to /jobs", err);
+
+            navigate("/jobs");
+        }
+    };
 
     const handleSelectUser = (id) => {
         navigate(`/profile/${id}`);
@@ -68,7 +88,7 @@ const Header = () => {
                     <li onClick={() => navigate("/")}><a className="flex items-center gap-2"><FaHome /> Home</a></li>
                     <li onClick={() => navigate("/connections")}><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
                     <li onClick={() => navigate("/messages")}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
-                    <li onClick={() => navigate("/jobs")}><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
+                    <li onClick={handleJobsClick}><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
                     <li onClick={() => navigate("/notifications")}><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
                     <li onClick={() => navigate("/editProfile")}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
                 </ul>
@@ -157,7 +177,7 @@ const Header = () => {
                         <AiFillMessage className="text-xl" />
                         <span className="text-xs font-bold">Messages</span>
                     </li>
-                    <li onClick={() => navigate("/jobs")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                    <li onClick={() => navigate(user?.role === "recruiter" ? "/jobsControl" : "/jobs")} className="flex flex-col items-center cursor-pointer hover:text-white">
                         <FaBriefcase className="text-xl" />
                         <span className="text-xs font-bold">Jobs</span>
                     </li>

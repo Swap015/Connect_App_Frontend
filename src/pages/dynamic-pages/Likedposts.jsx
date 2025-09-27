@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { FaHeart, FaCommentDots } from "react-icons/fa";
 
@@ -68,7 +68,6 @@ const LikedPosts = () => {
                             </div>
                         </div>
 
-                        {/* post content */}
                         {post.content && (
                             <p className="text-gray-800 mb-2 text-sm line-clamp-3">
                                 {post.content}

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import api from "../../api/axios.js";
 import {
     FaUser,
@@ -13,10 +13,11 @@ import { BsFillFilePostFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Cropper from "react-easy-crop";
+import UserContext from "../../components/Context/UserContext.jsx";
 
 
 const EditProfile = () => {
-    const [user, setUser] = useState(null);
+    const { user, setUser } = useContext(UserContext);
     const [form, setForm] = useState({
         headline: "",
         location: "",
@@ -39,26 +40,20 @@ const EditProfile = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await api.get("/user/me");
-                setUser(res.data.user);
-                setForm({
-                    headline: res.data.user.headline || "",
-                    location: res.data.user.location || "",
-                    experience: res.data.user.experience || "",
-                    companyName: res.data.user.companyName || "",
-                    positionAtCompany: res.data.user.positionAtCompany || "",
-                    skills: res.data.user.skills?.join(", ") || "",
-                    education: res.data.user.education?.[0] || { SSC: "", HSC: "", diploma: "", degree: "" }
-                });
-            } catch {
-                toast.error("Failed to fetch user.");
-            }
-        };
-        fetchUser();
-    }, []);
+        if (user) {
+            setForm({
+                headline: user.headline || "",
+                location: user.location || "",
+                experience: user.experience || "",
+                companyName: user.companyName || "",
+                positionAtCompany: user.positionAtCompany || "",
+                skills: user.skills?.join(", ") || "",
+                education: user.education?.[0] || { SSC: "", HSC: "", diploma: "", degree: "" },
+            });
+        }
+    }, [user]);
 
+    
     useEffect(() => {
         if (!profilePic) {
             setPreviewURL("");

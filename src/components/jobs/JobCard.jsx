@@ -20,7 +20,6 @@ export default function JobCard({
     const [openDetails, setOpenDetails] = useState(false);
     const [jobDetails, setJobDetails] = useState(null);
 
-    // applicants modal state
     const [openApplicants, setOpenApplicants] = useState(false);
     const [applicants, setApplicants] = useState([]);
     const [loadingApplicants, setLoadingApplicants] = useState(false);
@@ -239,14 +238,8 @@ export default function JobCard({
 
                                         <div className="flex gap-2 mt-2 sm:mt-0">
                                             {app.resumeUrl && (
-                                                <a
-                                                    href={app.resumeUrl}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="btn btn-xs bg-blue-600 text-white"
-                                                >
-                                                    View Resume
-                                                </a>
+                                                <a href={`${app.resumeUrl}?download=true`} target="_blank">Download Resume</a>
+
                                             )}
                                         </div>
                                     </div>

@@ -1,27 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { toast } from "react-toastify";
 import PostCard from "../../components/posts/PostCard.jsx";
 import CreatePostModal from "../../components/posts/createPostModal.jsx";
 import EditPostModal from "../../components/posts/EditPostModal.jsx";
+import UserContext from "../Context/UserContext.jsx";
 
 const MyPosts = () => {
     const [posts, setPosts] = useState([]);
-    const [user, setUser] = useState(null);
+    const { user } = useContext(UserContext);
     const [showCreatePost, setShowCreatePost] = useState(false);
     const [editingPost, setEditingPost] = useState(null);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await api.get("/user/me", { withCredentials: true });
-                setUser(res.data.user);
-            } catch {
-                toast.error("Failed to load user");
-            }
-        };
-        fetchUser();
-    }, []);
 
 
     useEffect(() => {
@@ -67,11 +56,16 @@ const MyPosts = () => {
         setPosts((prev) => [newPost, ...prev]);
     };
 
-    if (!user) return <p className="text-center mt-10">Loading...</p>;
-
+    if (!user) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-50">
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+            </div>
+        );
+    }
     return (
         <div className="p-6 max-w-3xl mx-auto">
-        
+
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-gray-800">My Posts</h2>
                 <button
