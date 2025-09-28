@@ -10,6 +10,7 @@ import {
 import { toast } from "react-toastify";
 import api from "../../api/axios.js";
 
+
 export default function JobCard({
     job,
     isRecruiterVerified,
@@ -84,7 +85,7 @@ export default function JobCard({
                                             <FaTrash /> Delete
                                         </button>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         )}
@@ -236,12 +237,13 @@ export default function JobCard({
                                             )}
                                         </div>
 
-                                        <div className="flex gap-2 mt-2 sm:mt-0">
-                                            {app.resumeUrl && (
-                                                <a href={`${app.resumeUrl}?download=true`} target="_blank">Download Resume</a>
+                                        {app.resumeUrl && (
+                                            <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" download>
+                                                Download Resume
+                                            </a>
 
-                                            )}
-                                        </div>
+                                        )}
+
                                     </div>
                                 ))}
                             </div>

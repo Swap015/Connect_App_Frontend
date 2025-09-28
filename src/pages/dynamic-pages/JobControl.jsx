@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { toast } from "react-toastify";
@@ -10,14 +10,13 @@ import EditJobModal from "../../components/jobs/EditJobModal.jsx";
 import AddJobModal from "../../components/jobs/AddJobModal.jsx";
 import JobCard from "../../components/jobs/JobCard.jsx";
 import DeleteJobModal from "../../components/jobs/DeleteModal.jsx";
+import UserContext from "../../components/Context/UserContext.jsx";
 
 export default function JobControl() {
 
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [userLoading, setUserLoading] = useState(true);
-
-    const [currentUser, setCurrentUser] = useState(null);
+    const { user: currentUser, loading: userLoading } = useContext(UserContext);
     const isRecruiterVerified =
         currentUser?.role === "recruiter" && currentUser?.isVerified;
 
@@ -74,22 +73,7 @@ export default function JobControl() {
         }
     };
 
-
-    const fetchCurrentUser = async () => {
-        try {
-            setUserLoading(true);
-            const res = await api.get("/user/me");
-            setCurrentUser(res.data.user || res.data);
-        } catch (err) {
-            console.warn("Could not fetch /user/me:", err?.response?.data || err);
-            setCurrentUser(null);
-        } finally {
-            setUserLoading(false);
-        }
-    };
-
     useEffect(() => {
-        fetchCurrentUser();
         fetchJobs();
     }, []);
 
@@ -245,7 +229,7 @@ export default function JobControl() {
             <div className="mt-6">
                 {loading ? (
                     <div className="flex justify-center items-center py-10">
-                        <span className="loading loading-spinner loading-lg text-primary"></span>
+                        <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
                     </div>
                 ) : displayedJobs.length === 0 ? (
                     <div className="text-center py-10 text-gray-500">No jobs found.</div>

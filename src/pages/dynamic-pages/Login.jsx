@@ -134,7 +134,7 @@ const Login = () => {
             {loading ? (
               <>
                 Logging in
-                <span className="loading loading-spinner loading-sm"></span>
+                <span className="loading loading-spinner-sm text-white"></span>
               </>
             ) : (
               "Login"

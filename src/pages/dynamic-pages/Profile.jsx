@@ -18,11 +18,14 @@ const Profile = () => {
         fetchUser();
     }, [id]);
 
-    if (!user) return <p className="text-center mt-10">Loading...</p>;
+
+    if (!user) return <div className="flex items-center justify-center h-screen bg-gray-50">
+        <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+    </div>;
 
     return (
         <div className="max-w-4xl mx-auto mt-6 p-6 text-black">
-            
+
             <div className="flex items-center gap-4 border-b pb-4">
                 <img
                     src={user.profileImage || "https://via.placeholder.com/150"}
@@ -37,7 +40,7 @@ const Profile = () => {
                 </div>
             </div>
 
-          
+
             <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2">Work</h3>
                 <p>
@@ -54,7 +57,7 @@ const Profile = () => {
                 </p>
             </div>
 
-           
+
             <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2">Education</h3>
                 {user.education && user.education.length > 0 ? (
@@ -73,7 +76,7 @@ const Profile = () => {
                 )}
             </div>
 
-         
+
             <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2">Skills</h3>
                 {user.skills && user.skills.length > 0 ? (
@@ -92,7 +95,7 @@ const Profile = () => {
                 )}
             </div>
 
-     
+
             <div className="mt-4 border-t pt-4">
                 <h3 className="text-lg font-semibold mb-2">Connections</h3>
                 <p>
@@ -109,7 +112,7 @@ const Profile = () => {
                 </p>
             </div>
 
-          
+
             <div className="mt-4 border-t pt-4">
                 <h3 className="text-lg font-semibold mb-2">Profile Visits</h3>
                 <p>

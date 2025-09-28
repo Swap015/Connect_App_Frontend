@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { format } from "date-fns";
 import api from "../../api/axios.js";
 import {
@@ -9,6 +9,7 @@ import {
     FaBookmark,
     FaRegBookmark,
 } from "react-icons/fa";
+import UserContext from "../../components/Context/UserContext.jsx";
 
 const Post = () => {
     const { id } = useParams();
@@ -18,23 +19,19 @@ const Post = () => {
     const [saved, setSaved] = useState(false);
     const [comment, setComment] = useState([]);
     const [comments, setComments] = useState([]);
-    const [currentUser, setCurrentUser] = useState(null);
+    const { user: currentUser, loading: userLoading } = useContext(UserContext);
 
     const fetchPost = async () => {
         try {
-            const [postRes, userRes] = await Promise.all([
-                api.get(`/post/getPost/${id}`),
-                api.get(`/user/me`)
-            ]);
+            const resPost = await api.get(`/post/getPost/${id}`);
+            const postData = resPost.data.post;
 
-            const postData = postRes.data.post;
-            const userData = userRes.data.user;
-
-            setCurrentUser(userData);
             setPost(postData);
 
-            setLiked(postData.likes?.some((u) => u === userData._id));
-            setSaved(userData.savedPosts?.includes(postData._id));
+            if (currentUser) {
+                setLiked(postData.likes?.some((u) => u === currentUser._id));
+                setSaved(currentUser.savedPosts?.includes(postData._id));
+            }
         } catch (err) {
             console.error("Failed to load post", err);
         } finally {
@@ -52,9 +49,11 @@ const Post = () => {
     };
 
     useEffect(() => {
-        fetchPost();
-        fetchComments();
-    }, [id]);
+        if (!userLoading) {
+            fetchPost();
+            fetchComments();
+        }
+    }, [id, currentUser, userLoading]);
 
     const handleLike = async () => {
         try {
@@ -94,7 +93,13 @@ const Post = () => {
     };
 
 
-    if (loading) return <p className="text-center mt-10">Loading...</p>;
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gray-50">
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+            </div>
+        );
+    }
     if (!post) return <p className="text-center mt-10">Post not found</p>;
 
     return (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
     FaBuilding,
     FaMapMarkerAlt,
@@ -14,6 +14,7 @@ import MyApplicationsModal from "../../components/jobApplication/MyApplications.
 import EditApplicationModal from "../../components/jobApplication/EditModal.jsx";
 import DeleteApplicationModal from "../../components/jobApplication/DeleteModal.jsx";
 import { toast } from "react-toastify";
+import UserContext from "../../components/Context/UserContext.jsx";
 
 
 const Jobs = () => {
@@ -21,7 +22,7 @@ const Jobs = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [applyJob, setApplyJob] = useState(null);
-    const [user, setUser] = useState(null);
+    const { user, loading: userLoading } = useContext(UserContext);
     const [submitting, setSubmitting] = useState(false);
 
     //applications
@@ -32,7 +33,6 @@ const Jobs = () => {
 
     useEffect(() => {
         fetchJobs();
-        fetchCurrentUser();
     }, []);
 
     const fetchJobs = async () => {
@@ -46,15 +46,6 @@ const Jobs = () => {
         }
     };
 
-    const fetchCurrentUser = async () => {
-        try {
-            const res = await api.get("/user/me");
-            setUser(res.data.user);
-        } catch (err) {
-            console.error("Failed to fetch current user", err);
-            toast.error("Failed to load user info!");
-        }
-    };
 
     const fetchMyApplications = async () => {
         try {
@@ -109,7 +100,7 @@ const Jobs = () => {
                 Jobs
             </h1>
 
-            {user?.role === "user" && (
+            {!userLoading && user?.role === "user" && (
                 <div className="text-center mb-6">
                     <button
                         onClick={() => {
@@ -123,10 +114,9 @@ const Jobs = () => {
                 </div>
             )}
 
-
             {loading ? (
                 <div className="flex justify-center items-center py-10">
-                    <span className="loading loading-spinner loading-lg text-primary"></span>
+                    <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
                 </div>
             ) : jobs.length === 0 ? (
                 <p className="text-center text-gray-500">

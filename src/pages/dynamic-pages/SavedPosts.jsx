@@ -40,7 +40,7 @@ const SavedPosts = () => {
 
                 {loading ? (
                     <div className="flex justify-center items-center py-20">
-                        <span className="loading loading-spinner w-16 h-16 text-yellow-400"></span>
+                        <span className="loading loading-spinner w-16 h-16 text-orange-500"></span>
                     </div>
                 ) : savedPosts.length === 0 ? (
                     <p className="text-gray-300 text-center text-lg">
