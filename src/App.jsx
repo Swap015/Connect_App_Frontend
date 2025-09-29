@@ -28,6 +28,9 @@ import MyPosts from "./components/posts/MyPosts.jsx";
 import AdminDashboard from "./pages/dynamic-pages/admin/AdminDashboard.jsx";
 import NotFound from "./components/NotFound.jsx";
 import { UserProvider } from "./components/Context/UserContext.jsx";
+import AdminJobs from "./pages/dynamic-pages/admin/AdminJobs.jsx";
+import AdminUsersPosts from "./pages/dynamic-pages/admin/AdminUsersPosts.jsx";
+import AdminRoutes from "./components/RouteProtector/AdminRoutes.jsx";
 
 function App() {
   return (
@@ -60,9 +63,16 @@ function App() {
               <Route path="/post/:id" element={<Post />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/myPosts" element={<MyPosts />} />
-              <Route path="/admin-dashboard" element={<AdminDashboard />} />
-
               <Route path="*" element={<NotFound />} />
+
+              {/*-----------------ADMIN ROUTES------------------- */}
+
+              <Route path="/admin-dashboard" element={<AdminRoutes>  <AdminDashboard /> </AdminRoutes>} />
+              <Route path="/admin-jobs" element={<AdminRoutes>  <AdminJobs /> </AdminRoutes>} />
+              <Route path="/admin-users" element={<AdminRoutes>  <AdminUsersPosts />  </AdminRoutes>} />
+
+
+
 
             </Routes>
             <ToastContainer

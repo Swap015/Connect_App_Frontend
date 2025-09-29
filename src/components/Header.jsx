@@ -85,12 +85,35 @@ const Header = () => {
                 <ul
                     tabIndex={0}
                     className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-35 left-0">
-                    <li onClick={() => navigate("/")}><a className="flex items-center gap-2"><FaHome /> Home</a></li>
-                    <li onClick={() => navigate("/connections")}><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
-                    <li onClick={() => navigate("/messages")}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
-                    <li onClick={handleJobsClick}><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
-                    <li onClick={() => navigate("/notifications")}><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
-                    <li onClick={() => navigate("/editProfile")}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
+                    {user?.role === "admin" ? (
+                        <>
+                            <li onClick={() => navigate("/admin-dashboard")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                                <FaHome className="text-xl" />
+                                <span className="text-xs font-bold">Home</span>
+                            </li>
+                            <li onClick={() => navigate("/admin-users")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                                <FaUserFriends className="text-xl" />
+                                <span className="text-xs font-bold">Users</span>
+                            </li>
+                            <li onClick={() => navigate("/admin-jobs")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                                <FaBriefcase className="text-xl" />
+                                <span className="text-xs font-bold">Jobs</span>
+                            </li>
+                            <li onClick={() => navigate("/editProfile")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                                <FaUserCircle className="text-xl" />
+                                <span className="text-xs font-bold">Profile</span>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li onClick={() => navigate("/")}><a className="flex items-center gap-2"><FaHome /> Home</a></li>
+                            <li onClick={() => navigate("/connections")}><a className="flex items-center gap-2"><FaUserFriends /> Connections</a></li>
+                            <li onClick={() => navigate("/messages")}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
+                            <li onClick={handleJobsClick}><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
+                            <li onClick={() => navigate("/notifications")}><a className="flex items-center gap-2"><FaBell /> Notifications</a></li>
+                            <li onClick={() => navigate("/editProfile")}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
+                        </>
+                    )}
                 </ul>
             </div>
 
@@ -166,21 +189,17 @@ const Header = () => {
                 <ul className="hidden md:flex gap-6 items-center text-gray-800 font-medium">
                     {user?.role === "admin" ? (
                         <>
-                            <li onClick={() => navigate("/")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                            <li onClick={() => navigate("/admin-dashboard")} className="flex flex-col items-center cursor-pointer hover:text-white">
                                 <FaHome className="text-xl" />
                                 <span className="text-xs font-bold">Home</span>
                             </li>
-                            <li onClick={() => navigate("/connections")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                            <li onClick={() => navigate("/admin-users")} className="flex flex-col items-center cursor-pointer hover:text-white">
                                 <FaUserFriends className="text-xl" />
                                 <span className="text-xs font-bold">Users</span>
                             </li>
-                            <li onClick={() => navigate(user?.role === "recruiter" ? "/jobsControl" : "/jobs")} className="flex flex-col items-center cursor-pointer hover:text-white">
+                            <li onClick={() => navigate("/admin-jobs")} className="flex flex-col items-center cursor-pointer hover:text-white">
                                 <FaBriefcase className="text-xl" />
                                 <span className="text-xs font-bold">Jobs</span>
-                            </li>
-                            <li onClick={() => navigate("/notifications")} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaBell className="text-xl" />
-                                <span className="text-xs font-bold">Notifications</span>
                             </li>
                             <li onClick={() => navigate("/editProfile")} className="flex flex-col items-center cursor-pointer hover:text-white">
                                 <FaUserCircle className="text-xl" />

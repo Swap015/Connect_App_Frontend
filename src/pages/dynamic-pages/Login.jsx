@@ -32,9 +32,12 @@ const Login = () => {
       );
       setMessage(res.data.msg);
       login(res.data.user);
-      navigate("/");
-    } catch (err) {
-      setMessage(err.response?.data?.msg || "Login failed");
+
+        navigate("/");
+        
+   
+    } catch {
+      setMessage("Login failed");
     } finally {
       setLoading(false);
     }

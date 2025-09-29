@@ -80,7 +80,7 @@ const NotificationsPage = () => {
                     {notifications.map((n) => (
                         <div
                             key={n._id}
-                            className={`flex justify-between items-center p-4 rounded-lg shadow-md transition ${n.read ? "bg-white" : "bg-orange-50 border-l-4 border-orange-500"
+                            className={`flex justify-between items-center p-4 rounded-lg shadow-md transition ${n.read ? "bg-white" : n.type === "admin" ? "bg-blue-50 border-l-4 border-blue-500" : "bg-orange-50 border-l-4 border-orange-500"
                                 }`}
                         >
                             <div className="flex items-center gap-4">
@@ -91,7 +91,7 @@ const NotificationsPage = () => {
                                 />
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold sm:font-bold text-xs sm:text-sm lg:text-base 2xl:text-xl">{n.sender?.name}</span>{" "}
+                                        <span className="font-semibold sm:font-bold text-xs sm:text-sm lg:text-base 2xl:text-xl">  {n.type === "admin" ? "Connect" : n.sender?.name}</span>{" "}
                                         <span className="text-xs sm:text-sm lg:text-base 2xl:text-lg">{getNotificationText(n)}</span>
                                     </p>
                                     <p className="text-xs text-gray-500">{dayjs(n.createdAt).fromNow()}</p>

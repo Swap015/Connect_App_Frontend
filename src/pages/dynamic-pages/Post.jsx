@@ -66,7 +66,6 @@ const Post = () => {
         }
     };
 
-
     const handleSave = async () => {
         try {
             if (saved) {
@@ -80,7 +79,6 @@ const Post = () => {
         }
     };
 
-
     const handleAddComment = async () => {
         if (!comment.trim()) return;
         try {
@@ -91,7 +89,6 @@ const Post = () => {
             console.error("Comment failed", err);
         }
     };
-
 
     if (loading) {
         return (
