@@ -1,6 +1,8 @@
 import { FaTimes, FaEdit, FaTrash, FaBuilding, FaMapMarkerAlt, FaClipboardList } from "react-icons/fa";
 
 const MyApplicationsModal = ({ applications, onClose, onEdit, onDelete }) => {
+    const isLoading = applications === null || applications === undefined;
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50 px-4">
             <div className="bg-white rounded-lg shadow-xl border border-gray-200 w-full max-w-3xl p-6 relative max-h-[90vh] overflow-y-auto">
@@ -15,8 +17,20 @@ const MyApplicationsModal = ({ applications, onClose, onEdit, onDelete }) => {
                     My Applications
                 </h2>
 
-                {applications.length === 0 ? (
-                    <p className="text-gray-700 text-center">No applications yet.</p>
+                {isLoading && (
+                    <div className="flex justify-center py-10">
+                        <span className="loading loading-spinner w-12 h-12 text-blue-600"></span>
+                    </div>
+                )}
+
+                {!isLoading && applications.length === 0 && (
+                    <p className="text-gray-700 text-center">
+                        No applications yet.
+                    </p>
+                )}
+
+                {!isLoading && applications.length > 0 ? (
+                    <p className="text-gray-700 text-xs sm:text-sm   text-center">No applications yet.</p>
                 ) : (
                     <ul className="space-y-4">
                         {applications.map((app) => (
@@ -43,12 +57,12 @@ const MyApplicationsModal = ({ applications, onClose, onEdit, onDelete }) => {
                                             Status:{" "}
                                             <span
                                                 className={`ml-1 font-bold px-2 py-0.5 rounded text-xs ${app.status === "Pending"
-                                                        ? "bg-yellow-300 text-black"
-                                                        : app.status === "Shortlisted"
-                                                            ? "bg-blue-300 text-blue-700"
-                                                            : app.status === "Rejected"
-                                                                ? "bg-red-300 text-red-700"
-                                                                : "bg-green-200 text-green-700"
+                                                    ? "bg-yellow-300 text-black"
+                                                    : app.status === "Shortlisted"
+                                                        ? "bg-blue-300 text-blue-700"
+                                                        : app.status === "Rejected"
+                                                            ? "bg-red-300 text-red-700"
+                                                            : "bg-green-200 text-green-700"
                                                     }`}
                                             >
                                                 {app.status}

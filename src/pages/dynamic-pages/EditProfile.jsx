@@ -18,6 +18,7 @@ import UserContext from "../../components/Context/UserContext.jsx";
 
 const EditProfile = () => {
     const { user, setUser } = useContext(UserContext);
+    const avatarSrc = user?.profileImage;
     const [form, setForm] = useState({
         headline: "",
         location: "",
@@ -53,7 +54,7 @@ const EditProfile = () => {
         }
     }, [user]);
 
-    
+
     useEffect(() => {
         if (!profilePic) {
             setPreviewURL("");
@@ -190,8 +191,22 @@ const EditProfile = () => {
             </div>
         );
 
-
-    const avatarSrc = user?.profileImage;
+    if (user.role === "admin") {
+        return (
+            <div className="min-h-screen flex flex-col justify-center items-center bg-[#f5f5f5] text-black">
+                <h1 className="text-2xl sm:text-4xl font-extrabold mb-8 text-center text-black">
+                    Admin Panel
+                </h1>
+                <button
+                    onClick={handleLogout}
+                    className="bg-white text-orange-500 font-bold px-3 py-2 sm:px-3 sm:py-3 lg:px-6 lg:py-3 xl:px-6 xl:py-4 rounded-full shadow-3xl hover:scale-105 transform transition-all duration-300 flex items-center gap-3 text-base sm:text-lg lg:text-xl border border-gray-200"
+                >
+                    <FaSignOutAlt className="text-lg" /> Logout
+                </button>
+               
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-100 flex text-black">

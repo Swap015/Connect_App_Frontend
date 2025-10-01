@@ -33,9 +33,15 @@ const Login = () => {
       setMessage(res.data.msg);
       login(res.data.user);
 
+      if (res.data.userData.role === "admin") {
+        navigate("/admin-dashboard");
+      } else if (res.data.userData.role === "recruiter") {
+        navigate("/recruiter-dashboard");
+      }
+      else {
         navigate("/");
-        
-   
+      }
+
     } catch {
       setMessage("Login failed");
     } finally {

@@ -141,7 +141,6 @@ const CommentSection = ({ postId, currentUser }) => {
                     </button>
                 )}
 
-                {/* mention dropdown */}
                 {showDropdown && (
                     <div className="absolute top-10 left-0 border bg-white shadow-md rounded w-64 max-h-40 overflow-y-auto z-50">
                         {searchResults.map((u) => (

@@ -241,7 +241,6 @@ export default function JobCard({
                                             <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" download>
                                                 Download Resume
                                             </a>
-
                                         )}
 
                                     </div>

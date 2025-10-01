@@ -31,6 +31,8 @@ import { UserProvider } from "./components/Context/UserContext.jsx";
 import AdminJobs from "./pages/dynamic-pages/admin/AdminJobs.jsx";
 import AdminUsersPosts from "./pages/dynamic-pages/admin/AdminUsersPosts.jsx";
 import AdminRoutes from "./components/RouteProtector/AdminRoutes.jsx";
+import RecruiterDashboard from "./pages/dynamic-pages/Recruiter/RecruiterDashboard.jsx";
+
 
 function App() {
   return (
@@ -63,6 +65,7 @@ function App() {
               <Route path="/post/:id" element={<Post />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/myPosts" element={<MyPosts />} />
+              <Route path="/recruiter-dashboard" element={<RecruiterDashboard/>} />
               <Route path="*" element={<NotFound />} />
 
               {/*-----------------ADMIN ROUTES------------------- */}

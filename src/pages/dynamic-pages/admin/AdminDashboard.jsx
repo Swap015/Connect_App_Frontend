@@ -11,15 +11,33 @@ import {
     Legend,
     Cell
 } from "recharts";
+import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
     const [reports, setReports] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get("/admin/reports").then((res) => setReports(res.data));
+        const fetchReports = async () => {
+            try {
+                const res = await api.get("/admin/reports");
+                setReports(res.data);
+            } catch {
+                toast.error("Failed to load reports. Please try again.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchReports();
     }, []);
 
-    if (!reports) return <p className="text-center mt-10">Loading reports...</p>;
+    if (!reports)
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+            </div>
+        );
 
     const data = [
         { name: "Users", value: reports.users.totalUsers },
@@ -33,7 +51,7 @@ const AdminDashboard = () => {
         { name: "Applications", value: reports.applications.totalApplications },
     ];
 
-    // Define colors for each bar
+
     const COLORS = [
         "#4F46E5", // Indigo
         "#10B981", // Green
@@ -45,6 +63,13 @@ const AdminDashboard = () => {
         "#14B8A6", // Teal
         "#6366F1", // Indigo Light
     ];
+
+    if (loading)
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+            </div>
+        );
 
     return (
         <div className="p-6">
@@ -61,7 +86,7 @@ const AdminDashboard = () => {
                             tick={{
                                 fill: "#000",
                                 fontWeight: "bold",
-                                fontSize: window.innerWidth < 640 ? 10 : 14 
+                                fontSize: window.innerWidth < 640 ? 10 : 14
                             }}
                         />
 
@@ -71,7 +96,7 @@ const AdminDashboard = () => {
                             itemStyle={{ color: "#000" }}
                             labelStyle={{ color: "#000", fontWeight: "bold" }}
                         />
-                   
+
                         <Bar dataKey="value" barSize={40}>
                             {data.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

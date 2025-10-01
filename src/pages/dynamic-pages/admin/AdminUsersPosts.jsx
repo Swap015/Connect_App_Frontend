@@ -15,7 +15,7 @@ const AdminUsersPosts = () => {
           api.get("/admin/posts")
         ]);
         setUsers(usersRes.data);
-        setPosts(postsRes.data.posts); 
+        setPosts(postsRes.data.posts);
       } catch (err) {
         console.error(err);
       } finally {
@@ -37,7 +37,12 @@ const AdminUsersPosts = () => {
     setPosts(posts.filter(p => p._id !== id));
   };
 
-  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+      </div>
+    );
 
   return (
     <div className="p-6 space-y-8">
@@ -69,7 +74,7 @@ const AdminUsersPosts = () => {
         </div>
       </div>
 
-   
+
       <div>
         <h2 className="text-xl font-semibold mb-4 text-black">Posts</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -78,9 +83,9 @@ const AdminUsersPosts = () => {
               key={p._id}
               post={p}
               onDelete={handleDeletePost}
-              currentUser={{}} 
+              currentUser={{}}
               liked={false}
-              handleLike={() => { }} 
+              handleLike={() => { }}
             />
           ))}
         </div>
