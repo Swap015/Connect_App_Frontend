@@ -34,7 +34,7 @@ const SavedPosts = () => {
     return (
         <div className="min-h-screen bg-gray-900 p-6">
             <div className="max-w-6xl mx-auto">
-                <h1 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl 3xl:text-4xl font-bold text-white mb-6 flex items-center gap-3">
                     <FaBookmark className="text-yellow-400" /> Saved Posts
                 </h1>
 
@@ -66,7 +66,7 @@ const SavedPosts = () => {
                                     </div>
                                 )}
 
-                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-3">
+                                <div className="absolute inset-0 bg-black/60 opacity-100 lg:opacity-0 lg:group-hover:opacity-100   transition-opacity duration-200 flex flex-col justify-between p-3">
 
                                     <div className="flex items-center gap-2">
                                         <img

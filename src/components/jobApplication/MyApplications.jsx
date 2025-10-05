@@ -29,9 +29,7 @@ const MyApplicationsModal = ({ applications, onClose, onEdit, onDelete }) => {
                     </p>
                 )}
 
-                {!isLoading && applications.length > 0 ? (
-                    <p className="text-gray-700 text-xs sm:text-sm   text-center">No applications yet.</p>
-                ) : (
+                {!isLoading && applications.length > 0 && (
                     <ul className="space-y-4">
                         {applications.map((app) => (
                             <li

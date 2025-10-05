@@ -6,11 +6,7 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
     if (conversations.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                <img
-                    src="/no-messages.png"  here
-                    alt="No conversations"
-                    className="w-40 h-40 mb-4 opacity-80"
-                />
+               
                 <p className="text-lg font-semibold">No Conversations Yet</p>
                 <p className="text-sm">Start a chat to see them here 💬</p>
             </div>

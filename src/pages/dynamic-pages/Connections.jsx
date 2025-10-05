@@ -9,6 +9,7 @@ import {
 import { toast } from "react-toastify";
 import api from "../../api/axios";
 import UserContext from "../../components/Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Connections = () => {
     const [activeTab, setActiveTab] = useState("received");
@@ -17,11 +18,24 @@ const Connections = () => {
     const [users, setUsers] = useState([]);
     const [connections, setConnections] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { user: me } = useContext(UserContext)
+    const { user: me } = useContext(UserContext);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    const startChat = async (otherUserId) => {
+        try {
+            const res = await api.post("/chat/conversation", { otherUserId });
+            const conversation = res.data.conversation;
+
+            navigate("/messages", { state: { conversationId: conversation._id } });
+        } catch {
+            toast.error("Failed to start chat");
+        }
+    };
 
     const fetchData = async () => {
         setLoading(true);
@@ -44,13 +58,13 @@ const Connections = () => {
         }
     };
 
-
-
     const handleAccept = async (id, name) => {
         try {
             await api.post(`/connection/accept/${id}`);
             toast.success(`You are now connected with ${name}`);
-            fetchData();
+
+            setReceived(prev => prev.filter(r => r.user._id !== id));
+            setConnections(prev => [...prev, { _id: id, name }]);
         } catch (err) {
             toast.error(err.response?.data?.msg || "Failed to accept request");
         }
@@ -60,7 +74,8 @@ const Connections = () => {
         try {
             await api.post(`/connection/reject/${id}`);
             toast.info("Connection request rejected");
-            fetchData();
+
+            setReceived((prev) => prev.filter((r) => r.user._id !== id));
         } catch (err) {
             toast.error(err.response?.data?.msg || "Failed to reject request");
         }
@@ -70,7 +85,8 @@ const Connections = () => {
         try {
             await api.post(`/connection/send/${id}`);
             toast.success("Connection request sent");
-            fetchData();
+
+            setSent(prev => [...prev, { _id: id }]);
         } catch (err) {
             toast.error(err.response?.data?.msg || "Failed to send request");
         }
@@ -80,7 +96,8 @@ const Connections = () => {
         try {
             await api.post(`/connection/cancel/${id}`);
             toast.info("Connection request cancelled");
-            fetchData();
+
+            setSent((prev) => prev.filter((s) => s._id !== id));
         } catch (err) {
             toast.error(err.response?.data?.msg || "Failed to cancel request");
         }
@@ -90,7 +107,8 @@ const Connections = () => {
         try {
             await api.delete(`/connection/remove/${id}`);
             toast.info("Connection removed");
-            fetchData();
+
+            setConnections((prev) => prev.filter((c) => c._id !== id));
         } catch (err) {
             toast.error(err.response?.data?.msg || "Failed to remove connection");
         }
@@ -158,7 +176,6 @@ const Connections = () => {
                     Manage Your Connections
                 </h2>
 
-                {/* tabs */}
                 <div className="flex justify-center mb-8 gap-3 flex-wrap">
                     {["received", "sent", "all", "connections"].map((tab) => (
                         <button
@@ -261,12 +278,11 @@ const Connections = () => {
                     </div>
                 )}
 
-                {/* all users */}
                 {activeTab === "all" && (
                     <div className="grid  sm:grid-cols-4  lg:grid-cols-5 grid-cols-2 gap-6 text-sm sm:text-base">
                         {users.length > 0 ? (
                             users
-                                .filter((u) => me && u._id !== me._id)
+                                .filter((u) => me && u._id !== me._id && u.role !== "admin")
                                 .map((u) => (
                                     <div
                                         key={u._id}
@@ -318,12 +334,21 @@ const Connections = () => {
                                             </p>
                                         </div>
                                     </div>
-                                    <button
-                                        onClick={() => handleRemove(conn._id)}
-                                        className="btn btn-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none text-xs sm:text-sm "
-                                    >
-                                        <FaUserMinus className="mr-1 " /> Remove
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => startChat(conn._id)}
+                                            className="btn btn-sm bg-blue-500 text-white border-none text-xs sm:text-sm"
+                                        >
+                                            Message
+                                        </button>
+                                        <button
+                                            onClick={() => handleRemove(conn._id)}
+                                            className="btn btn-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none text-xs sm:text-sm"
+                                        >
+                                            Remove
+                                        </button>
+                                    </div>
+
                                 </div>
                             ))
                         ) : (

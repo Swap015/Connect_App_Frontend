@@ -29,50 +29,50 @@ const ProfileVisitsPage = () => {
             <div className="max-w-6xl mx-auto">
 
                 <div className="flex justify-between items-center mb-10">
-                    <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-                        👀 Profile Visits
+                    <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">
+                        Profile Visits 👀
                     </h1>
-                    <span className="text-lg font-semibold text-purple-700 bg-purple-100 px-5 py-2 rounded-full shadow-sm">
+                    <span className="text-base lg:text-lg 2xl:text-xl font-semibold text-purple-700 bg-purple-100 px-2 py-1 lg:px-3 rounded-full shadow-sm">
                         {visits.length} Visits
                     </span>
                 </div>
 
 
                 {loading ? (
-                    <p className="text-center text-gray-600">Loading visits...</p>
+                    <div className="flex items-center justify-center h-screen bg-gray-50">
+                        <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+                    </div>
                 ) : visits.length === 0 ? (
                     <p className="text-center text-gray-500 text-lg">
                         No one has visited your profile yet.
                     </p>
                 ) : (
-                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                         {visits.map((visit, index) => (
                             <div
                                 key={index}
-                                className="relative bg-white/60 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col items-center text-center"
+                                className="relative bg-white/60 backdrop-blur-md rounded-2xl shadow-lg border border-gray-200 p-3 flex flex-col items-center text-center w-60"
                             >
-                              
-                                <div className="w-20 h-20 mb-3">
+
+                                <div className="w-16 h-16 mb-3">
                                     {visit.user?.profileImage ? (
                                         <img
                                             src={visit.user.profileImage}
                                             alt={visit.user.name}
-                                            className="w-20 h-20 rounded-full border-2 border-purple-300 shadow-md object-cover"
+                                            className="w-20 h-20 rounded-full  object-cover"
                                         />
                                     ) : (
                                         <FaUserCircle className="w-20 h-20 text-gray-500" />
                                     )}
                                 </div>
 
-                                {/* user info*/}
-                                <h3 className="text-lg font-bold text-gray-800">
+                                <h3 className="text-lg lg:text-xl 3xl:text-2xl font-bold text-gray-800">
                                     {visit.user?.name || "Unknown User"}
                                 </h3>
-                                <p className="text-sm text-gray-600 mb-2">
+                                <p className="text-xs sm:text-sm text-gray-600 mb-2">
                                     {visit.user?.headline || "No headline available"}
                                 </p>
 
-                                {/* post time  */}
                                 <span className="absolute top-3 right-3 text-xs font-medium text-white bg-gradient-to-r from-purple-500 to-indigo-500 px-3 py-1 rounded-full shadow-md">
                                     {format(new Date(visit.visitedAt), "d MMM yyyy")} ·{" "}
                                     {formatDistanceToNow(new Date(visit.visitedAt), { addSuffix: true })}

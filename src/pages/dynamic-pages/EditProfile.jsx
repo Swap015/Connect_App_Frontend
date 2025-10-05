@@ -203,7 +203,7 @@ const EditProfile = () => {
                 >
                     <FaSignOutAlt className="text-lg" /> Logout
                 </button>
-               
+
             </div>
         );
     }
@@ -273,12 +273,12 @@ const EditProfile = () => {
                         {[
                             { label: "Headline", name: "headline", placeholder: "Full Stack Developer" },
                             { label: "Location", name: "location", placeholder: "Mumbai, India" },
-                            { label: "Experience", name: "experience", placeholder: "2 years" },
                             { label: "Company", name: "companyName", placeholder: "Google" },
                             { label: "Position", name: "positionAtCompany", placeholder: "Software Engineer" },
-                            { label: "Skills", name: "skills", placeholder: "React, Node.js, MongoDB" },
+                            { label: "Experience", name: "experience", placeholder: "2 years" },
+                            { label: "Skills", name: "skills", placeholder: "React, Node.js, MongoDB" }
                         ].map((f) => (
-                            <div key={f.name}>
+                            <div key={f.name} className="w-full" >
                                 <label className="block font-bold text-gray-700 mb-1">{f.label}</label>
                                 <input
                                     type="text"
@@ -292,22 +292,24 @@ const EditProfile = () => {
                         ))}
 
                         {/* education */}
-                        <div>
-                            <label className="block text-sm font-bold text-gray-700 mb-2">
-                                Education ( Enter school/college name )
-                            </label>
-                            {["SSC", "HSC", "diploma", "degree"].map((edu) => (
-                                <input
-                                    key={edu}
-                                    type="text"
-                                    name={edu}
-                                    value={form.education[edu]}
-                                    onChange={handleChange}
-                                    placeholder={edu}
-                                    className="w-full border rounded-md px-4 py-2 mb-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
-                                />
-                            ))}
-                        </div>
+                        {user?.role !== "recruiter" && (
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">
+                                    Education ( Enter school/college name )
+                                </label>
+                                {["SSC", "HSC", "diploma", "degree"].map((edu) => (
+                                    <input
+                                        key={edu}
+                                        type="text"
+                                        name={edu}
+                                        value={form.education[edu]}
+                                        onChange={handleChange}
+                                        placeholder={edu}
+                                        className="w-full border rounded-md px-4 py-2 mb-2 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                                    />
+                                ))}
+                            </div>
+                        )}
 
                         <button
                             type="submit"

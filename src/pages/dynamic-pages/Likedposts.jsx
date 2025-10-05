@@ -41,7 +41,7 @@ const LikedPosts = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-200 via-pink-200 to-blue-200 p-6">
-            <h1 className="text-xl font-bold text-center mb-6 text-gray-800">
+            <h1 className="text-xl lg:text-2xl 3xl:text-3xl font-bold text-center mb-6 text-gray-800">
                 ❤️ Your Liked Posts
             </h1>
 
@@ -56,13 +56,13 @@ const LikedPosts = () => {
                             <img
                                 src={post.postedBy?.profileImage}
                                 alt={post.postedBy?.name}
-                                className="w-8 h-8 rounded-full border border-gray-300"
+                                className="w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-gray-300"
                             />
                             <div>
-                                <h3 className="text-xs font-semibold text-gray-800">
+                                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-800">
                                     {post.postedBy?.name}
                                 </h3>
-                                <p className="text-[10px] text-gray-600">
+                                <p className="text-xs 2xl:text-sm text-gray-600">
                                     {post.postedBy?.headline}
                                 </p>
                             </div>

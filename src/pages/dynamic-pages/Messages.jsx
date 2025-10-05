@@ -12,10 +12,10 @@ const Messages = () => {
     const [socket, setSocket] = useState(null);
     const { user, loading } = useContext(UserContext);
     const [convoLoading, setConvoLoading] = useState(true);
-    const VITE_SOCKET_URL=import.meta.env.VITE_SOCKET_URL
+    const VITE_SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
+
 
     useEffect(() => {
-
         if (!loading && user) {
             const newSocket = io(VITE_SOCKET_URL, { withCredentials: true });
             setSocket(newSocket);

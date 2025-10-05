@@ -73,6 +73,7 @@ const Home = () => {
     return (
         <div className="min-h-screen bg-gray-50 flex">
 
+
             {/* left side section */}
             <aside className="w-64 bg-white shadow-lg p-6 hidden md:block text-black text-lg font-bold">
 
@@ -100,11 +101,39 @@ const Home = () => {
 
 
             <main className="flex-1 container mx-auto px-4 py-6 max-w-2xl">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">
                     Welcome, <span className="text-orange-500">{user?.name}</span> 👋
                 </h2>
 
-                {/*posts feed */}
+                {/*  mobile menu*/}
+
+                <div className="flex justify-around bg-white shadow-md p-3 mb-3 rounded-lg md:hidden text-black font-bold">
+                    <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-500 text-sm"
+                    >
+                        + Post
+                    </button>
+                    <button
+                        onClick={() => navigate("/savedPosts")}
+                        className="px-3 py-1 hover:text-orange-500 transition text-sm"
+                    >
+                        🔖 Saved
+                    </button>
+                    <button
+                        onClick={() => navigate("/likedPosts")}
+                        className="px-3 py-1 hover:text-orange-500 transition text-sm"
+                    >
+                        ❤️ Liked
+                    </button>
+                    <button
+                        onClick={() => navigate("/profileVisits")}
+                        className="px-3 py-1 hover:text-orange-500 transition text-sm"
+                    >
+                        👀 Visits
+                    </button>
+                </div>
+
                 {postsLoading ? (
                     <div className="flex justify-center py-10">
                         <span className="loading loading-spinner w-12 h-12 text-orange-500"></span>

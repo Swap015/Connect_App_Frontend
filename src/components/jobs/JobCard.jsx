@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import api from "../../api/axios.js";
+import ApplicantStatus from "../../pages/dynamic-pages/Recruiter/ApplicationStatus.jsx";
 
 
 export default function JobCard({
@@ -203,12 +204,13 @@ export default function JobCard({
                     <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-xl max-h-[80vh] overflow-y-auto shadow-lg">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg sm:text-xl font-bold">Applicants</h2>
-                            <button
-                                className="btn btn-sm btn-ghost"
+                            <span
+                                className="cursor-pointer  hover:text-red-600 text-xl "
                                 onClick={() => setOpenApplicants(false)}
                             >
-                                Close
-                            </button>
+                                ❌
+                            </span>
+
                         </div>
 
                         {loadingApplicants ? (
@@ -223,13 +225,22 @@ export default function JobCard({
                                         className="border p-3 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2"
                                     >
                                         <div>
-                                            <p className="font-bold">
+                                            <p className="font-bold text-sm sm:text-base">
                                                 {app.applicant?.name || "Unknown Applicant"}
                                             </p>
-                                            <p className="text-sm text-gray-600">{app.applicant?.email}</p>
-                                            <p className="text-sm text-gray-600">Status: {app.status}</p>
+                                            <p className="text-sm text-gray-600 my-2">Email: {app.applicant?.email}</p>
+                                            <ApplicantStatus
+                                                applicant={app}
+                                                jobId={job._id}
+                                                onStatusChange={(id, newStatus) => {
+                                                    setApplicants((prev) =>
+                                                        prev.map((a) => (a._id === id ? { ...a, status: newStatus } : a))
+                                                    );
+                                                }}
+                                            />
+
                                             {app.coverLetter && (
-                                                <p className="text-sm text-gray-700 mt-2 whitespace-pre-wrap">
+                                                <p className="text-sm text-gray-700 mt-3 whitespace-pre-wrap">
                                                     <strong>Cover Letter:</strong>
                                                     <br />
                                                     {app.coverLetter}
@@ -238,7 +249,8 @@ export default function JobCard({
                                         </div>
 
                                         {app.resumeUrl && (
-                                            <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" download>
+                                            <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" download
+                                                className="text-xs btn btn-xs py-4 bg-primary ">
                                                 Download Resume
                                             </a>
                                         )}
