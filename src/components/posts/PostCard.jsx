@@ -139,7 +139,7 @@ const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) =>
             {/* buttons */}
             <div className="flex gap-6 mt-4 text-gray-600 border-t pt-3 ">
                 <button onClick={() => handleLike(post._id)} className={`flex text-sm lg:text-base items-center gap-2 ${liked ? "text-orange-500" : ""}`}>
-                    {liked ? <FaThumbsUp /> : <FaRegThumbsUp />} {post.likesCount || post.likes?.length || 0}
+                    {liked ? <FaThumbsUp /> : <FaRegThumbsUp />} {post.likes?.length || 0}
                 </button>
                 <button onClick={() => setShowComments(!showComments)} className="flex items-center gap-2 text-sm lg:text-base">
                     <FaRegCommentDots /> {post.comments?.length || 0}

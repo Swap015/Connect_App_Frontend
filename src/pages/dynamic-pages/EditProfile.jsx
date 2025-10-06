@@ -251,8 +251,10 @@ const EditProfile = () => {
             </div>
 
             {/* profile details */}
-            <div className="flex-1 flex p-2 justify-center items-center sm:px-6 md:px-12 lg:px-40 2xl:px-50  mb-5 ">
-                <div className=" rounded-lg pt-9 px-3 max-w-2xl ">
+            <div className="flex-1 flex p-2 justify-center items-start sm:px-6 md:px-12 lg:px-20 xl:px-32 2xl:px-40 mb-5">
+
+                <div className="w-full max-w-3xl  p-6">
+
                     <h2 className="text-base sm:text-lg lg:text-2xl font-bold mb-6 border-b border-gray-400">Edit Profile Details</h2>
                     <form onSubmit={handleSubmit} className="space-y-6 text-xs sm:text-sm">
 
@@ -297,6 +299,7 @@ const EditProfile = () => {
                                 <label className="block text-sm font-bold text-gray-700 mb-2">
                                     Education ( Enter school/college name )
                                 </label>
+                               
                                 {["SSC", "HSC", "diploma", "degree"].map((edu) => (
                                     <input
                                         key={edu}

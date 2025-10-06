@@ -81,7 +81,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                         alt="profile"
                         className="w-10 h-10 rounded-full "
                     />
-                    <span className="font-medium text-gray-700">{user?.name || "You"}</span>
+                    <span className="font-bold text-sm text-black">{user?.name || "You"}</span>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">

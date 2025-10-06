@@ -12,7 +12,6 @@ const MyPosts = () => {
     const [showCreatePost, setShowCreatePost] = useState(false);
     const [editingPost, setEditingPost] = useState(null);
 
-
     useEffect(() => {
         if (user?._id) {
             const fetchPosts = async () => {
@@ -29,7 +28,7 @@ const MyPosts = () => {
 
     const handleLike = async (postId) => {
         try {
-            const res = await api.put(`/post/like/${postId}`, {}, { withCredentials: true });
+            const res = await api.patch(`/post/likePost/${postId}`, {}, { withCredentials: true });
             setPosts((prev) =>
                 prev.map((p) =>
                     p._id === postId ? { ...p, likes: res.data.likes } : p
@@ -70,15 +69,14 @@ const MyPosts = () => {
                 <h2 className="text-2xl font-bold text-gray-800">My Posts</h2>
                 <button
                     onClick={() => setShowCreatePost(true)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg shadow-md"
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg shadow-md text-sm "
                 >
                     + Create Post
                 </button>
             </div>
 
-
             {posts.length === 0 ? (
-                <p className="text-gray-500 text-center">No posts yet. Start creating!</p>
+                <p className="text-red-500 text-center text-sm ">No posts yet. Start creating!</p>
             ) : (
                 <div className="space-y-6">
                     {posts.map((post) => (
@@ -87,7 +85,7 @@ const MyPosts = () => {
                             post={post}
                             currentUser={user}
                             liked={post.likes?.includes(user._id)}
-                            handleLike={() => handleLike(post._id)}
+                            handleLike={handleLike}
                             onDelete={() => handleDelete(post._id)}
                             onEdit={handleEdit}
                         />
