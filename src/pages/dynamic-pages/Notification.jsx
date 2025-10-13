@@ -3,11 +3,13 @@ import api from "../../api/axios.js";
 import { FaBell, FaCheckCircle, FaTrashAlt } from "react-icons/fa";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { useNavigate } from "react-router-dom";
 dayjs.extend(relativeTime);
 
 const NotificationsPage = () => {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const fetchNotifications = async () => {
         try {
@@ -62,12 +64,12 @@ const NotificationsPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-lg sm:text-2xl lg:text-3xl 3xl:text-4xl font-bold text-gray-800 flex items-center gap-2">
+                <h1 className="text-lg sm:text-xl lg:text-2xl 3xl:text-3xl font-bold text-gray-800 flex items-center gap-2">
                     <FaBell className="text-yellow-400" /> Notifications
                 </h1>
                 <button
                     onClick={markAllRead}
-                    className="px-1.5 py-1.5 sm:px-2 sm:py-2 text-[9px] sm:text-[13px] bg-green-600 hover:bg-green-500 text-white rounded shadow"
+                    className="px-1.5 py-1.5 sm:px-2 sm:py-2 text-[9px] text-xs md:text-sm bg-green-600 hover:bg-green-500 text-white rounded shadow"
                 >
                     Mark All as Read
                 </button>
@@ -87,11 +89,13 @@ const NotificationsPage = () => {
                                 <img
                                     src={n.sender?.profileImage || "/default-avatar.png"}
                                     alt={n.sender?.name}
-                                    className="w-10 h-10 sm:w-14 sm:h-14 rounded-full object-cover border"
+                                    onClick={() => navigate(`/profile/${n.sender?._id}`)}
+                                    className="w-10 h-10 sm:w-14 sm:h-14 rounded-full object-cover border cursor-pointer"
                                 />
                                 <div>
                                     <p className="text-gray-700">
-                                        <span className="font-semibold sm:font-bold text-xs sm:text-sm lg:text-base 2xl:text-xl">  {n.type === "admin" ? "Connect" : n.sender?.name}</span>{" "}
+                                        <span onClick={() => navigate(`/profile/${n.sender?._id}`)}
+                                            className="font-semibold sm:font-bold cursor-pointer text-xs sm:text-sm lg:text-base 2xl:text-xl">  {n.type === "admin" ? "Connect" : n.sender?.name}</span>{" "}
                                         <span className="text-xs sm:text-sm lg:text-base 2xl:text-lg">{getNotificationText(n)}</span>
                                     </p>
                                     <p className="text-xs text-gray-500">{dayjs(n.createdAt).fromNow()}</p>

@@ -210,10 +210,12 @@ const Connections = () => {
                                         <img
                                             src={req.user.profileImage}
                                             alt={req.user.name}
-                                            className="w-12 h-12 lg:w-14 lg:h-14 rounded-full ring-2 ring-orange-400"
+                                            onClick={() => navigate(`/profile/${req.user._id}`)}
+                                            className="w-12 h-12 lg:w-14 lg:h-14 rounded-full ring-2 ring-orange-400 cursor-pointer"
                                         />
                                         <div>
-                                            <h4 className="text-sm sm:text-base  font-semibold text-gray-800">
+                                            <h4 onClick={() => navigate(`/profile/${req.user._id}`)}
+                                                className="text-sm sm:text-base  font-semibold text-gray-800 cursor-pointer">
                                                 {req.user.name}
                                             </h4>
                                             <p className="text-xs hidden sm:block sm:text-sm lg:text-base text-gray-500">
@@ -224,15 +226,15 @@ const Connections = () => {
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => handleAccept(req.user._id, req.user.name)}
-                                            className="btn btn-sm bg-gradient-to-r from-orange-400 to-orange-500 text-white border-none  text-xs sm:text-sm"
+                                            className="btn btn-sm bg-gradient-to-r from-orange-400 to-orange-500 text-white border-none text-xs sm:text-sm cursor-pointer"
                                         >
-                                            <FaCheck className="mr-1 hidden sm:block" /> Accept
+                                            <FaCheck className="mr-1 hidden sm:block cursor-pointer" /> Accept
                                         </button>
                                         <button
                                             onClick={() => handleReject(req.user._id)}
-                                            className="btn btn-sm text-xs sm:text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none"
+                                            className="btn btn-sm text-xs sm:text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none cursor-pointer"
                                         >
-                                            <FaTimes className="mr-1 hidden sm:block " /> Reject
+                                            <FaTimes className="mr-1 hidden sm:block cursor-pointer" /> Reject
                                         </button>
                                     </div>
                                 </div>
@@ -258,13 +260,14 @@ const Connections = () => {
                                         <img
                                             src={user.profileImage}
                                             alt={user.name}
-                                            className="w-12 h-12 lg:w-14 lg:h-14 rounded-full ring-2 ring-orange-400"
+                                            onClick={() => navigate(`/profile/${user._id}`)}
+                                            className="w-12 h-12 lg:w-14 lg:h-14 rounded-full ring-2 ring-orange-400 cursor-pointer"
                                         />
-                                        <h4 className="text-sm sm:text-base font-semibold text-gray-800">{user.name}</h4>
+                                        <h4 onClick={() => navigate(`/profile/${user._id}`)} className="text-sm sm:text-base font-semibold text-gray-800 cursor-pointer">{user.name}</h4>
                                     </div>
                                     <button
                                         onClick={() => handleCancel(user._id)}
-                                        className="btn btn-sm text-xs sm:text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none"
+                                        className="btn btn-sm text-xs sm:text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none cursor-pointer"
                                     >
                                         <FaUndo className="mr-1" /> Cancel
                                     </button>
@@ -291,9 +294,11 @@ const Connections = () => {
                                         <img
                                             src={u.profileImage}
                                             alt={u.name}
-                                            className="w-12 h-12 lg:w-14 lg:h-14  rounded-full ring-2 ring-orange-400"
+                                            onClick={() => navigate(`/profile/${u._id}`)}
+                                            className="w-12 h-12 lg:w-14 lg:h-14  rounded-full ring-2 ring-orange-400 cursor-pointer"
                                         />
-                                        <h4 className="font-semibold mt-3 text-gray-800">
+                                        <h4 onClick={() => navigate(`/profile/${u._id}`)}
+                                            className="font-semibold mt-3 text-gray-800 cursor-pointer">
                                             {u.name}
                                         </h4>
                                         <p className="text-xs  text-gray-500">
@@ -323,10 +328,11 @@ const Connections = () => {
                                         <img
                                             src={conn.profileImage}
                                             alt={conn.name}
-                                            className="w-12 h-12 lg:w-14 lg:h-14  rounded-full ring-2 ring-orange-400"
+                                            onClick={() => navigate(`/profile/${conn._id}`)}
+                                            className="w-12 h-12 lg:w-14 lg:h-14  rounded-full ring-2 ring-orange-400 cursor-pointer"
                                         />
                                         <div>
-                                            <h4 className="font-semibold text-gray-800 text-sm sm:text-base">
+                                            <h4 onClick={() => navigate(`/profile/${conn._id}`)} className="font-semibold text-gray-800 text-sm sm:text-base cursor-pointer">
                                                 {conn.name}
                                             </h4>
                                             <p className="text-sm text-gray-500">
@@ -337,13 +343,13 @@ const Connections = () => {
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => startChat(conn._id)}
-                                            className="btn btn-sm bg-blue-500 text-white border-none text-xs sm:text-sm"
+                                            className="btn btn-sm bg-blue-500 text-white border-none text-xs sm:text-sm cursor-pointer"
                                         >
                                             Message
                                         </button>
                                         <button
                                             onClick={() => handleRemove(conn._id)}
-                                            className="btn btn-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none text-xs sm:text-sm"
+                                            className="btn btn-sm bg-gray-200 text-gray-700 hover:bg-gray-300 border-none text-xs sm:text-sm cursor-pointer"
                                         >
                                             Remove
                                         </button>

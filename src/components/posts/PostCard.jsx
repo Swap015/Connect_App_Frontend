@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegCommentDots, FaRegThumbsUp, FaThumbsUp, FaRegBookmark, FaBookmark, FaEllipsisH } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -6,6 +6,8 @@ import EditPostModal from "./EditPostModal.jsx";
 import api from "../../api/axios.js";
 import CommentSection from "../comments/CommentSection.jsx"
 import { format } from "date-fns";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) => {
@@ -14,8 +16,16 @@ const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) =>
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [saved, setSaved] = useState(currentUser?.savedPosts?.includes(post._id));
     const [showComments, setShowComments] = useState(false);
+    const navigate = useNavigate();
+
 
     const isOwner = currentUser?._id === post.postedBy?._id;
+
+    useEffect(() => {
+        if (currentUser?.savedPosts && post?._id) {
+            setSaved(currentUser.savedPosts.includes(post._id));
+        }
+    }, [currentUser, post?._id]);
 
     const getFileType = (url) => {
         if (!url) return null;
@@ -46,14 +56,13 @@ const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) =>
                 await api.put(`/post/unsavePost/${post._id}`, {}, { withCredentials: true });
                 setSaved(false);
             }
-        } catch (err) {
-            console.error("Failed to toggle save", err);
-            alert("Failed to save/unsave post");
+        } catch {
+            toast.error("Failed to save/unsave post");
         }
     };
 
     return (
-        <div className="card bg-white shadow-md rounded-xl p-5 border border-gray-100 hover:shadow-lg transition relative">
+        <div className="card bg-white shadow-md rounded-xl p-5 border border-gray-100 cursor-pointer relative">
 
             {/* User info */}
             <div className="flex items-center justify-between ">
@@ -64,7 +73,10 @@ const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) =>
                         className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover border"
                     />
                     <div>
-                        <h4 className="font-semibold text-xs lg:text-sm 3xl:text-base text-gray-800">{post.postedBy?.name}</h4>
+                        <h4 onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/profile/${post.postedBy?._id}`);
+                        }} className="font-semibold text-xs lg:text-sm 3xl:text-base text-gray-800">{post.postedBy?.name}</h4>
                         <p className="text-xs text-gray-500 ">
                             {format(new Date(post.createdAt), "d MMM yyyy")}
                         </p>
@@ -171,7 +183,9 @@ const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) =>
                     }}
                 />
             )}
+
             {/*comment section */}
+
             {showComments && (
                 <CommentSection postId={post._id} currentUser={currentUser} />
             )}

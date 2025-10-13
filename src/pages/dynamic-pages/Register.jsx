@@ -1,6 +1,7 @@
-import axios from "axios";
+
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import api from "../../api/axios";
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -13,7 +14,6 @@ const SignUp = () => {
 
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
-    const VITE_API_URL = import.meta.env.VITE_API_URL;
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,7 +25,7 @@ const SignUp = () => {
         setMessage("");
 
         try {
-            const response = await axios.post(`${VITE_API_URL}/user/register`,
+            const response = await api.post(`/user/register`,
                 formData
             );
 
@@ -70,7 +70,7 @@ const SignUp = () => {
                     </div>
 
                     {/* right side form */}
-                    <div className="p-6 md:px-13 md:pt-8">
+                    <div className="p-6 md:px-12 md:pt-8">
                         <h3 className="sm:hidden text-3xl font-bold mb-6 tracking-wide text-center">
                             <span className="text-black">Sign</span>{" "}
                             <span className="text-orange-500">Up</span>
@@ -86,7 +86,7 @@ const SignUp = () => {
                                     placeholder="Full Name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2"
+                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2 text-xs sm:text-sm lg:text-base 2xl:text-lg"
                                     required
                                 />
                             </div>
@@ -100,7 +100,7 @@ const SignUp = () => {
                                     placeholder="Email Address"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2"
+                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2 text-xs sm:text-sm lg:text-base 2xl:text-lg"
                                     required
                                 />
                             </div>
@@ -113,14 +113,14 @@ const SignUp = () => {
                                     placeholder="Password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2"
+                                    className="w-full pl-10 pr-3 py-2 border rounded-lg text-black focus:ring-2 text-xs sm:text-sm lg:text-base 2xl:text-lg"
                                     required
                                 />
                             </div>
 
                             {/* role */}
                             <div className="sm:text-xs">
-                                <label className="block text-black mb-2 sm:text-lg font-bold">Signup As</label>
+                                <label className="block text-black mb-2 text-sm sm:text-base 2xl:text-lg font-bold">Signup As</label>
                                 <div className="flex gap-4 text-xs">
                                     {[
                                         { value: "user", label: "User" },
@@ -151,7 +151,7 @@ const SignUp = () => {
 
 
                             <div>
-                                <label className="block mb-2 text-black sm:text-lg  font-bold">Gender</label>
+                                <label className="block mb-2 text-black text-sm sm:text-base 2xl:text-lg font-bold">Gender</label>
                                 <div className="grid grid-cols-3 gap-4 text-xs">
                                     {[
                                         { value: "male", label: "Male 👦🏻" },
@@ -184,7 +184,7 @@ const SignUp = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-gradient-to-r from-orange-500 to-yellow-400 text-white py-1 rounded-lg font-bold shadow-lg hover:opacity-90 transition sm:text-lg"
+                                className="w-full bg-gradient-to-r from-orange-500 to-yellow-400 text-white py-1 rounded-lg font-bold shadow-lg hover:opacity-90 transition text-sm sm:text-base lg:text-lg "
                             >
                                 {loading ? (
                                     <>
@@ -195,7 +195,7 @@ const SignUp = () => {
                             </button>
                         </form>
 
-                        <p className="text-black text-center mt-4 sm:text-lg">
+                        <p className="text-black text-center mt-4  text-sm sm:text-base lg:text-lg ">
                             Already have an account?{" "}
                             <a href="/login" className="text-orange-500 font-semibold hover:underline ">
                                 Login

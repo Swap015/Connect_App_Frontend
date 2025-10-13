@@ -6,8 +6,8 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
     if (conversations.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center h-full text-gray-500">
-               
-                <p className="text-lg font-semibold">No Conversations Yet</p>
+
+                <p className="text-lg lg:text-xl font-semibold">No Conversations Yet</p>
                 <p className="text-sm">Start a chat to see them here 💬</p>
             </div>
         );
@@ -32,7 +32,7 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                             className="w-12 h-12 rounded-full border object-cover"
                         />
                         <div className="flex-1">
-                            <h4 className="font-bold text-base text-gray-800">
+                            <h4 className="font-bold text-sm md:text-base 2xl:text-lg text-gray-800">
                                 {otherUser?.name}
                             </h4>
                             <p className="text-sm text-gray-500 truncate">

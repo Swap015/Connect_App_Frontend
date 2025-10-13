@@ -10,6 +10,7 @@ import {
 import { toast } from "react-toastify";
 import api from "../../api/axios.js";
 import ApplicantStatus from "../../pages/dynamic-pages/Recruiter/ApplicationStatus.jsx";
+import { useNavigate } from "react-router-dom";
 
 
 export default function JobCard({
@@ -25,6 +26,9 @@ export default function JobCard({
     const [openApplicants, setOpenApplicants] = useState(false);
     const [applicants, setApplicants] = useState([]);
     const [loadingApplicants, setLoadingApplicants] = useState(false);
+
+    const navigate = useNavigate();
+
 
     const fetchJobDetails = async () => {
         try {
@@ -198,49 +202,56 @@ export default function JobCard({
                 </div>
             )}
 
-            {/* Applicants modal */}
+
             {openApplicants && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 px-3 sm:px-4">
-                    <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-xl max-h-[80vh] overflow-y-auto shadow-lg">
-                        <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-lg sm:text-xl font-bold">Applicants</h2>
-                            <span
-                                className="cursor-pointer  hover:text-red-600 text-xl "
+                <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 px-4 sm:px-6">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-5 sm:p-6">
+
+
+                        <div className="flex justify-between items-center border-b pb-3 mb-4">
+                            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">Applicants</h2>
+                            <button
+                                className="text-gray-500 hover:text-red-600 text-2xl font-bold"
                                 onClick={() => setOpenApplicants(false)}
                             >
-                                ❌
-                            </span>
-
+                                &times;
+                            </button>
                         </div>
 
+
                         {loadingApplicants ? (
-                            <div className="text-center py-10">Loading...</div>
+                            <div className="text-center py-10 text-gray-500">Loading applicants...</div>
                         ) : applicants.length === 0 ? (
-                            <div className="text-center py-10 text-gray-500">No applicants yet.</div>
+                            <div className="text-center py-10 text-gray-400">No applicants yet.</div>
                         ) : (
                             <div className="space-y-4">
                                 {applicants.map((app) => (
                                     <div
                                         key={app._id}
-                                        className="border p-3 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2"
+                                        className="border rounded-lg p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50 hover:bg-gray-100 transition"
                                     >
-                                        <div>
-                                            <p className="font-bold text-sm sm:text-base">
+
+                                        <div className="flex-1">
+                                            <p onClick={() => navigate(`/profile/${app.applicant?._id}`)} className="font-semibold text-base sm:text-lg text-gray-800 cursor-pointer">
                                                 {app.applicant?.name || "Unknown Applicant"}
                                             </p>
-                                            <p className="text-sm text-gray-600 my-2">Email: {app.applicant?.email}</p>
-                                            <ApplicantStatus
-                                                applicant={app}
-                                                jobId={job._id}
-                                                onStatusChange={(id, newStatus) => {
-                                                    setApplicants((prev) =>
-                                                        prev.map((a) => (a._id === id ? { ...a, status: newStatus } : a))
-                                                    );
-                                                }}
-                                            />
+                                            <p className="text-sm sm:text-base text-gray-600 mt-1">Email: {app.applicant?.email}</p>
+
+                                            <div className="mt-2">
+                                                <ApplicantStatus
+                                                    applicant={app}
+                                                    jobId={job._id}
+                                                    onStatusChange={(id, newStatus) => {
+                                                        setApplicants((prev) =>
+                                                            prev.map((a) => (a._id === id ? { ...a, status: newStatus } : a))
+                                                        );
+                                                    }}
+                                                />
+                                            </div>
+
 
                                             {app.coverLetter && (
-                                                <p className="text-sm text-gray-700 mt-3 whitespace-pre-wrap">
+                                                <p className="text-sm sm:text-base text-gray-700 mt-3 whitespace-pre-wrap">
                                                     <strong>Cover Letter:</strong>
                                                     <br />
                                                     {app.coverLetter}
@@ -248,20 +259,28 @@ export default function JobCard({
                                             )}
                                         </div>
 
-                                        {app.resumeUrl && (
-                                            <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer" download
-                                                className="text-xs btn btn-xs py-4 bg-primary ">
-                                                Download Resume
-                                            </a>
-                                        )}
 
+                                        {app.resumeUrl && (
+                                            <div className="flex-shrink-0 mt-4 sm:mt-0 sm:ml-4 self-end sm:self-center">
+                                                <a
+                                                    href={app.resumeUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="px-4 py-2 bg-blue-600 text-white text-sm sm:text-base rounded hover:bg-blue-700 transition text-center"
+                                                >
+                                                    View Resume
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
+
                             </div>
                         )}
                     </div>
                 </div>
             )}
+
         </>
     );
 }

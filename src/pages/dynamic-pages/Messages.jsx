@@ -5,41 +5,43 @@ import api from "../../api/axios.js";
 import { io } from "socket.io-client";
 import UserContext from "../../components/Context/UserContext.jsx";
 
-
 const Messages = () => {
     const [conversations, setConversations] = useState([]);
+    const [connections, setConnections] = useState([]);
     const [selectedConversation, setSelectedConversation] = useState(null);
     const [socket, setSocket] = useState(null);
     const { user, loading } = useContext(UserContext);
     const [convoLoading, setConvoLoading] = useState(true);
     const VITE_SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
-
     useEffect(() => {
         if (!loading && user) {
             const newSocket = io(VITE_SOCKET_URL, { withCredentials: true });
             setSocket(newSocket);
 
-            const fetchConvos = async () => {
+            const fetchData = async () => {
                 try {
                     setConvoLoading(true);
+
                     const resConvo = await api.get("/chat/getAllConversation");
                     setConversations(resConvo.data.conversations);
+
+                    const resConn = await api.get("/connection/my-connections");
+                    setConnections(resConn.data.connections);
 
                     if (user?._id) {
                         newSocket.emit("addUser", user._id);
                     }
                 } catch (err) {
-                    console.error("Error fetching conversations:", err);
+                    console.error("Error fetching data:", err);
                 } finally {
                     setConvoLoading(false);
                 }
             };
 
-            fetchConvos();
+            fetchData();
             return () => newSocket.disconnect();
         }
-
     }, [user, loading]);
 
     if (loading || convoLoading) {
@@ -51,12 +53,58 @@ const Messages = () => {
     }
 
     return (
-        <div className="w-full h-[90vh] bg-white  shadow-xl flex overflow-hidden border-2 border-white">
+        <div className="w-full h-[90vh] bg-white shadow-xl flex overflow-hidden border-2 border-white">
 
             <div
                 className={`${selectedConversation ? "hidden sm:block" : "block"
                     } w-full sm:w-1/3 border-r bg-gray-50 text-black`}
             >
+
+                <div className="flex gap-4 overflow-x-auto p-3 bg-white/80 backdrop-blur-md shadow-sm">
+                    {connections.map((conn) => {
+
+                        const convo = conversations.find((c) =>
+                            c.participants.some((p) => p._id === conn._id)
+                        );
+
+                        return (
+                            <div
+                                key={conn._id}
+                                className="flex flex-col items-center cursor-pointer"
+                                onClick={async () => {
+                                    if (convo) {
+                                        setSelectedConversation(convo);
+                                    } else {
+                                        try {
+                                            const res = await api.post("/chat/conversation", {
+                                                otherUserId: conn._id,
+                                            });
+                                            setSelectedConversation(res.data.conversation);
+
+                                            setConversations((prev) => [
+                                                ...prev,
+                                                res.data.conversation,
+                                            ]);
+                                        } catch (err) {
+                                            console.error("Error creating conversation:", err);
+                                        }
+                                    }
+                                }}
+                            >
+                                <img
+                                    src={conn.profileImage || "/default-avatar.png"}
+                                    alt={conn.name}
+                                    className="w-12 h-12 rounded-full border object-cover"
+                                />
+                                <span className="text-xs mt-1 truncate w-14 text-center">
+                                    {conn.name.split(" ")[0]}
+                                </span>
+                            </div>
+                        );
+                    })}
+                </div>
+
+
                 <ConversationList
                     conversations={conversations}
                     selectedConversation={selectedConversation}
@@ -84,7 +132,6 @@ const Messages = () => {
                 )}
             </div>
         </div>
-
     );
 };
 

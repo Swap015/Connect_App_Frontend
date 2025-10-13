@@ -194,7 +194,7 @@ const Header = () => {
                             {results.users.length > 0 && (
                                 <div>
                                     <h4 className="px-3 py-1 text-xs font-bold text-gray-600">Users</h4>
-                                    {results.users.map((u) => (
+                                    {results.users.filter((u) => u.role !== "admin").map((u) => (
                                         <div
                                             key={u._id}
                                             onClick={() => handleSelectUser(u._id)}

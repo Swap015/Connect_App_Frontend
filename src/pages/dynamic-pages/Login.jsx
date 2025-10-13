@@ -2,8 +2,8 @@
 import { useContext, useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import UserContext from "../../components/Context/UserContext";
+import api from "../../api/axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -15,7 +15,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const { login } = useContext(UserContext);
-  const VITE_API_URL = import.meta.env.VITE_API_URL;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,7 +27,7 @@ const Login = () => {
     setLoading(true);
     setMessage("");
     try {
-      const res = await axios.post(`${VITE_API_URL}/user/login`, formData, { withCredentials: true }
+      const res = await api.post(`/user/login`, formData, { withCredentials: true }
       );
       setMessage(res.data.msg);
       login(res.data.user);
@@ -56,7 +55,7 @@ const Login = () => {
         <h2 className="text-xl sm:text-2xl font-bold text-center text-black">
           Connect & <span className="text-orange-500">Explore</span>
         </h2>
-        <p className="text-center text-gray-600 mt-2 text-xs sm:text-sm">
+        <p className="text-center text-gray-600 mt-2 text-sm sm:text-base ">
           Access your account by filling the form below
         </p>
 
@@ -65,7 +64,7 @@ const Login = () => {
 
           {/* Email */}
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700">
+            <label className="block text-xs sm:text-sm 2xl:text-base font-bold text-gray-700">
               Email Address
             </label>
             <input
@@ -74,14 +73,14 @@ const Login = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full mt-2 px-4 py-2 sm:py-3 border rounded-lg bg-white text-black placeholder-gray-500 focus:ring-2 text-xs sm:text-sm"
+              className="w-full mt-2 px-4 py-2 border rounded-lg bg-white text-black placeholder-gray-500 focus:ring-2 text-xs sm:text-sm lg:text-base 2xl:text-lg"
               placeholder="Enter your email address"
             />
           </div>
 
           {/* Password  */}
           <div className="relative">
-            <label className="block text-xs sm:text-sm font-bold text-gray-700">
+            <label className="block text-xs sm:text-sm 2xl:text-base font-bold text-gray-700">
               Password
             </label>
             <input
@@ -90,7 +89,7 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full mt-2 px-4 py-2 sm:py-3 border border-gray-300 rounded-lg bg-white text-black placeholder-gray-500 focus:ring-2 text-xs sm:text-sm"
+              className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-lg bg-white text-black placeholder-gray-500 focus:ring-2 text-xs sm:text-sm lg:text-base 2xl:text-lg"
               placeholder="Enter your password"
             />
             <div
@@ -103,7 +102,7 @@ const Login = () => {
 
           {/* Role */}
           <div>
-            <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm 2xl:text-base font-bold text-gray-700 mb-2">
               Select Role
             </label>
             <div className="flex gap-2 sm:gap-3 ">
@@ -114,7 +113,7 @@ const Login = () => {
               ].map((role) => (
                 <label
                   key={role.value}
-                  className={`cursor-pointer flex items-center justify-center px-3 sm:px-3 py-1 sm:py-2 rounded-xl shadow-md transition-all duration-300
+                  className={`cursor-pointer flex items-center justify-center px-3 sm:px-3 py-1 sm:py-2 3xl:py-4 rounded-xl shadow-md transition-all duration-300
           border text-xs sm:text-sm font-bold  
           ${formData.role === role.value
                       ? "bg-gradient-to-r from-orange-500 to-yellow-400 text-white scale-105"

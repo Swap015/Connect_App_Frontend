@@ -10,7 +10,6 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
         message.deletedForEveryone;
     const isDeletedForMe = message.deletedForMe;
 
-   
     if (isDeletedForMe) return null;
 
     return (
@@ -18,11 +17,12 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
             className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-2 relative`}
         >
             <div
-                className={`max-w-xs text-sm px-5 py-2 rounded-lg shadow-md relative ${isOwn
+                className={`max-w-[75%] break-words whitespace-pre-wrap text-sm px-5 py-2 rounded-lg shadow-md relative ${isOwn
                         ? "bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-br-none"
                         : "bg-gradient-to-b from-[#bcbbbb] to-[#7b7a7a] text-white/90 rounded-bl-none"
                     }`}
             >
+
                 {isDeletedForEveryone ? (
                     <p className="italic text-white">This message is deleted for everyone</p>
                 ) : (
@@ -56,8 +56,7 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
                                 </div>
                             ))}
 
-                       
-                        {message.text && <p>{message.text}</p>}
+                        {message.text && <p className="text-xs lg:text-sm">{message.text}</p>}
                     </>
                 )}
 
@@ -70,7 +69,6 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
                         </span>
                     )}
                 </span>
-
                
                 {isOwn && !isDeletedForEveryone && (
                     <div className="absolute top-1 right-1">

@@ -86,7 +86,7 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={handleTyping}
-                className="flex-1 px-4 py-2 rounded-full border focus:outline-none focus:ring focus:border-blue-400"
+                className="flex-1 px-4 py-2 rounded-full border focus:outline-none focus:ring focus:border-blue-400 text-xs md:text-sm lg:text-base"
                 disabled={uploading}
             />
 

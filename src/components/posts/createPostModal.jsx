@@ -28,7 +28,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!content && files.length === 0) {
-            alert("Please add content or at least one image!");
+            toast.warn("Please add content or at least one image!");
             return;
         }
 
@@ -52,9 +52,8 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             onClose();
             if (onPostCreated) onPostCreated(res.data.post);
             toast.success("Post created successfully!");
-        } catch (err) {
+        } catch {
             setLoading(false);
-            console.error("Error creating post:", err.response?.data || err);
             toast.error("Post creation failed. Try again.");
         }
     };
@@ -67,9 +66,9 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
             <div className="absolute inset-0 bg-gray-700/40 backdrop-blur-sm"></div>
 
             <div className="relative bg-gradient-to-r from-gray-50 to-gray-100 backdrop-blur-xl rounded-xl p-6 w-[90%] sm:w-[500px] shadow-2xl animate-fadeIn border-2 border-black/50">
-                {/* Create Post Header */}
+
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-gray-800">Create Post</h2>
+                    <h2 className="text-lg md:text-2xl  2xl:text-3xl font-semibold text-orange-600 ">Create Post</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
                         <FaTimes size={20} />
                     </button>
@@ -79,9 +78,9 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                     <img
                         src={user?.profileImage}
                         alt="profile"
-                        className="w-10 h-10 rounded-full "
+                        className="w-12 h-12 rounded-full "
                     />
-                    <span className="font-bold text-sm text-black">{user?.name || "You"}</span>
+                    <span className="font-bold text-base lg:text-lg 3xl:text-xl text-black">{user?.name || "You"}</span>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -89,7 +88,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="What's on your mind?"
-                        className="w-full p-3 border rounded-lg text-gray-800 resize-none focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/70"
+                        className="w-full p-3 border rounded-lg text-gray-800 resize-none focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white/70 text-sm sm:text-base md:text-lg "
                         rows={4}
                     />
 
@@ -109,12 +108,12 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                     )}
 
                     <div className="flex items-center justify-between border-t pt-3">
-                        {/* File Upload */}
+                        {/* file upload */}
 
                         <div className="flex items-center gap-3">
-                            <label className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:text-shadow-lg">
+                            <label className="flex items-center gap-2 px-4 py-2 cursor-pointer hover:text-shadow-lg text-base">
                                 <MdAttachFile className="text-blue-600 font-extrabold text-xl" />
-                                <span className="text-gray-900 font-bold">Choose File</span>
+                                <span className="text-gray-900 font-bold ">Choose File</span>
                                 <input
                                     type="file"
                                     multiple
@@ -124,7 +123,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                                 />
                             </label>
 
-                            {/*  file count */}
+
                             {files.length > 0 && (
                                 <span className="text-sm text-gray-600">
                                     {files.length} file{files.length > 1 ? "s" : ""} selected
@@ -136,7 +135,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="flex items-center justify-center gap-2 px-6 py-2 rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 disabled:opacity-50 shadow-md"
+                            className="flex items-center justify-center gap-2 px-6 py-2   rounded-lg text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 disabled:opacity-50 shadow-md text-sm sm:text-base font-semibold "
                         >
                             {loading ? (
                                 <>

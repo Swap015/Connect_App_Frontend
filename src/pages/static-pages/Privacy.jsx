@@ -13,13 +13,13 @@ const Privacy = () => {
                     how we collect, use, and safeguard your information when you use our platform.
                 </p>
 
-                <h2 className="lg:text-2xl text-xl font-bold text-gray-800 mt-8 mb-3">1. Information We Collect</h2>
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mt-8 mb-3">1. Information We Collect</h2>
                 <p className="text-gray-600 mb-4 text-lg lg:text-xl">Personal details, career history, and interactions on the platform.</p>
 
-                <h2 className="lg:text-2xl text-xl  font-bold text-gray-800 mt-8 mb-3">2. How We Use Your Data</h2>
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mt-8 mb-3">2. How We Use Your Data</h2>
                 <p className="text-gray-600 mb-4 text-lg lg:text-xl">To connect you with opportunities, improve networking, and personalize your experience.</p>
 
-                <h2 className="lg:text-2xl text-xl  font-bold text-gray-800 mt-8 mb-3">3. Your Rights</h2>
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mt-8 mb-3">3. Your Rights</h2>
                 <p className="text-gray-600 mb-4 text-lg lg:text-xl">You can control what you share, update your data, or request account deletion anytime.</p>
 
                 <p className="text-gray-600 mt-10 text-center italic text-sm ">

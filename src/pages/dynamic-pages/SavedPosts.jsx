@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { FaTrash, FaBookmark } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SavedPosts = () => {
     const [savedPosts, setSavedPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const fetchSavedPosts = async () => {
         try {
@@ -32,10 +34,10 @@ const SavedPosts = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-900 p-6">
+        <div className="min-h-screen bg-gray-100 p-6">
             <div className="max-w-6xl mx-auto">
-                <h1 className="text-xl sm:text-2xl lg:text-3xl 3xl:text-4xl font-bold text-white mb-6 flex items-center gap-3">
-                    <FaBookmark className="text-yellow-400" /> Saved Posts
+                <h1 className="text-xl sm:text-2xl lg:text-3xl 3xl:text-4xl font-bold text-black mb-6 flex items-center gap-3">
+                    <FaBookmark className="text-red-600" /> Saved Posts
                 </h1>
 
                 {loading ? (
@@ -51,14 +53,18 @@ const SavedPosts = () => {
                         {savedPosts.map((post) => (
                             <div
                                 key={post._id}
-                                className="relative group bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-md"
+                                onClick={
+                                    () => navigate(`/Singlepost/${post._id}`)
+                                }
+                                className="relative group bg-gray-800 border border-gray-300 rounded-lg overflow-hidden shadow-md"
                             >
-                                {/* post image */}
+
                                 {Array.isArray(post.file) && post.file.length > 0 ? (
                                     <img
                                         src={post.file[0]}
                                         alt="post"
-                                        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                                        className="w-full h-36 sm:h-44 md:h-48 lg:h-52
+                                        object-cover transition-transform duration-300 group-hover:scale-105"
                                     />
                                 ) : (
                                     <div className="h-48 flex items-center justify-center bg-gray-700">
@@ -72,17 +78,22 @@ const SavedPosts = () => {
                                         <img
                                             src={post.postedBy?.profileImage || "/default-avatar.png"}
                                             alt="profile"
-                                            className="w-8 h-8 rounded-full border border-gray-400 object-cover"
+                                            className="w-8 h-8 sm:w-9 sm:h-9  rounded-full border border-gray-400 object-cover"
                                         />
-                                        <h3 className="text-white font-medium text-sm">
+                                        <h3 className="text-white font-medium text-sm sm:text-base md:text-lg 2xl:text-xl">
                                             {post.postedBy?.name}
                                         </h3>
                                     </div>
 
                                     <button
-                                        onClick={() => handleUnsave(post._id)}
-                                        className="flex items-center justify-center gap-2 px-3 py-2 bg-red-500 rounded-md text-white text-sm hover:bg-red-600 transition"
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            handleUnsave(post._id);
+                                        }
+                                        }
+                                        className="flex items-center justify-center gap-2 px-1 py-1 lg:py-2  bg-red-500 rounded-md text-white text-sm hover:bg-red-600 transition"
                                     >
+
                                         <FaTrash /> Unsave
                                     </button>
                                 </div>

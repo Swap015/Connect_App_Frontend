@@ -22,7 +22,6 @@ import Messages from "./pages/dynamic-pages/Messages.jsx";
 import Connections from "./pages/dynamic-pages/Connections.jsx";
 import JobControl from "./pages/dynamic-pages/JobControl.jsx";
 import Jobs from "./pages/dynamic-pages/Jobs.jsx";
-import Post from "./pages/dynamic-pages/Post.jsx";
 import Profile from "./pages/dynamic-pages/Profile.jsx";
 import MyPosts from "./components/posts/MyPosts.jsx";
 import AdminDashboard from "./pages/dynamic-pages/admin/AdminDashboard.jsx";
@@ -32,6 +31,7 @@ import AdminJobs from "./pages/dynamic-pages/admin/AdminJobs.jsx";
 import AdminUsersPosts from "./pages/dynamic-pages/admin/AdminUsersPosts.jsx";
 import AdminRoutes from "./components/RouteProtector/AdminRoutes.jsx";
 import RecruiterDashboard from "./pages/dynamic-pages/Recruiter/RecruiterDashboard.jsx";
+import SinglePost from "./components/posts/SinglePost.jsx";
 
 
 function App() {
@@ -62,9 +62,10 @@ function App() {
               <Route path="/connections" element={<Connections />} />
               <Route path="/jobsControl" element={<JobControl />} />
               <Route path="/jobs" element={<Jobs />} />
-              <Route path="/post/:id" element={<Post />} />
+
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/myPosts" element={<MyPosts />} />
+              <Route path="/Singlepost/:postId" element={<SinglePost />} />
               <Route path="/recruiter-dashboard" element={<RecruiterDashboard/>} />
               <Route path="*" element={<NotFound />} />
 

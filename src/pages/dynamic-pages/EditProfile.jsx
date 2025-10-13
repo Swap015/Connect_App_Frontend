@@ -299,7 +299,7 @@ const EditProfile = () => {
                                 <label className="block text-sm font-bold text-gray-700 mb-2">
                                     Education ( Enter school/college name )
                                 </label>
-                               
+
                                 {["SSC", "HSC", "diploma", "degree"].map((edu) => (
                                     <input
                                         key={edu}

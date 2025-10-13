@@ -6,37 +6,36 @@ const api = axios.create({
     withCredentials: true,
 });
 
-// interceptor
-// api.interceptors.response.use(
-//     (response) => response,
-//     async (error) => {
-//         const originalRequest = error.config;
 
-//         if (
-//             error.response?.status === 401 &&
-//             !originalRequest._retry &&
-//             !originalRequest.url.includes("/user/login") &&
-//             !originalRequest.url.includes("/user/register")
-//         ) {
-//             originalRequest._retry = true;
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
 
-//             try {
-//                 await axios.post(
-//                     `${import.meta.env.VITE_API_URL}/user/refresh`,
-//                     {},
-//                     { withCredentials: true }
-//                 );
+        const refreshTokenExists = document.cookie.includes("refreshToken");
 
-//                 return api(originalRequest);
-//             } catch (err) {
-//                 console.error("Refresh failed:", err);
-//                 window.location.href = "/login";
-//             }
-//         }
+        if (
+            error.response?.status === 401 &&
+            !originalRequest._retry &&
+            !originalRequest.url.endsWith("/user/login") &&
+            !originalRequest.url.endsWith("/user/register") &&
+            refreshTokenExists 
+        ) {
+            originalRequest._retry = true;
 
-//         return Promise.reject(error);
-//     }
-// );
+            try {
+                await axios.post(`${import.meta.env.VITE_API_URL}/user/refresh`, {}, { withCredentials: true });
+                return api(originalRequest); 
+            } catch (err) {
+                console.error("Refresh failed:", err);
+                window.location.href = "/login";
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
+
 
 
 export default api;

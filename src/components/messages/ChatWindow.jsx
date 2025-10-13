@@ -4,6 +4,7 @@ import MessageInput from "./MessageInput.jsx";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { HiDotsVertical } from "react-icons/hi";
 import api from "../../api/axios.js";
+import { useNavigate } from "react-router-dom";
 
 const ChatWindow = ({ conversation, user, socket, onBack }) => {
     const [messages, setMessages] = useState([]);
@@ -11,7 +12,11 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
     const messagesEndRef = useRef(null);
     const [uploading, setUploading] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
+    const chatPartner = conversation.participants.find(
+        (p) => p._id !== user._id
+    );
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -36,7 +41,6 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
         }
     }, [messages]);
 
-    // Socket listeners
     useEffect(() => {
         const onGetMessage = (msg) => {
             const msgConvId = typeof msg.conversation === "object" ? String(msg.conversation._id) : String(msg.conversation);
@@ -121,7 +125,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                 setMessages((prev) =>
                     prev.map((m) =>
                         m._id === msgId
-                            ? { ...m, deletedForMe: true } 
+                            ? { ...m, deletedForMe: true }
                             : m
                     )
                 );
@@ -136,7 +140,6 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
     return (
         <div className="flex flex-col h-full text-black">
 
-
             <div className="flex items-center justify-between p-3 border-b bg-gray-50 text-black">
                 <div className="flex items-center gap-3">
                     <button
@@ -148,13 +151,14 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                     <img
                         src={conversation.participants.find((p) => p._id !== user._id)?.profileImage}
                         alt="chat user"
-                        className="w-10 h-10 rounded-full"
+                        className="w-10 h-10 rounded-full cursor-pointer"
+                        onClick={() => navigate(`/profile/${chatPartner?._id}`)}
                     />
-                    <h3 className="font-semibold text-sm text-black">
+                    <h3 onClick={() => navigate(`/profile/${chatPartner?._id}`)}
+                        className="font-semibold text-sm md:text-base 2xl:text-lg text-black cursor-pointer">
                         {conversation.participants.find((p) => p._id !== user._id)?.name}
                     </h3>
                 </div>
-
 
                 <div className="relative">
                     <button
@@ -177,7 +181,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
             </div>
 
             {/* messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-white">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-2 bg-white">
                 {messages.map((m) => (
                     <MessageBubble
                         key={m._id}

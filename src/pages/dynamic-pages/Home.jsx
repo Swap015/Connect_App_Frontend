@@ -1,9 +1,10 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import api from "../../api/axios.js"
-import CreatePostModal from "../../components/posts/createPostModal";
+import CreatePostModal from "../../components/posts/createPostModal.jsx";
 import { useNavigate } from "react-router-dom";
 import PostCard from "../../components/posts/PostCard.jsx";
 import UserContext from "../../components/Context/UserContext.jsx";
+import { toast } from "react-toastify";
 
 const Home = () => {
     const { user, loading } = useContext(UserContext);
@@ -27,13 +28,12 @@ const Home = () => {
                 );
                 setLikedPosts(likedSet);
             }
-        } catch (err) {
-            console.error("Failed to fetch posts", err);
+        } catch {
+            toast.error("Failed to fetch posts");
         } finally {
             setPostsLoading(false);
         }
     }, []);
-
 
     const handleLike = async (postId) => {
         try {
@@ -53,8 +53,8 @@ const Home = () => {
                 else updated.add(postId);
                 return updated;
             });
-        } catch (err) {
-            console.log("Error liking post", err);
+        } catch {
+            toast.error("Error liking post");
         }
     };
 
@@ -73,8 +73,7 @@ const Home = () => {
     return (
         <div className="min-h-screen bg-gray-50 flex">
 
-
-            {/* left side section */}
+            {/* left side section-----for Big devices */}
             <aside className="w-64 bg-white shadow-lg p-6 hidden md:block text-black text-lg font-bold">
 
                 <ul className="space-y-4">
@@ -86,12 +85,7 @@ const Home = () => {
                             + Create Post
                         </button>
 
-                        <CreatePostModal
-                            isOpen={isModalOpen}
-                            onClose={() => setIsModalOpen(false)}
-                            onPostCreated={() => fetchPosts(user)}
 
-                        />
                     </div>
                     <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/savedPosts")}>🔖 Saved Posts</li>
                     <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/likedPosts")}>❤️ Liked Posts</li>
@@ -107,10 +101,10 @@ const Home = () => {
 
                 {/*  mobile menu*/}
 
-                <div className="flex justify-around bg-white shadow-md p-3 mb-3 rounded-lg md:hidden text-black font-bold">
+                <div className="flex justify-around bg-white shadow-xl p-2 mb-3 gap-2 rounded-lg md:hidden text-black font-bold">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-500 text-sm"
+                        className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-500 text-xs"
                     >
                         + Post
                     </button>
@@ -134,6 +128,8 @@ const Home = () => {
                     </button>
                 </div>
 
+                {/*USER POSTS */}
+
                 {postsLoading ? (
                     <div className="flex justify-center py-10">
                         <span className="loading loading-spinner w-12 h-12 text-orange-500"></span>
@@ -147,7 +143,6 @@ const Home = () => {
                                 key={post._id}
                                 post={post}
                                 currentUser={user}
-
                                 liked={likedPosts.has(post._id)}
                                 handleLike={handleLike}
                                 onDelete={(postId) => setPosts(prev => prev.filter(p => p._id !== postId))}
@@ -160,14 +155,16 @@ const Home = () => {
                     </div>
                 )}
             </main>
+            <CreatePostModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onPostCreated={() => fetchPosts(user)}
+
+            />
         </div>
     );
 };
 
 export default Home;
-
-
-
-
 
 

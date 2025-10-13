@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { FaHeart, FaCommentDots } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const LikedPosts = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLikedPosts = async () => {
@@ -49,17 +51,26 @@ const LikedPosts = () => {
                 {posts.map((post) => (
                     <div
                         key={post._id}
-                        className="backdrop-blur-lg bg-white/60 border border-white/60 rounded-xl shadow-lg p-3 shadow-black/70"
+                        onClick={() => navigate(`/Singlepost/${post._id}`)}
+                        className="backdrop-blur-lg bg-white/60 border border-white/60 rounded-xl shadow-lg p-3 shadow-black/70 cursor-pointer"
                     >
                         {/* user info */}
                         <div className="flex items-center gap-2 mb-2">
                             <img
                                 src={post.postedBy?.profileImage}
                                 alt={post.postedBy?.name}
-                                className="w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-gray-300"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/profile/${post.postedBy?._id}`);
+                                }}
+                                className="w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-gray-300 cursor-pointer"
                             />
                             <div>
-                                <h3 className="text-xs sm:text-sm lg:text-base font-semibold text-gray-800">
+                                <h3 onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/profile/${post.postedBy?._id}`);
+                                }
+                                } className="text-xs sm:text-sm lg:text-base font-semibold text-gray-800 cursor-pointer">
                                     {post.postedBy?.name}
                                 </h3>
                                 <p className="text-xs 2xl:text-sm text-gray-600">

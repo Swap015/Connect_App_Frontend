@@ -66,17 +66,17 @@ const MyPosts = () => {
         <div className="p-6 max-w-3xl mx-auto">
 
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">My Posts</h2>
+                <h2 className="text-xl md:text-2xl 2xl:text-3xl font-bold text-gray-800">My Posts</h2>
                 <button
                     onClick={() => setShowCreatePost(true)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg shadow-md text-sm "
+                    className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-4 py-2 rounded-lg shadow-md text-xs md:text-sm 2xl:text-base"
                 >
                     + Create Post
                 </button>
             </div>
 
             {posts.length === 0 ? (
-                <p className="text-red-500 text-center text-sm ">No posts yet. Start creating!</p>
+                <p className="text-red-500 text-center text-sm md:text-base lg:text-xl">No posts yet. Start creating!</p>
             ) : (
                 <div className="space-y-6">
                     {posts.map((post) => (

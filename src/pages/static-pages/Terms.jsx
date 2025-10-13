@@ -12,13 +12,13 @@ const Terms = () => {
                     Please read them carefully before using the platform.
                 </p>
 
-                <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-3">1. User Responsibilities</h2>
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mt-8 mb-3">1. User Responsibilities</h2>
                 <p className="text-gray-600 mb-4 text-lg">You must provide accurate information and respect other users.</p>
 
-                <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-3">2. Content Ownership</h2>
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mt-8 mb-3">2. Content Ownership</h2>
                 <p className="text-gray-600 mb-4 text-lg">You own the content you share, but grant us permission to display it within the platform.</p>
 
-                <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-3">3. Prohibited Activities</h2>
+                <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mt-8 mb-3">3. Prohibited Activities</h2>
                 <ul className="list-disc list-inside text-gray-600 space-y-2 mb-6 text-lg">
                     <li>Spamming or posting harmful content.</li>
                     <li>Harassing other members.</li>

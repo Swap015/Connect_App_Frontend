@@ -32,7 +32,7 @@ const RecruiterDashboard = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <span className="loading loading-spinner loading-lg text-orange-500"></span>
+                <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
             </div>
         );
     }
@@ -45,10 +45,10 @@ const RecruiterDashboard = () => {
 
     // Recharts data format
     const chartData = [
-        { name: "Pending", value: statusSummary.Pending, fill: "#fbbf24" }, // yellow
-        { name: "Shortlisted", value: statusSummary.Shortlisted, fill: "#3b82f6" }, // blue
-        { name: "Rejected", value: statusSummary.Rejected, fill: "#ef4444" }, // red
-        { name: "Hired", value: statusSummary.Hired, fill: "#22c55e" }, // green
+        { name: "Pending", value: statusSummary.Pending, fill: "#fbbf24" },
+        { name: "Shortlisted", value: statusSummary.Shortlisted, fill: "#3b82f6" },
+        { name: "Rejected", value: statusSummary.Rejected, fill: "#ef4444" },
+        { name: "Hired", value: statusSummary.Hired, fill: "#22c55e" },
     ];
 
     return (
