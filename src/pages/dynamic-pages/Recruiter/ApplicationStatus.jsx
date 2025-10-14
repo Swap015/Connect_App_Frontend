@@ -20,9 +20,8 @@ export default function ApplicantStatus({ applicant, jobId, onStatusChange }) {
 
             toast.success(res.data?.msg || "Status updated");
             if (onStatusChange) onStatusChange(applicant._id, newStatus);
-        } catch (err) {
-            console.error(err);
-            toast.error(err?.response?.data?.msg || "Failed to update status");
+        } catch {
+            toast.error("Failed to update status");
         }
     };
 

@@ -37,8 +37,8 @@ const Header = () => {
                     posts: postRes.data.posts || []
                 });
                 setShowDropdown(true);
-            } catch (err) {
-                console.error("Search failed", err);
+            } catch  {
+                toast.error("Search failed");
             }
         };
 

@@ -32,6 +32,7 @@ import AdminUsersPosts from "./pages/dynamic-pages/admin/AdminUsersPosts.jsx";
 import AdminRoutes from "./components/RouteProtector/AdminRoutes.jsx";
 import RecruiterDashboard from "./pages/dynamic-pages/Recruiter/RecruiterDashboard.jsx";
 import SinglePost from "./components/posts/SinglePost.jsx";
+import RecruiterRoutes from "./components/RouteProtector/RecruiterRoutes.jsx";
 
 
 function App() {
@@ -60,14 +61,11 @@ function App() {
               <Route path="/notifications" element={<NotificationsPage />} />
               <Route path="/messages" element={<Messages />} />
               <Route path="/connections" element={<Connections />} />
-              <Route path="/jobsControl" element={<JobControl />} />
               <Route path="/jobs" element={<Jobs />} />
-
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/myPosts" element={<MyPosts />} />
               <Route path="/Singlepost/:postId" element={<SinglePost />} />
-              <Route path="/recruiter-dashboard" element={<RecruiterDashboard/>} />
-              <Route path="*" element={<NotFound />} />
+
 
               {/*-----------------ADMIN ROUTES------------------- */}
 
@@ -75,10 +73,26 @@ function App() {
               <Route path="/admin-jobs" element={<AdminRoutes>  <AdminJobs /> </AdminRoutes>} />
               <Route path="/admin-users" element={<AdminRoutes>  <AdminUsersPosts />  </AdminRoutes>} />
 
+              {/*---------------RECRUITER ROUTES---------------- */}
+              <Route path="/recruiter-dashboard"
+                element={<RecruiterRoutes>
+                  <RecruiterDashboard />
+                </RecruiterRoutes>} />
 
+              <Route path="/jobsControl"
+                element={
+                  <RecruiterRoutes>
+                    <JobControl />
+                  </RecruiterRoutes>
+                } />
 
+              {/*---------------NOT FOUND ROUTES---------------- */}
+
+              <Route path="*" element={<NotFound />} />
+              <Route path="/404" element={<NotFound />} />
 
             </Routes>
+
             <ToastContainer
               position="top-right"
               autoClose={2000}

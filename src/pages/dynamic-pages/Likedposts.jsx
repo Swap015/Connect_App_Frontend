@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { FaHeart, FaCommentDots } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LikedPosts = () => {
     const [posts, setPosts] = useState([]);
@@ -13,8 +14,8 @@ const LikedPosts = () => {
             try {
                 const res = await api.get("/post/liked");
                 setPosts(res.data.likedPosts);
-            } catch (err) {
-                console.error("Error fetching liked posts:", err);
+            } catch  {
+                toast.error("Error fetching liked posts");
             } finally {
                 setLoading(false);
             }

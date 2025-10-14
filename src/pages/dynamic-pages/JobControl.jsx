@@ -65,9 +65,8 @@ export default function JobControl() {
             setLoading(true);
             const res = await api.get("/job");
             setJobs(Array.isArray(res.data.jobs) ? res.data.jobs : []);
-        } catch (err) {
-            console.error(err);
-            toast.error(err?.response?.data?.msg || "Failed to fetch jobs.");
+        } catch {
+            toast.error("Failed to fetch jobs.");
         } finally {
             setLoading(false);
         }
@@ -96,13 +95,12 @@ export default function JobControl() {
         };
 
         try {
-            const res = await api.post("/job/addJob", payload);
+            await api.post("/job/addJob", payload);
             toast.success("Job added");
-            console.log(res.data);
             setOpenAdd(false);
-            fetchJobs();
-        } catch (err) {
-            console.error(err);
+            await fetchJobs();
+        } catch {
+
             toast.error("Failed to add job");
         }
     };
@@ -127,28 +125,25 @@ export default function JobControl() {
         };
 
         try {
-            const res = await api.put(`/job/update/${openEditJob._id}`, payload);
+            await api.put(`/job/update/${openEditJob._id}`, payload);
             toast.success("Job updated");
-            console.log(res.data);
             setOpenEditJob(null);
             resetForm();
-            fetchJobs();
-        } catch (err) {
-            console.error(err);
-            toast.error(err?.response?.data?.msg || "Failed to update job");
+            await fetchJobs();
+        } catch {
+            toast.error("Failed to update job");
         }
     };
 
     const handleDeleteJob = async () => {
         if (!openDeleteJob) return;
         try {
-            const res = await api.delete(`/job/remove/${openDeleteJob._id}`);
-            toast.success(res.data.msg || "Job deleted");
+            await api.delete(`/job/remove/${openDeleteJob._id}`);
+            toast.success("Job deleted");
             setOpenDeleteJob(null);
-            fetchJobs();
-        } catch (err) {
-            console.error(err);
-            toast.error(err?.response?.data?.msg || "Failed to delete job");
+            await fetchJobs();
+        } catch {
+            toast.error("Failed to delete job");
         }
     };
 

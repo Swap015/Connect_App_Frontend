@@ -5,6 +5,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { HiDotsVertical } from "react-icons/hi";
 import api from "../../api/axios.js";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ChatWindow = ({ conversation, user, socket, onBack }) => {
     const [messages, setMessages] = useState([]);
@@ -23,8 +24,8 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
             try {
                 const res = await api.get(`/chat/conversation/${conversation._id}/messages`);
                 setMessages(res.data.messages);
-            } catch (err) {
-                console.error("Error fetching messages:", err);
+            } catch {
+                toast.error("Error fetching messages");
             }
         };
         fetchMessages();
@@ -89,8 +90,8 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                 message: res.data.message,
             });
 
-        } catch (err) {
-            console.error("Error sending message:", err);
+        } catch {
+            toast.error("Error sending message");
         }
         finally {
             setUploading(false);
@@ -103,8 +104,8 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
         try {
             await api.delete(`/chat/conversation/${conversation._id}`);
             onBack();
-        } catch (err) {
-            console.error("Error deleting conversation:", err);
+        } catch {
+            toast.error("Error deleting conversation");
         }
     };
 
@@ -130,8 +131,8 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                     )
                 );
             }
-        } catch (err) {
-            console.error("Error deleting message:", err);
+        } catch {
+            toast.error("Error deleting message");
         }
     };
 

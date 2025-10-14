@@ -4,6 +4,7 @@ import { FaBell, FaCheckCircle, FaTrashAlt } from "react-icons/fa";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 dayjs.extend(relativeTime);
 
 const NotificationsPage = () => {
@@ -15,8 +16,8 @@ const NotificationsPage = () => {
         try {
             const res = await api.get("/notification/getNotifications");
             setNotifications(res.data.notifications);
-        } catch (err) {
-            console.error("Failed to fetch notifications:", err);
+        } catch {
+            toast.error("Failed to fetch notifications");
         } finally {
             setLoading(false);
         }
@@ -26,8 +27,8 @@ const NotificationsPage = () => {
         try {
             await api.patch("/notification/markAllAsRead", {}, { withCredentials: true });
             setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-        } catch (err) {
-            console.error(err);
+        } catch {
+            toast.error("Failed to mark all notifications as read");
         }
     };
 
@@ -35,8 +36,8 @@ const NotificationsPage = () => {
         try {
             await api.patch(`/notification/markOneAsRead/${id}`, {}, { withCredentials: true });
             setNotifications(prev => prev.map(n => n._id === id ? { ...n, read: true } : n));
-        } catch (err) {
-            console.error(err);
+        } catch {
+            toast.error(" Failed to mark notification as read");
         }
     };
 
@@ -44,8 +45,8 @@ const NotificationsPage = () => {
         try {
             await api.delete(`/notification/deleteNotification/${id}`, { withCredentials: true });
             setNotifications(prev => prev.filter(n => n._id !== id));
-        } catch (err) {
-            console.error(err);
+        } catch  {
+            toast.error("Failed to delete notification");
         }
     };
 

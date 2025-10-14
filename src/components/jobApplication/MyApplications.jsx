@@ -68,10 +68,10 @@ const MyApplicationsModal = ({ applications, onClose, onEdit, onDelete }) => {
                                         </p>
                                     </div>
 
-                                    <div className="flex gap-2">
+                                    <div className="flex flex-col md:flex-row gap-2">
                                         <button
                                             onClick={() => onEdit(app)}
-                                            className="btn btn-xs sm:btn-sm lg:btn-base 3xl:btn-lg btn-outline btn-warning font-bold bg-[#fff132] hover:bg-[#ffdf0e] text-black flex items-center gap-1 "
+                                            className="btn btn-xs sm:btn-sm lg:btn-base 3xl:btn-lg btn-outline btn-warning font-bold bg-[#fff30d] hover:bg-[#ffdf0e] text-black flex items-center gap-1 "
                                         >
                                             <FaEdit /> Edit
                                         </button>

@@ -41,9 +41,8 @@ const PostCard = ({ post, currentUser, liked, handleLike, onDelete, onEdit }) =>
         try {
             await api.delete(`/post/deletePost/${post._id}`);
             if (onDelete) onDelete(post._id);
-        } catch (err) {
-            console.error("Failed to delete post", err);
-            alert("Failed to delete post");
+        } catch {
+            toast.error("Failed to delete post");
         }
     };
 

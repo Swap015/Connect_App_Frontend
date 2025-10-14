@@ -4,6 +4,7 @@ import ChatWindow from "../../components/messages/ChatWindow.jsx";
 import api from "../../api/axios.js";
 import { io } from "socket.io-client";
 import UserContext from "../../components/Context/UserContext.jsx";
+import { toast } from "react-toastify";
 
 const Messages = () => {
     const [conversations, setConversations] = useState([]);
@@ -32,8 +33,8 @@ const Messages = () => {
                     if (user?._id) {
                         newSocket.emit("addUser", user._id);
                     }
-                } catch (err) {
-                    console.error("Error fetching data:", err);
+                } catch {
+                    toast.error("Error fetching data");
                 } finally {
                     setConvoLoading(false);
                 }
@@ -85,8 +86,8 @@ const Messages = () => {
                                                 ...prev,
                                                 res.data.conversation,
                                             ]);
-                                        } catch (err) {
-                                            console.error("Error creating conversation:", err);
+                                        } catch {
+                                            toast.error("Error creating conversation");
                                         }
                                     }
                                 }}

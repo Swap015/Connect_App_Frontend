@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import api from "../../api/axios";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
     const [formData, setFormData] = useState({
@@ -39,9 +40,9 @@ const SignUp = () => {
                     gender: "male",
                 });
             }
-        } catch (error) {
-            console.error("Signing Up error:", error.response?.data || error.message);
-            setMessage(error.response?.data?.msg || "Signing up failed.");
+        } catch {
+            toast.error("Signing Up error");
+            setMessage("Signing up failed.");
         } finally {
             setLoading(false);
         }

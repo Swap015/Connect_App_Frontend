@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import PostCard from "../posts/PostCard.jsx";
 import UserContext from "../Context/UserContext.jsx";
 import api from "../../api/axios.js";
+import { toast } from "react-toastify";
 
 
 const SinglePost = () => {
@@ -20,23 +21,23 @@ const SinglePost = () => {
             const postData = res.data.post;
             setPost(postData);
             setLiked(postData.likes?.includes(user?._id));
-           
-        } catch (err) {
-            console.error("Error fetching post:", err);
+
+        } catch {
+            toast.error("Error fetching post");
         } finally {
             setLoading(false);
         }
     };
 
-    // 👍 Handle Like / Unlike
+
     const handleLike = async (postId) => {
         try {
-            setLiked((prev) => !prev); // instantly toggle in UI
+            setLiked((prev) => !prev);
             await api.patch(`/post/likePost/${postId}`, {}, { withCredentials: true });
             const res = await api.get(`/post/getPost/${postId}`);
             setPost(res.data.post);
-        } catch (err) {
-            console.error("Error liking/unliking post:", err);
+        } catch {
+            toast.error("Error liking/unliking post");
         }
     };
 
@@ -70,8 +71,8 @@ const SinglePost = () => {
                     currentUser={user}
                     liked={liked}
                     handleLike={handleLike}
-                    
-                   
+
+
                 />
             </div>
         </div>

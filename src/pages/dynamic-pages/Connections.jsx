@@ -51,8 +51,8 @@ const Connections = () => {
             setSent(sentRes.data.sentRequests);
             setUsers(usersRes.data.users);
             setConnections(connRes.data.connections);
-        } catch (err) {
-            console.error("Error fetching connections:", err);
+        } catch {
+            toast.error("Error fetching connections");
         } finally {
             setLoading(false);
         }
@@ -298,7 +298,7 @@ const Connections = () => {
                                             className="w-12 h-12 lg:w-14 lg:h-14  rounded-full ring-2 ring-orange-400 cursor-pointer"
                                         />
                                         <h4 onClick={() => navigate(`/profile/${u._id}`)}
-                                            className="font-semibold mt-3 text-gray-800 cursor-pointer">
+                                            className="font-semibold text-xs md:text-sm lg:text-base mt-3 text-gray-800 cursor-pointer">
                                             {u.name}
                                         </h4>
                                         <p className="text-xs  text-gray-500">
@@ -332,7 +332,7 @@ const Connections = () => {
                                             className="w-12 h-12 lg:w-14 lg:h-14  rounded-full ring-2 ring-orange-400 cursor-pointer"
                                         />
                                         <div>
-                                            <h4 onClick={() => navigate(`/profile/${conn._id}`)} className="font-semibold text-gray-800 text-sm sm:text-base cursor-pointer">
+                                            <h4 onClick={() => navigate(`/profile/${conn._id}`)} className="font-semibold text-gray-800 text-sm lg:text-base 2xl:text-lg cursor-pointer">
                                                 {conn.name}
                                             </h4>
                                             <p className="text-sm text-gray-500">

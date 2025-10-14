@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import UserContext from "../Context/UserContext.jsx";
 
-const AdminRoutes = ({ children }) => {
+const RecruiterRoutes = ({ children }) => {
     const { user, loading } = useContext(UserContext);
 
     if (loading) {
@@ -14,9 +14,9 @@ const AdminRoutes = ({ children }) => {
     }
 
     if (!user) return <Navigate to="/login" />;
-    if (user.role !== "admin") return <Navigate to="/404" />;
+    if (user.role !== "recruiter") return <Navigate to="/404" />;
 
     return children;
 };
 
-export default AdminRoutes;
+export default RecruiterRoutes;

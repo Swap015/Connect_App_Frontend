@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaTrash, FaEdit, FaReply } from "react-icons/fa";
 import api from "../../api/axios.js";
+import { toast } from "react-toastify";
 
 const CommentSection = ({ postId, currentUser }) => {
     const [comments, setComments] = useState([]);
@@ -17,8 +18,8 @@ const CommentSection = ({ postId, currentUser }) => {
         try {
             const res = await api.get(`/comments/getPostComments/${postId}`);
             setComments(res.data.comments || []);
-        } catch (err) {
-            console.error("Failed to load comments", err);
+        } catch {
+            toast.error("Failed to load comments");
         }
     };
 
@@ -41,8 +42,8 @@ const CommentSection = ({ postId, currentUser }) => {
                     const res = await api.get(`/user/mentionSearch?q=${query}`);
                     setSearchResults(res.data.users);
                     setShowDropdown(true);
-                } catch (err) {
-                    console.error("Mention search failed", err);
+                } catch {
+                    toast.error("Mention search failed");
                 }
             } else {
                 setShowDropdown(false);
@@ -54,8 +55,10 @@ const CommentSection = ({ postId, currentUser }) => {
 
     const handleSelectUser = (user) => {
         const cursorPos = newComment.lastIndexOf("@");
-        const beforeAt = newComment.substring(0, cursorPos); // text before @
-        const afterAt = `@${user.name} `; // insert selected mention + space
+        const beforeAt = newComment.substring(0, cursorPos);
+
+        const afterAt = `@${user.name} `;
+
         setNewComment(beforeAt + afterAt);
         setShowDropdown(false);
     };
@@ -68,8 +71,8 @@ const CommentSection = ({ postId, currentUser }) => {
             });
             setNewComment("");
             fetchComments();
-        } catch (err) {
-            console.error("Failed to add comment", err);
+        } catch {
+            toast.error("Failed to add comment");
         }
     };
 
@@ -82,8 +85,8 @@ const CommentSection = ({ postId, currentUser }) => {
             setEditingId(null);
             setNewComment("");
             fetchComments();
-        } catch (err) {
-            console.error("Failed to edit comment", err);
+        } catch {
+            toast.error("Failed to edit comment");
         }
     };
 
@@ -93,8 +96,8 @@ const CommentSection = ({ postId, currentUser }) => {
         try {
             await api.delete(`/comments/deleteComment/${commentId}/${postId}`);
             fetchComments();
-        } catch (err) {
-            console.error("Failed to delete comment", err);
+        } catch {
+            toast.error("Failed to delete comment");
         }
     };
 
@@ -109,8 +112,8 @@ const CommentSection = ({ postId, currentUser }) => {
             setReplyingId(null);
             setReplyText("");
             fetchComments();
-        } catch (err) {
-            console.error("Failed to reply", err);
+        } catch {
+            toast.error("Failed to reply");
         }
     };
 

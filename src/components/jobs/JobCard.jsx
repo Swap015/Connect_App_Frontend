@@ -35,9 +35,8 @@ export default function JobCard({
             const res = await api.get(`/job/${job._id}`);
             setJobDetails(res.data.job);
             setOpenDetails(true);
-        } catch (err) {
-            console.error("fetchJobDetails:", err);
-            toast.error(err?.response?.data?.msg || "Failed to fetch job details");
+        } catch {
+            toast.error("Failed to fetch job details");
         }
     };
 
@@ -48,9 +47,8 @@ export default function JobCard({
             const res = await api.get(`/applications/getApplicants/${job._id}`);
             setApplicants(res.data.applicants || []);
             setOpenApplicants(true);
-        } catch (err) {
-            console.error("fetchApplicants error:", err);
-            toast.error(err?.response?.data?.msg || "Failed to fetch applicants");
+        } catch {
+            toast.error("Failed to fetch applicants");
         } finally {
             setLoadingApplicants(false);
         }
@@ -61,7 +59,7 @@ export default function JobCard({
             <article className="bg-white border rounded-lg shadow-lg overflow-hidden flex flex-col">
                 <div className="p-4 flex flex-col flex-grow gap-3">
                     <div className="flex justify-between items-start ">
-                        <h2 className="text-base lg:text-lg font-bold text-gray-800">
+                        <h2 className="text-base lg:text-lg  font-bold text-gray-800">
                             {job.title}
                         </h2>
 
@@ -222,7 +220,7 @@ export default function JobCard({
                         {loadingApplicants ? (
                             <div className="text-center py-10 text-gray-500">Loading applicants...</div>
                         ) : applicants.length === 0 ? (
-                            <div className="text-center py-10 text-gray-400">No applicants yet.</div>
+                            <div className="text-center py-10 text-gray-400 text-sm lg:text-base">No applicants yet.</div>
                         ) : (
                             <div className="space-y-4">
                                 {applicants.map((app) => (

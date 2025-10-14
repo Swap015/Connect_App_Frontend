@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 const api = axios.create({
     baseURL: VITE_API_URL,
@@ -26,8 +27,8 @@ api.interceptors.response.use(
             try {
                 await axios.post(`${import.meta.env.VITE_API_URL}/user/refresh`, {}, { withCredentials: true });
                 return api(originalRequest); 
-            } catch (err) {
-                console.error("Refresh failed:", err);
+            } catch  {
+
                 window.location.href = "/login";
             }
         }

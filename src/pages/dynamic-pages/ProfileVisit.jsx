@@ -3,6 +3,7 @@ import api from "../../api/axios.js";
 import { FaUserCircle } from "react-icons/fa";
 import { format, formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProfileVisitsPage = () => {
     const [visits, setVisits] = useState([]);
@@ -16,8 +17,8 @@ const ProfileVisitsPage = () => {
                     "/user/profileVisits"
                 );
                 setVisits(res.data.visits || []);
-            } catch (err) {
-                console.error("Error fetching visits:", err);
+            } catch  {
+                toast.error("Error fetching visits");
             } finally {
                 setLoading(false);
             }

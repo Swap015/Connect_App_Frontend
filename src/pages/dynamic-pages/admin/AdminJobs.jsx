@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../../api/axios.js";
+import { toast } from "react-toastify";
 
 const AdminJobs = () => {
     const [jobs, setJobs] = useState([]);
@@ -11,8 +12,8 @@ const AdminJobs = () => {
             try {
                 const res = await api.get("/admin/getJobs");
                 setJobs(res.data.jobs);
-            } catch (err) {
-                console.error(err);
+            } catch {
+                toast.error("Failed to load jobs!");
             } finally {
                 setLoading(false);
             }
@@ -47,28 +48,28 @@ const AdminJobs = () => {
 
     return (
         <div className="p-6 space-y-6">
-            <h1 className="text-2xl font-bold text-center text-gray-800">
+            <h1 className="text-xl md:text-2xl font-bold text-center text-gray-800">
                 Jobs Management
             </h1>
 
             {jobs.length === 0 ? (
-                <p className="text-center text-sm text-red-600 mt-10 font-semibold">
+                <p className="text-center text-xs md:text-sm lg:text-base text-red-600 mt-10 font-semibold">
                     No jobs available
                 </p>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {jobs.map((j) => (
                         <div
                             key={j._id}
                             className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-2"
                         >
                             <div>
-                                <p className="text-blue-700 font-bold text-lg">{j.title}</p>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-blue-700 font-bold text-base md:text-lg lg:text-xl">{j.title}</p>
+                                <p className="text-sm md:text-base  text-gray-500">
                                     Posted by: {j.postedBy.name}
                                 </p>
                                 <p
-                                    className={`text-sm font-semibold ${j.isJobActive ? "text-green-600" : "text-red-600"
+                                    className={`text-sm md:text-base font-semibold ${j.isJobActive ? "text-green-600" : "text-red-600"
                                         }`}
                                 >
                                     {j.isJobActive ? "Active" : "Inactive"}
@@ -77,7 +78,7 @@ const AdminJobs = () => {
                             <div className="flex gap-2 mt-2">
                                 <button
                                     onClick={() => toggleStatus(j._id)}
-                                    className="btn btn-warning btn-sm text-black"
+                                    className="btn btn-warning btn-sm text-black text-xs md:text-sm "
                                 >
                                     Change Status
                                 </button>
@@ -86,7 +87,7 @@ const AdminJobs = () => {
                                         setJobToDelete(j._id);
                                         document.getElementById("delete_modal").showModal();
                                     }}
-                                    className="btn btn-error btn-sm text-black"
+                                    className="btn btn-error btn-sm text-black text-xs md:text-sm "
                                 >
                                     Delete
                                 </button>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
 import { FaTrash, FaBookmark } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SavedPosts = () => {
     const [savedPosts, setSavedPosts] = useState([]);
@@ -14,8 +15,8 @@ const SavedPosts = () => {
             const res = await api.get("/post/savedPosts");
             setSavedPosts(res.data.posts || []);
             setLoading(false);
-        } catch (err) {
-            console.error("Error fetching saved posts:", err);
+        } catch {
+            toast.error("Error fetching saved posts");
             setLoading(false);
         }
     };
@@ -24,8 +25,8 @@ const SavedPosts = () => {
         try {
             await api.put(`/post/unsavePost/${postId}`);
             setSavedPosts(savedPosts.filter((p) => p._id !== postId));
-        } catch (err) {
-            console.error("Error unsaving post:", err);
+        } catch  {
+            toast.error("Error unsaving post");
         }
     };
 

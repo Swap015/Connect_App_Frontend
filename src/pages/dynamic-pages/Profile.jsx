@@ -18,8 +18,8 @@ const Profile = () => {
                 const res = await api.get(`/user/getUser/${id}`);
                 setProfileUser(res.data.user);
 
-            } catch (err) {
-                console.error("Failed to load user", err);
+            } catch {
+                toast.error("Failed to load user");
             }
         };
         fetchUser();
@@ -31,8 +31,8 @@ const Profile = () => {
                 if (!id) return;
                 const res = await api.get(`/post/userPosts/${id}`, { withCredentials: true });
                 setPosts(res.data.posts || []);
-            } catch (err) {
-                console.error("Failed to load posts", err);
+            } catch {
+                toast.error("Failed to load posts");
             }
         };
         fetchPosts();
@@ -92,7 +92,7 @@ const Profile = () => {
             <div className="bg-gray-50 p-4">
                 <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">🎓 Education</h3>
                 {profileUser.education && profileUser.education.length > 0 ? (
-                    <ul className="list-disc ml-6 space-y-1">
+                    <ul className=" ml-6 space-y-1">
                         {profileUser.education.map((edu, i) => (
                             <li key={i} className="text-sm lg:text-base 3xl:text-xl">
                                 {edu.SSC && <p>SSC: {edu.SSC}</p>}
@@ -147,7 +147,7 @@ const Profile = () => {
                                                     : p
                                             )
                                         );
-                                    } catch (err) { console.error(err); }
+                                    } catch { toast.error("Error liking post"); }
                                 }}
                                 onDelete={postId => setPosts(prev => prev.filter(p => p._id !== postId))}
                                 onEdit={(postId, newContent) =>

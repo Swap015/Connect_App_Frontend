@@ -76,7 +76,7 @@ const MyPosts = () => {
             </div>
 
             {posts.length === 0 ? (
-                <p className="text-red-500 text-center text-sm md:text-base lg:text-xl">No posts yet. Start creating!</p>
+                <p className="text-red-500 text-center text-sm md:text-base lg:text-lg">No posts yet. Start creating!</p>
             ) : (
                 <div className="space-y-6">
                     {posts.map((post) => (

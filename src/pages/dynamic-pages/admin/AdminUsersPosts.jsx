@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../../api/axios.js";
 import PostCard from "../../../components/posts/PostCard.jsx";
+import { toast } from "react-toastify";
 
 const AdminUsersPosts = () => {
   const [users, setUsers] = useState([]);
@@ -16,8 +17,8 @@ const AdminUsersPosts = () => {
         ]);
         setUsers(usersRes.data);
         setPosts(postsRes.data.posts);
-      } catch (err) {
-        console.error(err);
+      } catch  {
+        toast.error("Failed to load users and posts");
       } finally {
         setLoading(false);
       }
@@ -46,25 +47,25 @@ const AdminUsersPosts = () => {
 
   return (
     <div className="p-6 space-y-8">
-      <h1 className="text-2xl font-bold text-center text-gray-800">Users & Posts</h1>
+      <h1 className="text-xl md:text-2xl lg:text-2xl font-bold text-center text-gray-800">Users & Posts</h1>
 
       <div>
         <h2 className="text-xl font-semibold mb-4 text-black">Users</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {users.map(u => (
             <div key={u._id} className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-2">
-              <div className="flex items-center gap-3">
-                <img src={u.profileImage} alt={u.name} className="w-12 h-12 rounded-full" />
+              <div className="flex items-center gap-3 min-w-0">
+                <img src={u.profileImage} alt={u.name} className="w-12 h-12 lg:w-14 lg:h-14 rounded-full" />
                 <div>
-                  <p className="font-bold text-sm text-black">{u.name}</p>
-                  <p className="text-sm text-gray-600">{u.email}</p>
-                  <p className="text-sm text-blue-600 font-bold">{u.role}</p>
+                  <p className="font-bold text-sm lg:text-base text-black">{u.name}</p>
+                  <p className="text-xs md:text-sm text-gray-600 break-all">{u.email}</p>
+                  <p className="text-xs md:text-sm lg:text-base  text-blue-600 font-bold">{u.role}</p>
                 </div>
               </div>
               <div className="flex gap-2 mt-2">
                 <button
                   onClick={() => handleDeleteUser(u._id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm"
+                  className="bg-red-500 text-white px-2 md:px-3 py-1 rounded hover:bg-red-600 text-sm lg:text-base"
                 >
                   Delete
                 </button>

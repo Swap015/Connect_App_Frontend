@@ -55,7 +55,6 @@ const EditApplicationModal = ({ application, onClose, onUpdated }) => {
             onUpdated();
             onClose();
         } catch (err) {
-            console.error("Failed to update application", err);
             toast.error(err.response?.data?.msg || "Update failed!");
         } finally {
             setLoading(false);

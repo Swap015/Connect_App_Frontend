@@ -10,6 +10,7 @@ import {
     ResponsiveContainer,
     Legend,
 } from "recharts";
+import { toast } from "react-toastify";
 
 const RecruiterDashboard = () => {
     const [data, setData] = useState(null);
@@ -20,8 +21,8 @@ const RecruiterDashboard = () => {
             try {
                 const res = await api.get("/applications/dashboard");
                 setData(res.data);
-            } catch (err) {
-                console.error("Failed to fetch dashboard", err);
+            } catch {
+                toast.error("Failed to fetch dashboard");
             } finally {
                 setLoading(false);
             }

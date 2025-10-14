@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../../api/axios.js";
+import { toast } from "react-toastify";
 
 const EditPostModal = ({ post, isOpen, onClose, onEdit }) => {
     const [content, setContent] = useState(post.content);
@@ -11,11 +12,10 @@ const EditPostModal = ({ post, isOpen, onClose, onEdit }) => {
                 { content },
                 { withCredentials: true }
             );
-            onEdit(res.data.post.content); 
+            onEdit(res.data.post.content);
             onClose();
-        } catch (err) {
-            console.error("Failed to edit post", err.response?.data || err.message);
-            alert("Failed to edit post");
+        } catch {
+            toast.error("Failed to edit post");
         }
     };
 

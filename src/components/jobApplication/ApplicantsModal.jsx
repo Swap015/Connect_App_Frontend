@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../api/axios.js";
+import { toast } from "react-toastify";
 
 export default function ApplicantsModal({ jobId, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -10,9 +11,9 @@ export default function ApplicantsModal({ jobId, onClose }) {
             setLoading(true);
             const res = await api.get(`/application/getApplicants/${jobId}`);
             setApplicants(res.data.applicants || []);
-        } catch (err) {
-            console.error(err);
-            alert("Failed to fetch applicants");
+        } catch  {
+            toast.error("Failed to fetch applicants");
+           
         } finally {
             setLoading(false);
         }
