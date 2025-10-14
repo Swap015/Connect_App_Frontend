@@ -131,7 +131,7 @@ const CreatePostModal = ({ isOpen, onClose, onPostCreated }) => {
                             )}
                         </div>
 
-                        {/* Post Button */}
+                        {/* post Button */}
                         <button
                             type="submit"
                             disabled={loading}

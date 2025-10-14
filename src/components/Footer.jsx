@@ -8,6 +8,7 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-5">
 
                 {/* logo  */}
+
                 <div className="flex items-center gap-2">
                     <img
                         className="w-13 h-13 sm:w-17 sm:h-16 md:w-20 md:h-20"
@@ -18,6 +19,7 @@ const Footer = () => {
                 </div>
 
                 {/* middle links */}
+
                 <ul className="flex flex-wrap justify-center gap-6 text-sm md:text-lg font-medium">
                     <li className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
                         <Link to="/about">About Us</Link>
@@ -34,6 +36,7 @@ const Footer = () => {
                 </ul>
 
                 {/* social media links */}
+
                 <div className="flex gap-4 text-lg md:text-2xl lg:text-3xl">
                     <a href="https://github.com/Swap015" className="p-2 rounded-full bg-white/60 hover:bg-white shadow-md transition" target="_blank">
                         <FaGithub />
@@ -48,6 +51,7 @@ const Footer = () => {
             </div>
 
             {/* copyright */}
+            
             <div className="border-t border-white mt-6 pt-3 text-center text-sm md:text-md text-gray-700">
                 © {new Date().getFullYear()} <span className="font-semibold">Connect</span> · All rights reserved
             </div>

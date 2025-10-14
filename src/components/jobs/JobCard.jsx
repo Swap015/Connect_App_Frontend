@@ -144,6 +144,7 @@ export default function JobCard({
             </article>
 
             {/* Job details modal */}
+            
             {openDetails && jobDetails && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 px-3 sm:px-4">
                     <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-lg">

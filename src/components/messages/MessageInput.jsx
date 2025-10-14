@@ -62,6 +62,7 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
             className="flex items-center gap-2 p-3 border-t bg-gray-50 text-black"
         >
             {/* file upload button */}
+            
             <button
                 type="button"
                 onClick={() => fileInputRef.current.click()}

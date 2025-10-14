@@ -58,7 +58,7 @@ const RecruiterDashboard = () => {
                 Recruiter Dashboard
             </h1>
 
-            {/* Stats cards */}
+           
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
                 <div className="bg-white rounded-lg shadow-md p-6 text-center">
                     <h2 className="text-gray-700 font-semibold text-lg">Total Jobs</h2>
@@ -71,6 +71,7 @@ const RecruiterDashboard = () => {
             </div>
 
             {/* Bar Chart */}
+            
             <div className="bg-white rounded-lg shadow-lg p-6">
                 <h2 className="text-xl font-semibold mb-4 text-gray-700 text-center">
                     Application Status Overview

@@ -31,7 +31,7 @@ export default function InputField({
 
     return (
         <div className="w-full">
-            {/* Tags section */}
+           
             <div className="flex gap-2 flex-wrap">
                 {tags.map((t, i) => (
                     <span
@@ -51,7 +51,7 @@ export default function InputField({
                 ))}
             </div>
 
-            {/* Input box */}
+          
             <input
                 value={value}
                 placeholder={placeholder}

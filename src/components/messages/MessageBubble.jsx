@@ -60,7 +60,7 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
                     </>
                 )}
 
-                {/*seen status */}
+              
                 <span className="block text-[10px] mt-1 opacity-80">
                     {dayjs(message.createdAt).format("hh:mm A")}
                     {isOwn && (

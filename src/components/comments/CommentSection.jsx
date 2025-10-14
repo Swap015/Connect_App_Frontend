@@ -10,7 +10,7 @@ const CommentSection = ({ postId, currentUser }) => {
     const [replyingId, setReplyingId] = useState(null);
     const [replyText, setReplyText] = useState("");
 
-    // mention search
+   
     const [searchResults, setSearchResults] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -27,7 +27,7 @@ const CommentSection = ({ postId, currentUser }) => {
         fetchComments();
     }, [postId]);
 
-    // detect @ mentions
+   
     const handleChange = async (e) => {
         const value = e.target.value;
         setNewComment(value);
@@ -36,7 +36,7 @@ const CommentSection = ({ postId, currentUser }) => {
         const lastWord = words[words.length - 1];
 
         if (lastWord.startsWith("@")) {
-            const query = lastWord.slice(1); // remove @
+            const query = lastWord.slice(1); 
             if (query.length > 1) {
                 try {
                     const res = await api.get(`/user/mentionSearch?q=${query}`);
@@ -76,7 +76,6 @@ const CommentSection = ({ postId, currentUser }) => {
         }
     };
 
-    //  Edit comment
     const handleEditComment = async (commentId) => {
         try {
             await api.patch(`/comments/editComment/${commentId}/${postId}`, {
@@ -90,7 +89,7 @@ const CommentSection = ({ postId, currentUser }) => {
         }
     };
 
-    //  Delete comment
+   
     const handleDeleteComment = async (commentId) => {
         if (!window.confirm("Delete this comment?")) return;
         try {
@@ -101,7 +100,6 @@ const CommentSection = ({ postId, currentUser }) => {
         }
     };
 
-    //  Reply to a comment
     const handleReply = async (parentId) => {
         if (!replyText.trim()) return;
         try {
@@ -119,7 +117,7 @@ const CommentSection = ({ postId, currentUser }) => {
 
     return (
         <div className="mt-3 text-black">
-            {/* Add new comment */}
+         
             <div className="flex gap-2 relative">
                 <input
                     type="text"
@@ -211,7 +209,7 @@ const CommentSection = ({ postId, currentUser }) => {
                             </button>
                         </div>
 
-                        {/* Reply box */}
+                        {/* reply box */}
                         {replyingId === c._id && (
                             <div className="ml-6 mt-2 flex gap-2">
                                 <input
