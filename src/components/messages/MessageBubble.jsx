@@ -17,14 +17,14 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
             className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-2 relative`}
         >
             <div
-                className={`max-w-[75%] break-words whitespace-pre-wrap text-sm px-5 py-2 rounded-lg shadow-md relative ${isOwn
+                className={`max-w-[85vw] sm:max-w-[75%]  break-words whitespace-pre-wrap text-sm px-5 py-2 rounded-lg shadow-md relative ${isOwn
                         ? "bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-br-none"
                         : "bg-gradient-to-b from-[#bcbbbb] to-[#7b7a7a] text-white/90 rounded-bl-none"
                     }`}
             >
 
                 {isDeletedForEveryone ? (
-                    <p className="italic text-white">This message is deleted for everyone</p>
+                    <p className="italic text-white text-xs lg:text-sm">This message is deleted for everyone</p>
                 ) : (
                     <>
                     
@@ -84,13 +84,13 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
 
           
             {isOwn && menuOpen && !isDeletedForEveryone && (
-                <div className="absolute right-0 top-6 w-40 bg-white text-black rounded shadow-md text-xs z-50">
+                <div className="absolute right-0 top-6 w-34 bg-white text-black rounded shadow-md text-xs z-50">
                     <button
                         onClick={() => {
                             onDelete(false);
                             setMenuOpen(false);
                         }}
-                        className="block w-full px-3 py-2 hover:bg-gray-100"
+                        className="block w-full px-1 py-2 border-b border-gray-300 text-xs lg:text-sm hover:bg-gray-100"
                     >
                         Delete for me
                     </button>
@@ -99,7 +99,7 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
                             onDelete(true);
                             setMenuOpen(false);
                         }}
-                        className="block w-full px-3 py-2 hover:bg-gray-100"
+                        className="block w-full px-1 py-2 text-xs lg:text-sm hover:bg-gray-100"
                     >
                         Delete for everyone
                     </button>

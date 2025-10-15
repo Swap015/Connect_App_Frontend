@@ -14,7 +14,7 @@ const SinglePost = () => {
 
     const { user } = useContext(UserContext);
 
-    // 🧩 Fetch Single Post
+   
     const fetchPost = async () => {
         try {
             const res = await api.get(`/post/getPost/${postId}`);

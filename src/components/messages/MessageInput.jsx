@@ -59,68 +59,25 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
     return (
         <form
             onSubmit={handleSubmit}
-            className="flex items-center gap-2 p-3 border-t bg-gray-50 text-black"
+            className="flex flex-col border-t bg-gray-50 text-black p-1 md:p-2 space-y-2"
         >
-            {/* file upload button */}
-            
-            <button
-                type="button"
-                onClick={() => fileInputRef.current.click()}
-                className=" hover:text-gray-800 text-black"
-                disabled={uploading}
-            >
-                <AiOutlinePaperClip size={22} />
-            </button>
-            <input
-                type="file"
-                multiple
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                className="hidden"
-                disabled={uploading}
-            />
-
-        
-            <input
-                type="text"
-                placeholder="Type a message..."
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                onKeyDown={handleTyping}
-                className="flex-1 px-4 py-2 rounded-full border focus:outline-none focus:ring focus:border-blue-400 text-xs md:text-sm lg:text-base"
-                disabled={uploading}
-            />
-
-            {/* send button */}
-            <button disabled={uploading}
-                type="submit"
-                className="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full flex items-center justify-center shadow-md"
-            >
-                {uploading ? (
-                    <span className="loading loading-spinner loading-sm"></span>
-                ) : (
-                    <IoSendSharp className="text-lg" />
-                )}
-            </button>
-
-   
+            {/* Attachment Preview */}
             {attachments.length > 0 && (
-                <div className="flex gap-2 mb-2 overflow-x-auto px-2">
+                <div className="flex gap-2 overflow-x-auto pb-1 px-1">
                     {attachments.map((file, idx) => (
-                        <div key={idx} className="relative group">
+                        <div key={idx} className="relative group flex-shrink-0">
                             {file.type.startsWith("image") ? (
                                 <img
                                     src={URL.createObjectURL(file)}
                                     alt="preview"
-                                    className="w-20 h-20 object-cover rounded-lg border"
+                                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border text-xs"
                                 />
                             ) : (
-                                <div className="w-20 h-20 flex items-center justify-center rounded-lg border bg-gray-100 text-xs text-gray-600">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center rounded-lg border bg-gray-100 text-[10px] sm:text-xs text-gray-600">
                                     {file.name.slice(0, 10)}...
                                 </div>
                             )}
 
-                            {/* remove button */}
                             <button
                                 type="button"
                                 onClick={() =>
@@ -135,6 +92,51 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
                 </div>
             )}
 
+          
+            <div className="flex items-center gap-2">
+                {/* attachment button */}
+                <button
+                    type="button"
+                    onClick={() => fileInputRef.current.click()}
+                    className="hover:text-gray-800 text-black flex-shrink-0"
+                    disabled={uploading}
+                >
+                    <AiOutlinePaperClip size={22} />
+                </button>
+
+                <input
+                    type="file"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                    disabled={uploading}
+                />
+
+                {/* message input */}
+                <input
+                    type="text"
+                    placeholder="Type a message..."
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    onKeyDown={handleTyping}
+                    className="flex-1 px-3 py-0.5 lg:py-1 rounded-full border focus:outline-none focus:ring focus:border-orange-400 text-sm sm:text-base"
+                    disabled={uploading}
+                />
+
+                {/* send button */}
+                <button
+                    disabled={uploading}
+                    type="submit"
+                    className="bg-orange-500 hover:bg-orange-600 text-white p-2 rounded-full flex items-center justify-center shadow-md flex-shrink-0"
+                >
+                    {uploading ? (
+                        <span className="loading loading-spinner loading-sm"></span>
+                    ) : (
+                        <IoSendSharp className="text-base sm:text-lg" />
+                    )}
+                </button>
+            </div>
         </form>
     );
 };

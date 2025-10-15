@@ -136,12 +136,10 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
         }
     };
 
-
-
     return (
-        <div className="flex flex-col h-full text-black">
+        <div className="flex flex-col h-full w-full text-black overflow-x-hidden overflow-y-auto">
 
-            <div className="flex items-center justify-between p-3 border-b bg-gray-50 text-black">
+            <div className="flex items-center justify-between p-0 lg:p-1.5 border-b bg-gray-50 text-black">
                 <div className="flex items-center gap-3">
                     <button
                         onClick={onBack}
@@ -169,10 +167,10 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                         <HiDotsVertical size={20} />
                     </button>
                     {menuOpen && (
-                        <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg">
+                        <div className="absolute right-0 mt-2 w-40 lg:w-45 bg-white border rounded shadow-lg z-50">
                             <button
                                 onClick={handleDeleteConversation}
-                                className="w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                                className="w-full px-4 py-2  text-left text-xs lg:text-sm hover:bg-gray-100"
                             >
                                 Delete Conversation
                             </button>
@@ -182,7 +180,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
             </div>
 
             {/* messages */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 space-y-2 bg-white">
+            <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 space-y-2 bg-white">
                 {messages.map((m) => (
                     <MessageBubble
                         key={m._id}

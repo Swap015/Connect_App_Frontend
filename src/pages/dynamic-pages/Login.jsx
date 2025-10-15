@@ -49,8 +49,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50 px-3">
-      <div className="bg-white shadow-xl rounded-2xl w-full max-w-sm p-6 px-10 my-8">
+    <div className="flex justify-center items-center min-h-[100dvh] bg-gray-50 px-3">
+      <div className="bg-white shadow-xl shadow-gray-500 rounded-2xl w-full max-w-sm p-3 px-10 ">
 
         <h2 className="text-xl sm:text-2xl font-bold text-center text-black">
           Connect & <span className="text-orange-500">Explore</span>

@@ -4,8 +4,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./styles/toast.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Footer from "./components/Footer.jsx";
-import Header from "./components/Header.jsx";
 import About from "./pages/static-pages/About";
 import Contact from "./pages/static-pages/Contact";
 import Privacy from "./pages/static-pages/Privacy";
@@ -33,6 +31,8 @@ import AdminRoutes from "./components/RouteProtector/AdminRoutes.jsx";
 import RecruiterDashboard from "./pages/dynamic-pages/Recruiter/RecruiterDashboard.jsx";
 import SinglePost from "./components/posts/SinglePost.jsx";
 import RecruiterRoutes from "./components/RouteProtector/RecruiterRoutes.jsx";
+import Footer from "./components/footer.jsx";
+import Header from "./components/header.jsx";
 
 
 function App() {

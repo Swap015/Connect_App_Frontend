@@ -37,7 +37,7 @@ const Header = () => {
                     posts: postRes.data.posts || []
                 });
                 setShowDropdown(true);
-            } catch  {
+            } catch {
                 toast.error("Search failed");
             }
         };
@@ -88,27 +88,23 @@ const Header = () => {
                         <>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-dashboard");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaHome className="text-xl" />
-                                <span className="text-xs font-bold">Home</span>
+                            }} className="flex flex-col items-center cursor-pointer ">
+                                <span className="text-xs font-bold"> <FaHome /> Home</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-users");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaUserFriends className="text-xl" />
-                                <span className="text-xs font-bold">Users</span>
+                            }} className="flex flex-col items-center cursor-pointer ">
+                                <span className="text-xs font-bold"> <FaUserFriends /> Users</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-jobs");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaBriefcase className="text-xl" />
-                                <span className="text-xs font-bold">Jobs</span>
+                            }} className="flex flex-col items-center cursor-pointer ">
+                                <span className="text-xs font-bold"> <FaBriefcase /> Jobs</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaUserCircle className="text-xl" />
-                                <span className="text-xs font-bold">Profile</span>
+                            }} className="flex flex-col items-center cursor-pointer">
+                                <span className="text-xs font-bold">  <FaUserCircle /> Profile</span>
                             </li>
                         </>
                     ) : user?.role === "recruiter" ? (
@@ -116,47 +112,47 @@ const Header = () => {
                             <li onClick={() => {
                                 ProtectNavigation("/recruiter-dashboard");
                             }
-                            }><a className="flex items-center gap-2"><FaHome /> Home</a></li>
+                            }><span className="flex items-center gap-2"><FaHome /> Home</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/connections");
-                            }}><a className="flex items-center gap-2"><FaUserFriends /> Users</a></li>
+                            }}><span className="flex items-center gap-2"><FaUserFriends /> Users</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/messages");
-                            }}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a></li>
+                            }}><span className="flex items-center gap-2"><AiFillMessage /> Messages</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/jobsControl");
-                            }}><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a></li>
+                            }}><span className="flex items-center gap-2"><FaBriefcase /> Jobs</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a></li>
+                            }}><span className="flex items-center gap-2"><FaUserCircle /> Profile</span></li>
                         </>
                     ) : (
                         <>
                             <li onClick={() => {
                                 ProtectNavigation("/");
                             }
-                            }><a className="flex items-center gap-2"><FaHome /> Home</a>
+                            }><span className="flex items-center gap-2"><FaHome /> Home</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/connections");
-                            }}><a className="flex items-center gap-2"><FaUserFriends /> Connections</a>
+                            }}><span className="flex items-center gap-2"><FaUserFriends /> Connections</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/messages");
-                            }}><a className="flex items-center gap-2"><AiFillMessage /> Messages</a>
+                            }}><span className="flex items-center gap-2"><AiFillMessage /> Messages</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/jobs");
                             }
-                            }><a className="flex items-center gap-2"><FaBriefcase /> Jobs</a>
+                            }><span className="flex items-center gap-2"><FaBriefcase /> Jobs</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/notifications");
-                            }}><a className="flex items-center gap-2"><FaBell /> Notifications</a>
+                            }}><span className="flex items-center gap-2"><FaBell /> Notifications</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }}><a className="flex items-center gap-2"><FaUserCircle /> Profile</a>
+                            }}><span className="flex items-center gap-2"><FaUserCircle /> Profile</span>
                             </li>
                         </>
                     )}
@@ -164,7 +160,13 @@ const Header = () => {
             </div>
 
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => {
-                ProtectNavigation("/");
+                if (user?.role === "admin") {
+                    ProtectNavigation("/admin-dashboard");
+                } else if (user?.role === "recruiter") {
+                    ProtectNavigation("/recruiter-dashboard");
+                } else {
+                    ProtectNavigation("/");
+                }
             }}>
                 <img
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"

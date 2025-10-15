@@ -14,6 +14,12 @@ const AdminRoutes = ({ children }) => {
     }
 
     if (!user) return <Navigate to="/login" />;
+    if (!user.role) return (
+        <div className="flex items-center justify-center h-screen bg-gray-50">
+            <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+        </div>
+    );
+
     if (user.role !== "admin") return <Navigate to="/404" />;
 
     return children;

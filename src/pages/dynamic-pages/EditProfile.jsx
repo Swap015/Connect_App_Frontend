@@ -381,7 +381,7 @@ const EditProfile = () => {
                             ) : (
                                 <button
                                     onClick={handleProfileUpload}
-                                    disabled={uploading} // 
+                                    disabled={uploading}
                                     className="px-3 py-2 text-xs sm:text-sm rounded-md bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2"
                                 >
                                     {uploading ? (
