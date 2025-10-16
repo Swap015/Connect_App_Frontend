@@ -51,7 +51,7 @@ const Footer = () => {
             </div>
 
             {/* copyright */}
-            
+
             <div className="border-t border-white mt-6 pt-3 text-center text-sm md:text-md text-gray-700">
                 © {new Date().getFullYear()} <span className="font-semibold">Connect</span> · All rights reserved
             </div>

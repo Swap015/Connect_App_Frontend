@@ -31,8 +31,9 @@ import AdminRoutes from "./components/RouteProtector/AdminRoutes.jsx";
 import RecruiterDashboard from "./pages/dynamic-pages/Recruiter/RecruiterDashboard.jsx";
 import SinglePost from "./components/posts/SinglePost.jsx";
 import RecruiterRoutes from "./components/RouteProtector/RecruiterRoutes.jsx";
-import Footer from "./components/footer.jsx";
-import Header from "./components/header.jsx";
+import Header from "./components/Header.jsx";
+import Footer from "./components/Footer.jsx";
+
 
 
 function App() {
