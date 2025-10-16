@@ -51,9 +51,9 @@ function App() {
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/savedPosts" element={<SavedPosts />} />
               <Route path="/likedPosts" element={<LikedPosts />} />
               <Route path="/profileVisits" element={<ProfileVisits />} />

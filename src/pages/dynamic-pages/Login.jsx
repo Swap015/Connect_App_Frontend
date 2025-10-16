@@ -30,7 +30,7 @@ const Login = () => {
       const res = await api.post(`/user/login`, formData, { withCredentials: true }
       );
       setMessage(res.data.msg);
-      login(res.data.user);
+      await login();
 
       if (res.data.userData.role === "admin") {
         navigate("/admin-dashboard");
@@ -38,7 +38,7 @@ const Login = () => {
         navigate("/recruiter-dashboard");
       }
       else {
-        navigate("/");
+        navigate("/home");
       }
 
     } catch {
@@ -165,7 +165,7 @@ const Login = () => {
         <p className="text-gray-700 text-center mt-4 text-sm sm:text-base">
           Don’t have an account?{" "}
           <a
-            href="/register"
+            href="/"
             className="text-orange-500 font-semibold hover:underline"
           >
             Sign Up

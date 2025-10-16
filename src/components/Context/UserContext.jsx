@@ -25,6 +25,7 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     const login = async () => {
+        setLoading(true);
         await fetchUser();
     };
 
