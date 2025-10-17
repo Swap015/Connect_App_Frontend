@@ -11,7 +11,7 @@ const Footer = () => {
 
                 <div className="flex items-center gap-2">
                     <img
-                        className="w-13 h-13 sm:w-17 sm:h-16 md:w-20 md:h-20"
+                        className="w-13 h-13 md:w-16 md:h-16 lg:w-20 lg:h-20"
                         src="https://res.cloudinary.com/swapcloud/image/upload/v1755720079/Logo_wdvg4h.png"
                         alt="Logo"
                     />
@@ -20,7 +20,7 @@ const Footer = () => {
 
                 {/* middle links */}
 
-                <ul className="flex flex-wrap justify-center gap-6 text-sm md:text-lg font-medium">
+                <ul className="flex flex-wrap justify-center gap-6 text-sm  md:text lg:text-lg font-medium">
                     <li className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
                         <Link to="/about">About Us</Link>
                     </li>
