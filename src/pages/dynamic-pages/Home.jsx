@@ -71,31 +71,30 @@ const Home = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className="min-h-screen bg-gray-50 flex  overflow-x-hidden">
 
             {/* left side section-----for Big devices */}
-            <aside className="w-64 bg-white shadow-lg p-6 hidden md:block text-black text-lg font-bold">
+            <aside className="w-48 lg:w-54 bg-white shadow-lg p-6 hidden md:block text-black font-bold">
 
-                <ul className="space-y-4">
-                    <div className="p-6">
+                <ul className="space-y-6 ">
+                    <div className="p-2 lg:p-3">
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500"
+                            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500 text-sm lg:text-base"
                         >
                             + Create Post
                         </button>
 
-
                     </div>
-                    <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/savedPosts")}>🔖 Saved Posts</li>
-                    <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/likedPosts")}>❤️ Liked Posts</li>
-                    <li className="cursor-pointer hover:text-orange-500 transition" onClick={() => navigate("/profileVisits")}>👀 Profile Visits</li>
+                    <li className="cursor-pointer hover:text-orange-500 transition text-base lg:text-xl" onClick={() => navigate("/savedPosts")}>🔖 Saved Posts</li>
+                    <li className="cursor-pointer hover:text-orange-500 transition text-base lg:text-xl" onClick={() => navigate("/likedPosts")}>❤️ Liked Posts</li>
+                    <li className="cursor-pointer hover:text-orange-500 transition text-base lg:text-xl" onClick={() => navigate("/profileVisits")}>👀 Profile Visits</li>
                 </ul>
             </aside>
 
 
             <main className="flex-1 container mx-auto px-4 py-6 max-w-2xl">
-                <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">
+                <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-4">
                     Welcome, <span className="text-orange-500">{user?.name}</span> 👋
                 </h2>
 

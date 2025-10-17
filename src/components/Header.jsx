@@ -74,37 +74,37 @@ const Header = () => {
     };
 
     return (
-        <header className="flex items-center justify-between bg-gradient-to-r from-[#f6d365] to-[#fe6f48] pl-2 pr-5 shadow-md sm:pl-5 sm:pr-12 sm:py-0.5">
+        <header className="flex items-center justify-between bg-gradient-to-r from-[#f6d365] to-[#fe6f48] pl-2 md:pr-3  lg:pr-7 shadow-md sm:pl-5 sm:pr-12 sm:py-0.5">
 
             {/* left mobile menu  */}
             <div className="dropdown dropdown-end md:hidden">
                 <label tabIndex={0} className="btn btn-ghost hover:bg-white">
                     <FaBars className="text-xl text-gray-800" />
-                </label>
+                </label> 
                 <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-35 left-0">
+                    className="menu menu-sm dropdown-content mt-3 z-[1] p-3 shadow bg-base-100 rounded-box w-38 left-0">
                     {(user?.role === "admin") ? (
                         <>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-dashboard");
-                            }} className="flex flex-col items-center cursor-pointer ">
-                                <span className="text-xs font-bold"> <FaHome /> Home</span>
+                            }} className="flex flex-col items-center cursor-pointer text-sm">
+                                <span className="text-sm font-bold">     <FaHome /> Home</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-users");
                             }} className="flex flex-col items-center cursor-pointer ">
-                                <span className="text-xs font-bold"> <FaUserFriends /> Users</span>
+                                <span className="text-sm font-bold"> <FaUserFriends /> Users</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-jobs");
                             }} className="flex flex-col items-center cursor-pointer ">
-                                <span className="text-xs font-bold"> <FaBriefcase /> Jobs</span>
+                                <span className="text-sm font-bold"> <FaBriefcase /> Jobs</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
                             }} className="flex flex-col items-center cursor-pointer">
-                                <span className="text-xs font-bold">  <FaUserCircle /> Profile</span>
+                                <span className="text-sm font-bold">  <FaUserCircle /> Profile</span>
                             </li>
                         </>
                     ) : user?.role === "recruiter" ? (
@@ -112,47 +112,47 @@ const Header = () => {
                             <li onClick={() => {
                                 ProtectNavigation("/recruiter-dashboard");
                             }
-                            }><span className="flex items-center gap-2"><FaHome /> Home</span></li>
+                            }><span className="flex items-center gap-2 text-sm"><FaHome /> Home</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/connections");
-                            }}><span className="flex items-center gap-2"><FaUserFriends /> Users</span></li>
+                            }}><span className="flex items-center gap-2 text-sm"><FaUserFriends /> Users</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/messages");
-                            }}><span className="flex items-center gap-2"><AiFillMessage /> Messages</span></li>
+                            }}><span className="flex items-center gap-2 text-sm"><AiFillMessage /> Messages</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/jobsControl");
-                            }}><span className="flex items-center gap-2"><FaBriefcase /> Jobs</span></li>
+                            }}><span className="flex items-center gap-2 text-sm"><FaBriefcase /> Jobs</span></li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }}><span className="flex items-center gap-2"><FaUserCircle /> Profile</span></li>
+                            }}><span className="flex items-center gap-2  text-sm"><FaUserCircle /> Profile</span></li>
                         </>
                     ) : (
                         <>
                             <li onClick={() => {
-                                ProtectNavigation("/");
+                                ProtectNavigation("/home");
                             }
-                            }><span className="flex items-center gap-2"><FaHome /> Home</span>
+                            }><span className="flex items-center gap-2 text-sm "><FaHome /> Home</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/connections");
-                            }}><span className="flex items-center gap-2"><FaUserFriends /> Connections</span>
+                            }}><span className="flex items-center gap-2 text-sm "><FaUserFriends /> Connections</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/messages");
-                            }}><span className="flex items-center gap-2"><AiFillMessage /> Messages</span>
+                            }}><span className="flex items-center gap-2 text-sm "><AiFillMessage /> Messages</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/jobs");
                             }
-                            }><span className="flex items-center gap-2"><FaBriefcase /> Jobs</span>
+                            }><span className="flex items-center gap-2 text-sm"><FaBriefcase /> Jobs</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/notifications");
-                            }}><span className="flex items-center gap-2"><FaBell /> Notifications</span>
+                            }}><span className="flex items-center gap-2 text-sm"><FaBell /> Notifications</span>
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }}><span className="flex items-center gap-2"><FaUserCircle /> Profile</span>
+                            }}><span className="flex items-center gap-2 text-sm"><FaUserCircle /> Profile</span>
                             </li>
                         </>
                     )}
@@ -165,15 +165,15 @@ const Header = () => {
                 } else if (user?.role === "recruiter") {
                     ProtectNavigation("/recruiter-dashboard");
                 } else {
-                    ProtectNavigation("/");
+                    ProtectNavigation("/home");
                 }
             }}>
                 <img
-                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12"
+                    className="w-12 h-12 sm:w-10 sm:h-10 md:w-12 md:h-12"
                     src="https://res.cloudinary.com/swapcloud/image/upload/v1755720079/Logo_wdvg4h.png"
                     alt="Logo"
                 />
-                <span className="hidden sm:block font-bold text-sm md:text-lg lg:text-xl text-gray-800 hover:text-gray-950">
+                <span className="hidden sm:block font-bold text-sm md:text-base lg:text-xl text-gray-800 hover:text-gray-950">
                     Connect
                 </span>
             </div>
@@ -187,7 +187,7 @@ const Header = () => {
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => query && setShowDropdown(true)}
-                        className="w-full pl-10 pr-4 py-2 rounded-full bg-white/70 backdrop-blur-md shadow-md border border-black/30 focus:outline-none focus:ring-2 focus:ring-black text-black text-sm font-semibold"
+                        className="w-full pl-10 pr-4 py-1.5 lg:py-2 rounded-full bg-white/70 backdrop-blur-md shadow-md border border-black/30 focus:outline-none focus:ring-2 focus:ring-black text-black text-sm font-semibold"
                     />
 
                     {showDropdown && (results.users.length > 0 || results.posts.length > 0) && (
@@ -234,84 +234,84 @@ const Header = () => {
             </div>
 
             <div className="flex-none">
-                <ul className="hidden md:flex gap-6 items-center text-gray-800 font-bold text-xs">
+                <ul className="hidden md:flex md:gap-4 lg:gap-7 items-center text-gray-800 font-bold">
                     {(user?.role === "admin") ? (
                         <>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-dashboard");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaHome className="text-xl" />
-                                <span className="text-xs font-bold">Home</span>
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm">
+                                <FaHome className="md:text-lg lg:text-xl" />
+                                Home
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-users");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaUserFriends className="text-xl" />
-                                <span className="text-xs font-bold">Users</span>
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm">
+                                <FaUserFriends className="md:text-base lg:text-xl" />
+                                Users
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/admin-jobs");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaBriefcase className="text-xl" />
-                                <span className="text-xs font-bold">Jobs</span>
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm">
+                                <FaBriefcase className="md:text-base lg:text-xl" />
+                                Jobs
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaUserCircle className="text-xl" />
-                                <span className="text-xs font-bold">Profile</span>
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm">
+                                <FaUserCircle className="md:text-base lg:text-xl" />
+                                Profile
                             </li>
                         </>
                     ) : user?.role === "recruiter" ? (
                         <>
                             <li onClick={() => {
                                 ProtectNavigation("/recruiter-dashboard");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaHome className="text-xl" /> Home
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm">
+                                <FaHome className="md:text-base lg:text-xl" /> Home
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/connections");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white">
-                                <FaUserFriends className="text-xl" /> Users
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm">
+                                <FaUserFriends className="md:text-base lg:text-xl" /> Users
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/messages");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><AiFillMessage className="text-xl" /> Messages
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm"><AiFillMessage className="md:text-base lg:text-xl" /> Messages
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/jobsControl");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><FaBriefcase className="text-xl" /> Jobs
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm"><FaBriefcase className="md:text-base lg:text-xl" /> Jobs
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><FaUserCircle className="text-xl" /> Profile
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm"><FaUserCircle className="md:text-base lg:text-xl" /> Profile
                             </li>
                         </>
                     ) : (
                         <>
                             <li onClick={() => {
-                                ProtectNavigation("/");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><FaHome className="text-xl" /> Home
+                                ProtectNavigation("/home");
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm"><FaHome className="md:text-base lg:text-xl" /> Home
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/connections");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><FaUserFriends className="text-xl" /> Connections
+                            }} className="flex flex-col items-center cursor-pointer md:text-xs lg:text-sm hover:text-white"><FaUserFriends className="md:text-base lg:text-xl" /> Connections
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/messages");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><AiFillMessage className="text-xl" /> Messages
+                            }} className="flex flex-col items-center cursor-pointer md:text-xs lg:text-sm hover:text-white"><AiFillMessage className="md:text-base lg:text-xl" /> Messages
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/jobs")
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><FaBriefcase className="text-xl" /> Jobs
+                            }} className="flex flex-col items-center cursor-pointer md:text-xs lg:text-sm hover:text-white"><FaBriefcase className="md:text-base lg:text-xl" /> Jobs
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/notifications");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><FaBell className="text-xl" /> Notifications
+                            }} className="flex flex-col items-center cursor-pointer hover:text-white md:text-xs lg:text-sm"><FaBell className="md:text-base lg:text-xl" /> Notifications
                             </li>
                             <li onClick={() => {
                                 ProtectNavigation("/editProfile");
-                            }} className="flex flex-col items-center cursor-pointer hover:text-white"><FaUserCircle className="text-xl" /> Profile
+                            }} className="flex flex-col items-center cursor-pointer md:text-xs lg:text-sm hover:text-white"><FaUserCircle className="md:text-base lg:text-xl" /> Profile
                             </li>
                         </>
                     )}
