@@ -252,7 +252,7 @@ const Jobs = () => {
 
             {/* Apply Modal */}
             {applyJob && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+                <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm bg-opacity-10 z-50 px-4">
                     <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
                         <button
                             className="absolute top-3 right-3 text-gray-500 hover:text-red-500"
@@ -261,14 +261,14 @@ const Jobs = () => {
                             <FaTimes size={20} />
                         </button>
 
-                        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+                        <h2 className="text-lg md:text-xl lg:text-2xl font-bold mb-4 text-gray-800">
                             Apply for {applyJob.title}
                         </h2>
 
                         <form className="space-y-4" onSubmit={handleApplySubmit}>
                             <textarea
                                 name="coverLetter"
-                                className="textarea textarea-bordered w-full"
+                                className="textarea textarea-bordered text-black w-full bg-gray-100"
                                 placeholder="Write your cover letter..."
                                 rows={4}
                             />
@@ -276,7 +276,7 @@ const Jobs = () => {
                                 type="file"
                                 name="resume"
                                 accept=".pdf"
-                                className="file-input file-input-bordered w-full"
+                                className="file-input file-input-bordered w-full bg-gray-100 text-black"
                             />
                             <div className="flex justify-end gap-3">
                                 <button

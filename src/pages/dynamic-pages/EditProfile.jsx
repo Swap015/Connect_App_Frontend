@@ -26,7 +26,7 @@ const EditProfile = () => {
         companyName: "",
         positionAtCompany: "",
         skills: "",
-        education: { SSC: "", HSC: "", diploma: "", degree: "" },
+        education: { SSC: "", HSC: "", diploma: "", Graduation: "" },
     });
 
     const [profilePic, setProfilePic] = useState(null);
@@ -49,7 +49,7 @@ const EditProfile = () => {
                 companyName: user.companyName || "",
                 positionAtCompany: user.positionAtCompany || "",
                 skills: user.skills?.join(", ") || "",
-                education: user.education?.[0] || { SSC: "", HSC: "", diploma: "", degree: "" },
+                education: user.education?.[0] || { SSC: "", HSC: "", diploma: "", Graduation: "" },
             });
         }
     }, [user]);
@@ -148,7 +148,7 @@ const EditProfile = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (["SSC", "HSC", "diploma", "degree"].includes(name)) {
+        if (["SSC", "HSC", "diploma", "Graduation"].includes(name)) {
             setForm((prev) => ({
                 ...prev,
                 education: { ...prev.education, [name]: value },
@@ -300,7 +300,7 @@ const EditProfile = () => {
                                     Education ( Enter school/college name )
                                 </label>
 
-                                {["SSC", "HSC", "diploma", "degree"].map((edu) => (
+                                {["SSC", "HSC", "diploma", "Graduation"].map((edu) => (
                                     <input
                                         key={edu}
                                         type="text"

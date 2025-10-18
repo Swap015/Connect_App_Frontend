@@ -24,16 +24,16 @@ const EditPostModal = ({ post, isOpen, onClose, onEdit }) => {
     return (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 text-black">
             <div className="bg-white p-6 rounded-lg w-96">
-                <h2 className="text-lg font-semibold mb-4">Edit Post</h2>
+                <h2 className="text-xl lg:text-2xl font-bold mb-4">Edit Post</h2>
                 <textarea
-                    className="w-full border rounded p-2 mb-3"
+                    className="w-full border rounded p-2 mb-3 text-sm lg:text-base"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     rows={4}
                 />
                 <div className="flex justify-end gap-3">
-                    <button onClick={onClose} className="px-3 py-1 border rounded bg-red-500 text-white hover:bg-red-600">Cancel</button>
-                    <button onClick={handleSubmit} className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded">Save</button>
+                    <button onClick={onClose} className="px-3 py-1 border rounded bg-red-500 text-white hover:bg-red-600 text-xs lg:text-sm">Cancel</button>
+                    <button onClick={handleSubmit} className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-xs lg:text-sm">Save</button>
                 </div>
             </div>
         </div>

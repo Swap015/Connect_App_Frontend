@@ -63,7 +63,7 @@ export default function JobControl() {
     const fetchJobs = async () => {
         try {
             setLoading(true);
-            const res = await api.get("/job");
+            const res = await api.get("/job/myJobs");
             setJobs(Array.isArray(res.data.jobs) ? res.data.jobs : []);
         } catch {
             toast.error("Failed to fetch jobs.");
@@ -153,7 +153,7 @@ export default function JobControl() {
     );
 
     return (
-        <div className="p-6 max-w-7xl mx-auto bg-[#eef9ff] text-black">
+        <div className="p-6 max-w-7xl mx-auto bg-[#e4f4fe] text-black min-h-screen">
 
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <div>
@@ -227,7 +227,7 @@ export default function JobControl() {
                         <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
                     </div>
                 ) : displayedJobs.length === 0 ? (
-                    <div className="text-center py-10 text-gray-500">No jobs found.</div>
+                    <div className="text-center py-10 text-red-500 text-xs lg:text-sm">No jobs found.</div>
                 ) : (
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {displayedJobs.map((job) => (

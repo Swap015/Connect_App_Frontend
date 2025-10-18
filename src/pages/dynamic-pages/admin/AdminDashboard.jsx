@@ -42,7 +42,6 @@ const AdminDashboard = () => {
     const data = [
         { name: "Users", value: reports.users.totalUsers },
         { name: "Recruiters", value: reports.users.recruitersCount },
-        { name: "Candidates", value: reports.users.candidatesCount },
         { name: "Jobs", value: reports.jobs.totalJobs },
         { name: "Active Jobs", value: reports.jobs.activeJobs },
         { name: "Inactive Jobs", value: reports.jobs.inactiveJobs },

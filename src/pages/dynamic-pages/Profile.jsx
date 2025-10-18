@@ -89,7 +89,7 @@ const Profile = () => {
             </div>
 
             {/* --- Education Section --- */}
-            <div className="bg-gray-50 p-4">
+            <div className="bg-gray-50 ">
                 <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">🎓 Education</h3>
                 {profileUser.education && profileUser.education.length > 0 ? (
                     <ul className=" ml-6 space-y-1">
@@ -98,7 +98,7 @@ const Profile = () => {
                                 {edu.SSC && <p>SSC: {edu.SSC}</p>}
                                 {edu.HSC && <p>HSC: {edu.HSC}</p>}
                                 {edu.diploma && <p>Diploma: {edu.diploma}</p>}
-                                {edu.degree && <p>Degree: {edu.degree}</p>}
+                                {edu.degree && <p>Graduation: {edu.degree}</p>}
                             </li>
                         ))}
                     </ul>
@@ -108,7 +108,7 @@ const Profile = () => {
             </div>
 
             {/* --- Skills Section --- */}
-            <div className="bg-gray-50 p-4 ">
+            <div className="bg-gray-50 pt-4 ">
                 <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">🛠 Skills</h3>
                 {profileUser.skills && profileUser.skills.length > 0 ? (
                     <div className="flex flex-wrap text-sm lg:text-base 3xl:text-xl">
