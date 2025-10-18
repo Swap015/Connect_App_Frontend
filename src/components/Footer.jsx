@@ -20,7 +20,7 @@ const Footer = () => {
 
                 {/* middle links */}
 
-                <ul className="flex flex-wrap justify-center gap-6 text-sm  md:text lg:text-lg font-medium">
+                <ul className="flex flex-wrap justify-center gap-6 text-sm lg:text-lg font-medium md:px-10 md:py-6">
                     <li className="relative cursor-pointer after:content-[''] after:block after:w-0 after:h-[2px] after:bg-gray-700 after:transition-all after:duration-300 hover:after:w-full">
                         <Link to="/about">About Us</Link>
                     </li>
