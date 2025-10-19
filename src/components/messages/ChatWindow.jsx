@@ -190,7 +190,7 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
                     />
                 ))}
                 {typing && (
-                    <p className="text-sm text-gray-400 italic">typing...</p>
+                    <p className="text-sm text-gray-400 italic animate-pulse">{chatPartner.name.split(" ")[0]} is typing...</p>
                 )}
                 <div ref={messagesEndRef} />
             </div>

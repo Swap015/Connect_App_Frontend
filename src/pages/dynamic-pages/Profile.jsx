@@ -12,6 +12,11 @@ const Profile = () => {
     const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
 
+    const hasEducation = profileUser.education?.some(edu =>
+        edu.SSC || edu.HSC || edu.diploma || edu.degree
+    );
+
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -67,8 +72,8 @@ const Profile = () => {
                 />
                 <div className="flex-1 text-center sm:text-left">
                     <h2 className="text-xl sm:text-2xl lg:text-3xl  font-bold">{profileUser.name}</h2>
-                    <p className="text-gray-600 mt-1 text-xs sm:text-sm">{profileUser.headline || "No headline yet"}</p>
-                    <p className="text-gray-500 mt-1 text-xs  sm:text-sm">{profileUser.location || "No location"}</p>
+                    <p className="text-gray-600 mt-1 text-xs sm:text-sm">{profileUser.headline}</p>
+                    <p className="text-gray-500 mt-1 text-xs  sm:text-sm">{profileUser.location}</p>
                 </div>
                 {loggedInUser && id !== loggedInUser._id && (
                     <button
@@ -81,17 +86,35 @@ const Profile = () => {
             </div>
 
             {/* --- Work Section --- */}
-            <div className="p-4 ">
-                <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">💼 Work</h3>
-                <p className="text-sm lg:text-base 3xl:text-xl"><span className="font-semibold ">Company:</span> {profileUser.companyName || "Not provided"}</p>
-                <p className="text-sm lg:text-base 3xl:text-xl"><span className="font-semibold">Position:</span> {profileUser.positionAtCompany || "Not provided"}</p>
-                <p className="text-sm lg:text-base 3xl:text-xl"><span className="font-semibold">Experience:</span> {profileUser.experience || "Not provided"}</p>
-            </div>
+
+            {(profileUser.companyName || profileUser.positionAtCompany || profileUser.experience) && (
+                <div className="p-4 ">
+                    <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">💼 Work</h3>
+                    {profileUser.companyName && (
+                        <p className="text-sm lg:text-base 3xl:text-xl">
+                            <span className="font-semibold">Company:</span> {profileUser.companyName}
+                        </p>
+                    )}
+                    {profileUser.positionAtCompany && (
+                        <p className="text-sm lg:text-base 3xl:text-xl">
+                            <span className="font-semibold">Position:</span> {profileUser.positionAtCompany}
+                        </p>
+                    )}
+                    {profileUser.experience && (
+                        <p className="text-sm lg:text-base 3xl:text-xl">
+                            <span className="font-semibold">Experience:</span> {profileUser.experience}
+                        </p>
+                    )}
+
+                </div>
+            )}
 
             {/* --- Education Section --- */}
-            <div className="bg-gray-50 ">
-                <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">🎓 Education</h3>
-                {profileUser.education && profileUser.education.length > 0 ? (
+
+            {hasEducation && (
+                <div className="bg-gray-50 ">
+                    <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">🎓 Education</h3>
+
                     <ul className=" ml-6 space-y-1">
                         {profileUser.education.map((edu, i) => (
                             <li key={i} className="text-sm lg:text-base 3xl:text-xl">
@@ -102,24 +125,24 @@ const Profile = () => {
                             </li>
                         ))}
                     </ul>
-                ) : (
-                    <p className="text-sm lg:text-base 3xl:text-xl text-gray-500">No education details</p>
-                )}
-            </div>
+                </div>
+            )}
 
             {/* --- Skills Section --- */}
-            <div className="bg-gray-50 pt-4 ">
-                <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">🛠 Skills</h3>
-                {profileUser.skills && profileUser.skills.length > 0 ? (
+
+            {profileUser?.skills?.some(skill => skill && skill.trim() !== "") && (
+                <div className="bg-gray-50 pt-4 ">
+                    <h3 className="text-lg sm:text-xl xl:text-2xl font-semibold mb-2">🛠 Skills</h3>
+
                     <div className="flex flex-wrap text-sm lg:text-base 3xl:text-xl">
                         {profileUser.skills.join(", ")}
                     </div>
-                ) : (
-                    <p className="text-sm lg:text-base 3xl:text-xl text-gray-500">No skills added</p>
-                )}
-            </div>
+
+                </div>
+            )}
 
             {/* --- Connections Section --- */}
+
             <div className="bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200 flex flex-wrap gap-6">
                 <div className="text-sm lg:text-base 3xl:text-xl"><span className="font-semibold">Connections:</span> {profileUser.connections?.length || 0}</div>
                 <div className="text-sm lg:text-base 3xl:text-xl"><span className="font-semibold">Followers:</span> {profileUser.followers?.length || 0}</div>

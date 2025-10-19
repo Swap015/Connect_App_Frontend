@@ -18,6 +18,14 @@ const Messages = () => {
     useEffect(() => {
         if (!loading && user) {
             const newSocket = io(VITE_SOCKET_URL, { withCredentials: true });
+
+            newSocket.on("connect", () => {
+
+                if (user?._id) {
+                    newSocket.emit("addUser", user._id);
+                }
+            });
+
             setSocket(newSocket);
 
             const fetchData = async () => {
@@ -30,11 +38,8 @@ const Messages = () => {
                     const resConn = await api.get("/connection/my-connections");
                     setConnections(resConn.data.connections);
 
-                    if (user?._id) {
-                        newSocket.emit("addUser", user._id);
-                    }
                 } catch {
-                    toast.error("Error fetching data");
+                    toast.error("Error getting messages");
                 } finally {
                     setConvoLoading(false);
                 }

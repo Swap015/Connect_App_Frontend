@@ -42,10 +42,17 @@ const Home = () => {
             setPosts((prev) =>
                 prev.map((p) =>
                     p._id === postId
-                        ? { ...p, likesCount: res.data.likesCount }
+                        ? {
+                            ...p,
+                            likesCount: res.data.likesCount,
+                            likes: likedPosts.has(postId)
+                                ? p.likes.filter((id) => id !== user._id)
+                                : [...p.likes, user._id],
+                        }
                         : p
                 )
             );
+
 
             setLikedPosts((prev) => {
                 const updated = new Set(prev);
