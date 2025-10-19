@@ -123,7 +123,7 @@ const Messages = () => {
                 className={`${selectedConversation ? "block" : "hidden sm:block"
                     } flex-1 flex flex-col`}
             >
-                {selectedConversation ? (
+                {selectedConversation && socket ? (
                     <ChatWindow
                         conversation={selectedConversation}
                         user={user}

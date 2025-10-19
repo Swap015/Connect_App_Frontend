@@ -19,6 +19,8 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                 const otherUser = c.participants.find((p) => p._id !== userId);
                 const isSelected = selectedConversation?._id === c._id;
 
+                const unread = c.unreadCount?.[userId] > 0;
+
                 return (
                     <div
                         key={c._id}
@@ -31,7 +33,7 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                             alt={otherUser?.name}
                             className="w-12 h-12 rounded-full border object-cover"
                         />
-                        <div className="flex-1">
+                        <div className="flex-1 relative">
                             <h4 className="font-bold text-sm md:text-base 2xl:text-lg text-gray-800">
                                 {otherUser?.name}
                             </h4>
@@ -48,6 +50,12 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                                             : ""
                                     : "No messages yet"}
                             </p>
+                            {unread && (
+                                <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                                    {unread}
+                                </span>
+                            )}
+
                         </div>
                         {c.lastMessage && (
                             <span className="text-xs text-gray-500">
