@@ -43,6 +43,8 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
     }, [messages]);
 
     useEffect(() => {
+        if (!socket) return;
+
         const onGetMessage = (msg) => {
             const msgConvId = typeof msg.conversation === "object" ? String(msg.conversation._id) : String(msg.conversation);
             if (msgConvId === String(conversation._id)) {
