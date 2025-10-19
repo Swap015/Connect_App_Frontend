@@ -19,8 +19,6 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                 const otherUser = c.participants.find((p) => p._id !== userId);
                 const isSelected = selectedConversation?._id === c._id;
 
-                const unread = c.unreadCount?.[userId] > 0;
-
                 return (
                     <div
                         key={c._id}
@@ -50,11 +48,6 @@ const ConversationList = ({ conversations, selectedConversation, onSelect, userI
                                             : ""
                                     : "No messages yet"}
                             </p>
-                            {unread && (
-                                <span className="absolute top-0 right-0 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
-                                    {unread}
-                                </span>
-                            )}
 
                         </div>
                         {c.lastMessage && (
