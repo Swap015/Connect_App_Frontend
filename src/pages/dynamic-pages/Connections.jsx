@@ -219,7 +219,7 @@ const Connections = () => {
                                                 {req.user.name}
                                             </h4>
                                             <p className="text-xs hidden sm:block sm:text-sm lg:text-base text-gray-500">
-                                                {req.user.headline || "No headline"}
+                                                {req.user.headline }
                                             </p>
                                         </div>
                                     </div>
@@ -302,7 +302,7 @@ const Connections = () => {
                                             {u.name}
                                         </h4>
                                         <p className="text-xs  text-gray-500">
-                                            {u.headline || "No headline"}
+                                            {u.headline }
                                         </p>
                                         {renderUserAction(u)}
                                     </div>
@@ -336,7 +336,7 @@ const Connections = () => {
                                                 {conn.name}
                                             </h4>
                                             <p className="text-sm text-gray-500">
-                                                {conn.headline || "No headline"}
+                                                {conn.headline }
                                             </p>
                                         </div>
                                     </div>

@@ -17,7 +17,7 @@ const ProfileVisitsPage = () => {
                     "/user/profileVisits"
                 );
                 setVisits(res.data.visits || []);
-            } catch  {
+            } catch {
                 toast.error("Error fetching visits");
             } finally {
                 setLoading(false);
@@ -50,7 +50,7 @@ const ProfileVisitsPage = () => {
                         No one has visited your profile yet.
                     </p>
                 ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 justify-center place-items-center">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 justify-center place-items-center">
                         {visits.map((visit, index) => (
                             <div
                                 key={index}
@@ -72,7 +72,7 @@ const ProfileVisitsPage = () => {
                                     {visit.user?.name || "Unknown User"}
                                 </h3>
                                 <p className="text-xs md:text-sm lg:text-base 2xl:text-lg text-gray-600 mb-2">
-                                    {visit.user?.headline || "No headline available"}
+                                    {visit.user?.headline}
                                 </p>
 
                                 <span className="absolute top-3 right-3 text-xs font-medium text-white bg-gradient-to-r from-purple-500 to-indigo-500 px-3 py-1 rounded-full shadow-md">
