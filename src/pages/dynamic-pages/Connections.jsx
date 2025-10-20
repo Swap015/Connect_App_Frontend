@@ -150,6 +150,8 @@ const Connections = () => {
             );
         }
 
+
+
         return (
             <button
                 onClick={() => handleSend(u._id)}
@@ -159,6 +161,33 @@ const Connections = () => {
             </button>
         );
     };
+
+    useEffect(() => {
+        if (!activeTab) return;
+
+        const fetchTabData = async () => {
+            try {
+                if (activeTab === "received") {
+                    const res = await api.get("/connection/received-requests");
+                    setReceived(res.data.requests);
+                } else if (activeTab === "sent") {
+                    const res = await api.get("/connection/sent-requests");
+                    setSent(res.data.sentRequests);
+                } else if (activeTab === "all") {
+                    const res = await api.get("/user/getUsers");
+                    setUsers(res.data.users);
+                } else if (activeTab === "connections") {
+                    const res = await api.get("/connection/my-connections");
+                    setConnections(res.data.connections);
+                }
+            } catch {
+                toast.error("Error fetching data");
+            }
+        };
+
+        fetchTabData();
+    }, [activeTab]);
+
 
     if (loading) {
         return (
@@ -219,7 +248,7 @@ const Connections = () => {
                                                 {req.user.name}
                                             </h4>
                                             <p className="text-xs hidden sm:block sm:text-sm lg:text-base text-gray-500">
-                                                {req.user.headline }
+                                                {req.user.headline}
                                             </p>
                                         </div>
                                     </div>
@@ -289,7 +318,7 @@ const Connections = () => {
                                 .map((u) => (
                                     <div
                                         key={u._id}
-                                        className="bg-white border border-gray-200 rounded-lg p-5 shadow-md transition text-center  flex flex-col items-center "
+                                        className="bg-white border border-gray-200 rounded-lg p-5 shadow-md transition text-center  flex flex-col items-center justify-between"
                                     >
                                         <img
                                             src={u.profileImage}
@@ -301,8 +330,8 @@ const Connections = () => {
                                             className="font-semibold text-xs md:text-sm lg:text-base mt-3 text-gray-800 cursor-pointer">
                                             {u.name}
                                         </h4>
-                                        <p className="text-xs  text-gray-500">
-                                            {u.headline }
+                                        <p className="text-xs text-gray-500 min-h-[0.6rem]">
+                                            {u.headline ? (u.headline.length > 10 ? u.headline.slice(0, 18) + "..." : u.headline) : " "}
                                         </p>
                                         {renderUserAction(u)}
                                     </div>
@@ -336,7 +365,7 @@ const Connections = () => {
                                                 {conn.name}
                                             </h4>
                                             <p className="text-sm text-gray-500">
-                                                {conn.headline }
+                                                {conn.headline}
                                             </p>
                                         </div>
                                     </div>
