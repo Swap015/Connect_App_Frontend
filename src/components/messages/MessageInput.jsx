@@ -120,7 +120,7 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={handleTyping}
-                    className="flex-1 px-3 py-0.5 lg:py-1 rounded-full border focus:outline-none focus:ring focus:border-orange-400 text-sm sm:text-base"
+                    className="flex-1 px-3 py-1 rounded-full border focus:outline-none focus:ring focus:border-orange-400 text-sm sm:text-base"
                     disabled={uploading}
                 />
 
@@ -133,7 +133,7 @@ const MessageInput = ({ onSend, socket, conversation, user, uploading }) => {
                     {uploading ? (
                         <span className="loading loading-spinner loading-sm"></span>
                     ) : (
-                        <IoSendSharp className="text-base sm:text-lg" />
+                        <IoSendSharp className="text-lg" />
                     )}
                 </button>
             </div>

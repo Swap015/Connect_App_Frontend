@@ -19,7 +19,7 @@ const MessageBubble = ({ message, isOwn, onDelete }) => {
             <div
                 className={`max-w-[85vw] sm:max-w-[75%]  break-words whitespace-pre-wrap text-sm px-5 py-2 rounded-lg shadow-md relative ${isOwn
                         ? "bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-br-none"
-                        : "bg-gradient-to-b from-[#bcbbbb] to-[#7b7a7a] text-white/90 rounded-bl-none"
+                        : "bg-gradient-to-b from-[#979797] to-[#717070] text-white/90 rounded-bl-none"
                     }`}
             >
 

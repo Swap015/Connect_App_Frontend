@@ -12,10 +12,6 @@ const Profile = () => {
     const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
 
-    const hasEducation = profileUser.education?.some(edu =>
-        edu.SSC || edu.HSC || edu.diploma || edu.degree
-    );
-
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -59,6 +55,10 @@ const Profile = () => {
             <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
         </div>
     );
+    const hasEducation = profileUser.education?.some(edu =>
+        edu.SSC || edu.HSC || edu.diploma || edu.degree
+    );
+
 
     return (
         <div className="max-w-5xl mx-auto mt-6 p-5 text-gray-800 space-y-3">

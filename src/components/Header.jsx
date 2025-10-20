@@ -205,7 +205,7 @@ const Header = () => {
                                             <img src={u.profileImage} alt="user" className="w-8 h-8 rounded-full" />
                                             <div>
                                                 <p className="text-sm font-bold">{u.name}</p>
-                                                <p className="text-xs text-gray-500">{u.headline || "No headline"}</p>
+                                                <p className="text-xs text-gray-500">{u.headline }</p>
                                             </div>
                                         </div>
                                     ))}

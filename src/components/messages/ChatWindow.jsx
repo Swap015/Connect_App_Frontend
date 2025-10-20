@@ -182,12 +182,12 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
 
             {/* messages */}
             <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 sm:p-4 space-y-2 bg-white">
-                {messages.map((m) => (
+                {messages.map((msg) => (
                     <MessageBubble
-                        key={m._id}
-                        message={m}
-                        isOwn={String(m.sender) === String(user._id)}
-                        onDelete={(forEveryone) => handleDeleteMessage(m._id, forEveryone)}
+                        key={msg._id}
+                        message={msg}
+                        isOwn={String(msg.sender) === String(user._id)}
+                        onDelete={(forEveryone) => handleDeleteMessage(msg._id, forEveryone)}
                     />
                 ))}
                 {typing && (
