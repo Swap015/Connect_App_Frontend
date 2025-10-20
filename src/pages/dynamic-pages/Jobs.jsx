@@ -33,6 +33,7 @@ const Jobs = () => {
 
     useEffect(() => {
         fetchJobs();
+        fetchMyApplications()
     }, []);
 
     const fetchJobs = async () => {
@@ -74,6 +75,12 @@ const Jobs = () => {
         e.preventDefault();
         const formData = new FormData(e.target);
 
+        if (!formData.get("resume") || formData.get("resume").size === 0) {
+
+            toast.error("Please attach your resume");
+            return;
+        }
+
         try {
             setSubmitting(true);
 
@@ -82,10 +89,11 @@ const Jobs = () => {
             });
 
             await fetchJobs();
+            await fetchMyApplications();
             setApplyJob(null);
             toast.success("Application submitted successfully!");
         } catch {
-            toast.error("Something went wrong");
+            toast.error("Failed to submit application!");
         }
         finally {
             setSubmitting(false);
@@ -122,65 +130,76 @@ const Jobs = () => {
                 </p>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between items-center">
-                    {jobs.map((job) => (
-                        <div
-                            key={job._id}
-                            onClick={(e) => {
-                                if (e.target.tagName !== "BUTTON") setSelectedJob(job);
-                            }}
-                            className="bg-white shadow-sm border rounded-lg p-4 sm:p-5 w-full max-w-sm md:max-w-md lg:max-w-full shadow-blue-700  "
-                        >
-                            <h2 className="text-base md:text-lg lg:text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2 ">
-                                <FaBriefcase className="text-blue-500" /> {job.title}
-                            </h2>
-                            <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
-                                <FaBuilding className="text-gray-500" /> {job.companyName}
-                            </p>
-                            <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
-                                <FaMapMarkerAlt className="text-red-500" /> {job.location}
-                            </p>
-                            {job.salaryRange?.min > 0 && (
+                    {jobs.map((job) => {
+                        const alreadyApplied = myApplications.some(app => app.job?._id === job._id);
+
+                        return (
+                            <div
+                                key={job._id}
+                                onClick={(e) => {
+                                    if (e.target.tagName !== "BUTTON") setSelectedJob(job);
+                                }}
+                                className="bg-white shadow-sm border rounded-lg p-4 sm:p-5 w-full max-w-sm md:max-w-md lg:max-w-full shadow-blue-700  "
+                            >
+
+                                <h2 className="text-base md:text-lg lg:text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2 ">
+                                    <FaBriefcase className="text-blue-500" /> {job.title}
+                                </h2>
                                 <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
-                                    <FaMoneyBillWave className="text-green-500" /> ₹
-                                    {job.salaryRange.min} - ₹{job.salaryRange.max}
+                                    <FaBuilding className="text-gray-500" /> {job.companyName}
                                 </p>
-                            )}
+                                <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
+                                    <FaMapMarkerAlt className="text-red-500" /> {job.location}
+                                </p>
+                                {job.salaryRange?.min > 0 && (
+                                    <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
+                                        <FaMoneyBillWave className="text-green-500" /> ₹
+                                        {job.salaryRange.min} - ₹{job.salaryRange.max}
+                                    </p>
+                                )}
 
-                            <p className="mt-3 text-gray-600 text-xs md:text-sm lg:text-base line-clamp-3">
-                                {job.description}
-                            </p>
+                                <p className="mt-3 text-gray-600 text-xs md:text-sm lg:text-base line-clamp-3">
+                                    {job.description}
+                                </p>
 
-                            <div className="mt-4 flex flex-wrap gap-2">
-                                {job.skills.slice(0, 3).map((skill, i) => (
-                                    <span
-                                        key={i}
-                                        className="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium"
+                                <div className="mt-4 flex flex-wrap gap-2">
+                                    {job.skills.slice(0, 3).map((skill, i) => (
+                                        <span
+                                            key={i}
+                                            className="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium"
+                                        >
+                                            {skill}
+                                        </span>
+                                    ))}
+                                    {job.skills.length > 3 && (
+                                        <span className="text-xs text-gray-400">
+                                            +{job.skills.length - 3} more
+                                        </span>
+                                    )}
+                                </div>
+
+                                <p className="text-sm text-gray-600 mt-3 flex items-center gap-2">
+                                    <FaUsers className="text-purple-500" />
+                                    Applicants: {job.applications?.length || 0}
+                                </p>
+
+
+                                {!userLoading && user?.role === "user" && (
+                                    <button
+                                        onClick={() => setApplyJob(job)}
+                                        className={`btn btn-xs md:btn-sm w-fit mt-4 ${alreadyApplied
+                                            ? " !bg-gray-300 text-black/50 cursor-not-allowed"
+                                            : "btn-primary"
+                                            }`}
+
+                                        disabled={alreadyApplied}
                                     >
-                                        {skill}
-                                    </span>
-                                ))}
-                                {job.skills.length > 3 && (
-                                    <span className="text-xs text-gray-400">
-                                        +{job.skills.length - 3} more
-                                    </span>
+                                        {alreadyApplied ? "Already Applied" : "Apply Now"}
+                                    </button>
                                 )}
                             </div>
-
-                            <p className="text-sm text-gray-600 mt-3 flex items-center gap-2">
-                                <FaUsers className="text-purple-500" />
-                                Applicants: {job.applications?.length || 0}
-                            </p>
-
-                            {user?.role === "user" && (
-                                <button
-                                    onClick={() => setApplyJob(job)}
-                                    className="btn btn-xs md:btn-sm  btn-primary w-fit mt-4 "
-                                >
-                                    Apply Now
-                                </button>
-                            )}
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
             )}
 
@@ -272,6 +291,7 @@ const Jobs = () => {
                                 placeholder="Write your cover letter..."
                                 rows={4}
                             />
+
                             <input
                                 type="file"
                                 name="resume"
