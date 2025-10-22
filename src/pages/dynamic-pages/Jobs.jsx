@@ -15,6 +15,7 @@ import EditApplicationModal from "../../components/jobApplication/EditModal.jsx"
 import DeleteApplicationModal from "../../components/jobApplication/DeleteModal.jsx";
 import { toast } from "react-toastify";
 import UserContext from "../../components/Context/UserContext.jsx";
+import JobFilterBox from "../../components/JobFilterBox.jsx";
 
 
 const Jobs = () => {
@@ -30,6 +31,39 @@ const Jobs = () => {
     const [showMyApps, setShowMyApps] = useState(false);
     const [editApp, setEditApp] = useState(null);
     const [deleteApp, setDeleteApp] = useState(null);
+
+    const [showFilter, setShowFilter] = useState(false);
+    const [filters, setFilters] = useState({});
+
+    useEffect(() => {
+        const fetchJobsWithFilters = async () => {
+            try {
+                setLoading(true);
+                const params = new URLSearchParams();
+                if (filters.jobType) params.append("jobType", filters.jobType);
+                if (filters.location) params.append("location", filters.location);
+                if (filters.skills) params.append("skills", filters.skills);
+                if (filters.minSalary) params.append("minSalary", filters.minSalary);
+                if (filters.maxSalary) params.append("maxSalary", filters.maxSalary);
+
+                const res = await api.get(`/job?${params.toString()}`);
+                setJobs(res.data.jobs);
+            } catch {
+                toast.error("Failed to load jobs!");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchJobsWithFilters();
+    }, [filters]); // ✅ triggers fetch whenever filters change
+
+
+    const handleFilterChange = (newFilters) => {
+        setFilters(newFilters); // just update state
+        setShowFilter(false);   // close mobile filter if needed
+    };
+
 
     useEffect(() => {
         fetchJobs();
@@ -120,90 +154,119 @@ const Jobs = () => {
                 </div>
             )}
 
-            {loading ? (
-                <div className="flex justify-center items-center py-10">
-                    <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+            <div className="flex flex-col md:flex-row gap-3">
+
+                <div className="hidden md:block md:w-60 lg:w-64 shrink-0">
+                    <JobFilterBox onFilterChange={handleFilterChange} />
                 </div>
-            ) : jobs.length === 0 ? (
-                <p className="text-center text-gray-500">
-                    No jobs available right now.
-                </p>
-            ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-between items-center">
-                    {jobs.map((job) => {
-                        const alreadyApplied = myApplications.some(app => app.job?._id === job._id);
 
-                        return (
-                            <div
-                                key={job._id}
-                                onClick={(e) => {
-                                    if (e.target.tagName !== "BUTTON") setSelectedJob(job);
-                                }}
-                                className="bg-white shadow-sm border rounded-lg p-4 sm:p-5 w-full max-w-sm md:max-w-md lg:max-w-full shadow-blue-700  "
-                            >
+                {/*  Filter button for mobile */}
+                <button
+                    className="btn btn-primary fixed bottom-6 right-6 md:hidden shadow-lg"
+                    onClick={() => setShowFilter(true)}
+                >
+                    ⚙️ Filters
+                </button>
 
-                                <h2 className="text-base md:text-lg lg:text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2 ">
-                                    <FaBriefcase className="text-blue-500" /> {job.title}
-                                </h2>
-                                <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
-                                    <FaBuilding className="text-gray-500" /> {job.companyName}
-                                </p>
-                                <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
-                                    <FaMapMarkerAlt className="text-red-500" /> {job.location}
-                                </p>
-                                {job.salaryRange?.min > 0 && (
-                                    <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
-                                        <FaMoneyBillWave className="text-green-500" /> ₹
-                                        {job.salaryRange.min} - ₹{job.salaryRange.max}
-                                    </p>
-                                )}
+                {/* Mobile filter */}
+                {showFilter && (
+                    <div className="fixed inset-0 z-50 flex justify-center items-start md:hidden bg-black/30 backdrop-blur-lg pt-10 overflow-y-auto">
 
-                                <p className="mt-3 text-gray-600 text-xs md:text-sm lg:text-base line-clamp-3">
-                                    {job.description}
-                                </p>
+                        <JobFilterBox
+                            onFilterChange={handleFilterChange}
+                            onClose={() => setShowFilter(false)} 
+                        />
+                    </div>
+                )}
 
-                                <div className="mt-4 flex flex-wrap gap-2">
-                                    {job.skills.slice(0, 3).map((skill, i) => (
-                                        <span
-                                            key={i}
-                                            className="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium"
-                                        >
-                                            {skill}
-                                        </span>
-                                    ))}
-                                    {job.skills.length > 3 && (
-                                        <span className="text-xs text-gray-400">
-                                            +{job.skills.length - 3} more
-                                        </span>
-                                    )}
-                                </div>
+                <div className="flex-1">
+                    {loading ? (
+                        <div className="flex justify-center items-center py-10">
+                            <span className="loading loading-spinner w-13 h-17 text-orange-500"></span>
+                        </div>
+                    ) : jobs.length === 0 ? (
+                        <p className="text-center text-gray-500">
+                            No jobs available right now.
+                        </p>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-between items-center">
+                            {jobs.map((job) => {
+                                const alreadyApplied = myApplications.some(app => app.job?._id === job._id);
 
-                                <p className="text-sm text-gray-600 mt-3 flex items-center gap-2">
-                                    <FaUsers className="text-purple-500" />
-                                    Applicants: {job.applications?.length || 0}
-                                </p>
-
-
-                                {!userLoading && user?.role === "user" && (
-                                    <button
-                                        onClick={() => setApplyJob(job)}
-                                        className={`btn btn-xs md:btn-sm w-fit mt-4 ${alreadyApplied
-                                            ? " !bg-gray-300 text-black/50 cursor-not-allowed"
-                                            : "btn-primary"
-                                            }`}
-
-                                        disabled={alreadyApplied}
+                                return (
+                                    <div
+                                        key={job._id}
+                                        onClick={(e) => {
+                                            if (e.target.tagName !== "BUTTON") setSelectedJob(job);
+                                        }}
+                                        className="bg-white shadow-sm border rounded-lg p-4 sm:p-5 w-full max-w-sm md:max-w-md lg:max-w-full shadow-blue-700  "
                                     >
-                                        {alreadyApplied ? "Already Applied" : "Apply Now"}
-                                    </button>
-                                )}
-                            </div>
-                        )
-                    })}
+
+                                        <h2 className="text-base md:text-lg lg:text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2 ">
+                                            <FaBriefcase className="text-blue-500" /> {job.title}
+                                        </h2>
+                                        <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
+                                            <FaBuilding className="text-gray-500" /> {job.companyName}
+                                        </p>
+                                        <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
+                                            <FaMapMarkerAlt className="text-red-500" /> {job.location}
+                                        </p>
+                                        {job.salaryRange?.min > 0 && (
+                                            <p className="text-xs md:text-sm lg:text-base text-gray-700 flex items-center gap-2">
+                                                <FaMoneyBillWave className="text-green-500" /> ₹
+                                                {job.salaryRange.min} - ₹{job.salaryRange.max}
+                                            </p>
+                                        )}
+
+                                        <p className="mt-3 text-gray-600 text-xs md:text-sm lg:text-base line-clamp-3">
+                                            {job.description}
+                                        </p>
+
+                                        <div className="mt-4 flex flex-wrap gap-2">
+                                            {job.skills.slice(0, 3).map((skill, i) => (
+                                                <span
+                                                    key={i}
+                                                    className="px-2 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium"
+                                                >
+                                                    {skill}
+                                                </span>
+                                            ))}
+                                            {job.skills.length > 3 && (
+                                                <span className="text-xs text-gray-400">
+                                                    +{job.skills.length - 3} more
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <p className="text-sm text-gray-600 mt-3 flex items-center gap-2">
+                                            <FaUsers className="text-purple-500" />
+                                            Applicants: {job.applications?.length || 0}
+                                        </p>
+
+
+                                        {!userLoading && user?.role === "user" && (
+                                            <button
+                                                onClick={() => setApplyJob(job)}
+                                                className={`btn btn-xs md:btn-sm w-fit mt-4 ${alreadyApplied
+                                                    ? " !bg-gray-300 text-black/50 cursor-not-allowed"
+                                                    : "btn-primary"
+                                                    }`}
+
+                                                disabled={alreadyApplied}
+                                            >
+                                                {alreadyApplied ? "Already Applied" : "Apply Now"}
+                                            </button>
+                                        )}
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )}
                 </div>
-            )}
+            </div>
 
             {/* job details modal */}
+
             {selectedJob && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/80 bg-opacity-50 z-50 px-4">
                     <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative overflow-y-auto max-h-[90vh] ">
