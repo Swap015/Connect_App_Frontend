@@ -25,6 +25,37 @@ const SignUp = () => {
         setLoading(true);
         setMessage("");
 
+        if (!formData.name.trim()) {
+            toast.error("Name is required");
+            setLoading(false);
+            return;
+        }
+
+        const emailRegex = /^\S+@\S+\.\S+$/;
+        if (!emailRegex.test(formData.email)) {
+            toast.error("Please enter a valid email");
+            setLoading(false);
+            return;
+        }
+
+        if (formData.password.length < 6) {
+            toast.error("Password must be at least 6 characters long");
+            setLoading(false);
+            return;
+        }
+
+        if (!["male", "female", "other"].includes(formData.gender)) {
+            toast.error("Please select a gender");
+            setLoading(false);
+            return;
+        }
+
+        if (!["user", "recruiter"].includes(formData.role)) {
+            toast.error("Please select a role");
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await api.post(`/user/register`,
                 formData

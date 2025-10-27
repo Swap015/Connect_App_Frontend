@@ -4,6 +4,7 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../components/Context/UserContext";
 import api from "../../api/axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +27,20 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+
+    const emailRegex = /^\S+@\S+\.\S+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address");
+      setLoading(false);
+      return;
+    }
+
+    if (!["user", "recruiter", "admin"].includes(formData.role)) {
+      toast.error("Invalid role selected");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await api.post(`/user/login`, formData, { withCredentials: true }
       );
@@ -42,6 +57,7 @@ const Login = () => {
       }
 
     } catch {
+      toast.error("Invalid credentials. Please check your details.");
       setMessage("Login failed");
     } finally {
       setLoading(false);

@@ -47,7 +47,11 @@ const ChatWindow = ({ conversation, user, socket, onBack }) => {
 
         const onGetMessage = (msg) => {
             if (String(msg.conversationId) === String(conversation._id)) {
-                setMessages(prev => [...prev, msg]);
+                setMessages((prev) => {
+                    const exists = prev.some((m) => m._id === msg._id);
+                    if (!exists) return [...prev, msg];
+                    return prev;
+                });
             }
         };
 
